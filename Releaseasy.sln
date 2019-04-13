@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Releaseasy", "Releaseasy\Releaseasy.csproj", "{2A5E9BD1-D8B7-4268-AD8A-F6529644B987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Releaseasy", "Releaseasy\Releaseasy.csproj", "{2A5E9BD1-D8B7-4268-AD8A-F6529644B987}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{E8196F40-821C-448B-8C0D-A9F4F3F30A06}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
