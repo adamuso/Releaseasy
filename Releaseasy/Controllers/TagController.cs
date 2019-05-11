@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Releaseasy.Model;
 
 namespace Releaseasy.Controllers
 {
@@ -20,27 +22,72 @@ namespace Releaseasy.Controllers
 
         // GET: api/Tag/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<Tag> Get(int id)
         {
-            return "value";
+            using (var context = new ReleaseasyContext())
+                return context.Tags.Find(id);
         }
 
         // POST: api/Tag
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Tag value)
         {
+            using (var context = new ReleaseasyContext())
+            {
+                try
+                {
+                    context.Add(value);
+                    context.SaveChanges();
+                }
+                catch (ValidationException ex)
+                {
+                    throw;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
 
         // PUT: api/Tag/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Tag value)
         {
+
+            Tag tag;
+
+            using (var context = new ReleaseasyContext())
+            {
+                tag = context.Tags.Find(id);
+
+                if (tag != null)
+                {
+                    if (value.Name != null)
+                        tag.Name = value.Name;
+
+                }
+                context.Entry(tag).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.SaveChanges();
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Tag tag;
+
+            using (var context = new ReleaseasyContext())
+            {
+                tag = context.Tags.Find(id);
+
+                if (tag != null)
+                {
+                    context.Remove(tag);
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
 using Releaseasy.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Releaseasy.Controllers
 {
@@ -50,7 +51,30 @@ namespace Releaseasy.Controllers
                 }
             }
         }
+        [HttpPost("AddTag")]
+        public void AddTag([FromBody] AddTagParameters inc)
+        {
+            using (var context = new ReleaseasyContext())
+            {
+                Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
+                Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
 
+                if (tag != null && task != null)
+                {
+                    var tasktag = new TaskTag
+                    {
+                        TagId = tag.Id,
+                        TaskId = task.Id
+                    };
+
+                    task.TaskTags.Add(tasktag);
+                    tag.Tasks.Add(tasktag);
+                    context.SaveChanges();
+                }
+            }
+
+
+        }
         // PUT: api/Task/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Task value)
@@ -97,6 +121,11 @@ namespace Releaseasy.Controllers
 
 
             }
+        }
+        public class AddTagParameters
+        {
+            public int TagId { get; set; }
+            public int TaskId { get; set; }
         }
     }
 }
