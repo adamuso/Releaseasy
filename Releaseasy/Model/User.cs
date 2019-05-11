@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Releaseasy.Model
 {
@@ -8,7 +9,8 @@ namespace Releaseasy.Model
         public const string PasswordRegex = @"(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9_!@#$%^&*]{8,64}$";
 
         public int Id { get; set; }
-
+        public virtual ICollection<Project> CreatedProjects { get; set; }
+        public virtual ICollection<ProjectUser> Projects { get; set; }
         [RegularExpression(UsernameRegex)]
         public string Username { get; set; }
 

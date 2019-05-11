@@ -14,5 +14,29 @@ namespace Releaseasy
 
             optionsBuilder.UseSqlServer(@"Server=DEKU\SQLEXPRESS;Database=ReleaseasyTestDb;Integrated Security=True");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            #region Project 
+
+            modelBuilder.Entity<Project>()
+                .HasOne(project => project.Creator)
+                .WithMany(user => user.CreatedProjects);
+
+            modelBuilder.Entity<ProjectUser>()
+                .HasKey("ProjectId", "UserId");
+
+            modelBuilder.Entity<ProjectUser>()
+                .HasOne(pu => pu.Project)
+                .WithMany(project => project.Users);
+
+            modelBuilder.Entity<ProjectUser>()
+                .HasOne(pu => pu.User)
+                .WithMany(user => user.Projects);
+
+            #endregion
+        }
     }
 }

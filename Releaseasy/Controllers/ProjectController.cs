@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Releaseasy.Model;
 
 namespace Releaseasy.Controllers
@@ -53,6 +54,30 @@ namespace Releaseasy.Controllers
                     throw;
                 }
             }
+        }
+        [HttpPost("AddUser")]
+        public void AddUser([FromBody] AddUserParameters inc )
+        {     
+            using (var context = new ReleaseasyContext())
+            {
+                User user = context.Users.Where(u => u.Id == inc.UserId).Include(u => u.Projects).Single();
+                Project project = context.Projects.Where(p => p.Id == inc.ProjectId).Include(u => u.Users).Single();
+
+                if (user != null && project != null)
+                {
+                    var projectUser = new ProjectUser
+                    {
+                        UserId = user.Id,
+                        ProjectId = project.Id
+                    };
+
+                    project.Users.Add(projectUser);
+                    user.Projects.Add(projectUser);
+                    context.SaveChanges();
+                }
+            }
+
+
         }
 
         // PUT: api/Project/5
@@ -111,6 +136,12 @@ namespace Releaseasy.Controllers
 
             }
 
+        }
+
+        public class AddUserParameters
+        {
+            public int UserId { get; set; }
+            public int ProjectId { get; set; }
         }
     }
 }
