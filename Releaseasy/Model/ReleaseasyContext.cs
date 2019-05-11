@@ -7,7 +7,7 @@ namespace Releaseasy
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
-
+        public DbSet<Task> Tasks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

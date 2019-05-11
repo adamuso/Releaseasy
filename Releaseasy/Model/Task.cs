@@ -8,13 +8,14 @@ namespace Releaseasy.Model
 {
     public class Task
     {
+        public int id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [Required]
-        public TaskGroup Group { get; set; }
-        public TaskStatus Status { get; set; }
-        public virtual ICollection<User> AssignedUsers { get; set; }
-        public virtual ICollection<Team> AssignedTeams { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
+        //[Required]
+        //public TaskGroup Group { get; set; }
+      //  public TaskStatus Status { get; set; }
+      //  public virtual ICollection<User> AssignedUsers { get; set; }
+       // public virtual ICollection<Team> AssignedTeams { get; set; }
+    //    public virtual ICollection<Tag> Tags { get; set; }
     }
 }
