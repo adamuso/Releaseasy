@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -41,6 +42,8 @@ namespace Releaseasy
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            env.WebRootPath = System.IO.Path.Combine(env.ContentRootPath, "webroot");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,6 +61,11 @@ namespace Releaseasy
                 MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Strict
             });
 
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(System.IO.Path.Combine(env.ContentRootPath, "webroot")),
+                RequestPath = new Microsoft.AspNetCore.Http.PathString("/res")
+            });
             app.UseAuthentication();
             //app.UseMvc();
             app.UseMvcWithDefaultRoute();

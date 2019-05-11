@@ -36,11 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebItems Include="Web\dist\*.*" />
+    <WebItems Include="Web\dist\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="webroot\" />
   </ItemGroup>
   
   <Target Name="CopyWeb" AfterTargets="Build">
-    <Copy SourceFiles="@(WebItems)"
-          DestinationFolder="$(BuildOutput)\Web"/>
+    <Message Text="$(OutDir)\Web" Importance="High" />
+    <Copy SourceFiles="@(WebItems)" DestinationFiles="@(WebItems->'$(ProjectDir)\webroot\js\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 </Project>
