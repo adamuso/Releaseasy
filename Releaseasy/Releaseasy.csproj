@@ -3,11 +3,44 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Web\src\App.tsx" />
+    <None Remove="Web\src\main.tsx" />
+    <None Remove="Web\src\NavigationBar.tsx" />
+    <None Remove="Web\src\pages\HomePage.tsx" />
+    <None Remove="Web\src\pages\LogInPage.tsx" />
+    <None Remove="Web\src\pages\Page.tsx" />
+    <None Remove="Web\src\pages\PageRouting.tsx" />
+    <None Remove="Web\src\pages\RegisterPage.tsx" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Include="Web\src\App.tsx" />
+    <TypeScriptCompile Include="Web\src\main.tsx" />
+    <TypeScriptCompile Include="Web\src\NavigationBar.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\HomePage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\LogInPage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\Page.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\PageRouting.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\RegisterPage.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WebItems Include="Web\dist\*.*" />
+  </ItemGroup>
+  
+  <Target Name="CopyWeb" AfterTargets="Build">
+    <Copy SourceFiles="@(WebItems)"
+          DestinationFolder="$(BuildOutput)\Web"/>
+  </Target>
 </Project>
