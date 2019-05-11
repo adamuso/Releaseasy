@@ -7,11 +7,10 @@ namespace Releaseasy
     {
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ReleaseasyContext(DbContextOptions options)
+            : base(options)
         {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(@"Server=DEKU\SQLEXPRESS;Database=ReleaseasyTestDb;Integrated Security=True");
+               
         }
     }
 }

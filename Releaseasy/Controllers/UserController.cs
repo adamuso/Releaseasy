@@ -17,33 +17,31 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private System.Security.Cryptography.SHA256 hashingAlgorithm;
+        private readonly ReleaseasyContext context;
+        private readonly System.Security.Cryptography.SHA256 hashingAlgorithm;
 
-        public UserController()
+        public UserController(ReleaseasyContext context)
         {
+            this.context = context;
             hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
         }
 
         [HttpGet("InitializeDatabase")]
         public void InitializeDatabase()
         {
-            using (var context = new ReleaseasyContext())
-                context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            using (var context = new ReleaseasyContext())
-                return context.Users.ToArray();
+            return context.Users.ToArray();
         }
 
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            using (var context = new ReleaseasyContext())
-                return context.Users.Find(id);
+            return context.Users.Find(id);
         }
 
         [HttpPost]
@@ -64,21 +62,18 @@ namespace Releaseasy.Controllers
 
             value.Password = Convert.ToBase64String(passwordHashed);
 
-            using (var context = new ReleaseasyContext())
+            try
             {
-                try
-                {
-                    context.Add(value);
-                    context.SaveChanges();
-                }
-                catch(ValidationException ex)
-                {
-                    throw;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                context.Add(value);
+                context.SaveChanges();
+            }
+            catch(ValidationException ex)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -97,10 +92,7 @@ namespace Releaseasy.Controllers
         [HttpPost("Login")]
         public void Login([FromBody] UserLoginData loginData)
         {
-            User user;
-
-            using (var context = new ReleaseasyContext())
-                user = context.Users.SingleOrDefault(u => u.Username == loginData.Username);
+            User user = context.Users.SingleOrDefault(u => u.Username == loginData.Username);
 
             if (user == null)
                 throw new ArgumentException("User or password are invalid", "loginData");
