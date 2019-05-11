@@ -5,16 +5,20 @@ namespace Releaseasy
 {
     public class ReleaseasyContext : DbContext
     {
+        public ReleaseasyContext(DbContextOptions options):base(options)
+        {
+
+        }
+
+        public ReleaseasyContext()
+        {
+
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(@"Server=INT0037\SQLEXPRESS;Database=ReleaseasyTestDb;Integrated Security=True");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
