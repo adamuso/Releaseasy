@@ -13,7 +13,7 @@ namespace Releaseasy
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer(@"Server=DEKU\SQLEXPRESS;Database=ReleaseasyTestDb;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Server=INT0037\SQLEXPRESS;Database=ReleaseasyTestDb;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +37,23 @@ namespace Releaseasy
                 .HasOne(pu => pu.User)
                 .WithMany(user => user.Projects);
 
+            #endregion
+
+            #region Task
+            //modelBuilder.Entity<Task>()
+            //   .HasOne(task => task.Creator)
+            //   .WithMany(tag => tag.CreatedTask);
+
+            modelBuilder.Entity<TaskTag>()
+                .HasKey("TaskId", "TagId");
+
+            modelBuilder.Entity<TaskTag>()
+                .HasOne(tt => tt.Task)
+                .WithMany(task => task.TaskTags);
+
+            modelBuilder.Entity<TaskTag>()
+                .HasOne(tt => tt.Tag)
+                .WithMany(tag => tag.Tasks);
             #endregion
         }
     }
