@@ -1,1 +1,0 @@
-{"version":3,"file":"Page.js","sourceRoot":"","sources":["../../src/pages/Page.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,KAAK,MAAM,OAAO,CAAC;AAM/B,MAAM,OAAO,IAA8B,SAAQ,KAAK,CAAC,SAA+B;IAGpF,YAAY,KAAwB;QAChC,KAAK,CAAC,KAAK,CAAC,CAAC;QAEb,IAAI,CAAC,MAAM,GAAG,KAAK,CAAC,MAAM,IAAI,EAAkB,CAAC;IACrD,CAAC;CACJ"}

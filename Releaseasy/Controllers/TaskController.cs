@@ -21,7 +21,7 @@ namespace Releaseasy.Controllers
         }
 
         // GET: api/Task/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Task> Get(int id)
         {
             using (var context = new ReleaseasyContext())

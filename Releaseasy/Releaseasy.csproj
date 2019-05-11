@@ -34,17 +34,14 @@
     <TypeScriptCompile Include="Web\src\pages\PageRouting.tsx" />
     <TypeScriptCompile Include="Web\src\pages\RegisterPage.tsx" />
   </ItemGroup>
-
-  <ItemGroup>
-    <WebItems Include="Web\dist\**\*.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="webroot\" />
-  </ItemGroup>
   
+  <ItemGroup>
+    <WebItems Include="Web/dist/**/*.*" />
+  </ItemGroup>
+
   <Target Name="CopyWeb" AfterTargets="Build">
-    <Message Text="$(OutDir)\Web" Importance="High" />
+    <Exec Command="npm run build" WorkingDirectory="Web" />
+    <Message Text="$(WebItems)" Importance="High" />
     <Copy SourceFiles="@(WebItems)" DestinationFiles="@(WebItems->'$(ProjectDir)\webroot\js\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 </Project>

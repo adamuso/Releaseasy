@@ -12,7 +12,7 @@ namespace Releaseasy
 
         public ReleaseasyContext()
         {
-
+            
         }
 
         public DbSet<User> Users { get; set; }

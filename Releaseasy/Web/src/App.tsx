@@ -20,7 +20,7 @@ export class App extends React.Component<{}, AppState> {
     }
 
     render() {
-        return <div>
+        return <div className="app">
             <NavigationBar />
             <div>
                 <PageRouting url={this.url}>

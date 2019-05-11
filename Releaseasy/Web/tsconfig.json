@@ -6,8 +6,8 @@
     "sourceMap": true,
     "target": "es6",
     "strict": true,
-    "outDir": "dist",
-    "module": "es6",
+    "outDir": "bin",
+    "module": "commonjs",
     "moduleResolution": "node",
     "jsx": "react"
   },

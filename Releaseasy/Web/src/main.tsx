@@ -5,8 +5,8 @@ import { App } from "./App";
 const appRef = React.createRef<App>();
 
 ReactDOM.render(
-    <App ref={appRef}/>,
-    document.body
+    <App ref={appRef} />,
+    document.getElementById("app")
 );
 
 export class Application
