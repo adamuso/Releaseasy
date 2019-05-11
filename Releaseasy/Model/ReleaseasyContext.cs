@@ -42,6 +42,23 @@ namespace Releaseasy
                 .WithMany(user => user.Projects);
 
             #endregion
+
+            #region Task
+            //modelBuilder.Entity<Task>()
+            //   .HasOne(task => task.Creator)
+            //   .WithMany(tag => tag.CreatedTask);
+
+            modelBuilder.Entity<TaskTag>()
+                .HasKey("TaskId", "TagId");
+
+            modelBuilder.Entity<TaskTag>()
+                .HasOne(tt => tt.Task)
+                .WithMany(task => task.TaskTags);
+
+            modelBuilder.Entity<TaskTag>()
+                .HasOne(tt => tt.Tag)
+                .WithMany(tag => tag.Tasks);
+            #endregion
         }
     }
 }
