@@ -6,28 +6,28 @@ interface PageRoutingProps {
 }
 
 export class PageRouting extends React.Component<PageRoutingProps> {
-    url : URL;
-
     constructor(props: PageRoutingProps) {
         super(props);
-
-        if (typeof props.url === "string")
-            this.url = new URL(props.url);
-        else if(props.url)
-            this.url = props.url;
-        else
-        {
-            if(!document.location)
-                throw "Document location is missing";
-
-            this.url = new URL(document.location.href);
-        }
     }
 
     render() {
+
+        let url: URL;
+
+        if (typeof this.props.url === "string")
+            url = new URL(this.props.url);
+        else if (this.props.url)
+            url = this.props.url;
+        else {
+            if (!document.location)
+                throw "Document location is missing";
+
+            url = new URL(document.location.href);
+        }
+
         const params = {};
 
-        for (const entry of this.url.searchParams.entries()) {
+        for (const entry of url.searchParams.entries()) {
             params[entry[0]] = entry[1];   
         }
 
@@ -41,10 +41,16 @@ export class PageRouting extends React.Component<PageRoutingProps> {
                 if ("type" in child) {
                     const props = child.props as RouteProps;
 
-                    if (this.match(this.url, props.route))
-                        return new props.page({ params: { params } });
+                    if (this.match(url, props.route))
+                        return React.createElement(props.page, { params: { params } });
                 }
             }
+        }
+        else if (children && typeof children === "object" && "type" in children) {
+            const props = children.props as RouteProps;
+
+            if (this.match(url, props.route))
+                return React.createElement(props.page, { params: { params } });
         }
 
         return null;
@@ -52,8 +58,10 @@ export class PageRouting extends React.Component<PageRoutingProps> {
 
     private match(url: URL, route: string): boolean {
 
+        if (url.pathname.toLowerCase() === route.toLowerCase())
+            return true;
 
-        return true;
+        return false;
     }
 }
 

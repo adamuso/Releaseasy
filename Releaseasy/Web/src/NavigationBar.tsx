@@ -5,8 +5,7 @@ export class NavigationBar extends React.Component {
         const mainStyle: React.CSSProperties = {
             display: "flex",
             backgroundColor: "rgba(0, 0, 0, 0.3)",
-            height: "80px",
-            flexGrow: 1
+            height: "80px"
         };
 
         const titleStyle: React.CSSProperties = {
@@ -49,7 +48,9 @@ class NavigationMenu extends React.Component {
         ];
 
         const menuStyle: React.CSSProperties = {
-            position: "fixed"
+            position: "fixed",
+            maxWidth: 0,
+            overflow: "hidden"
         };
 
         return <div>

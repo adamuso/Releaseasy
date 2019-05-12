@@ -56,9 +56,10 @@ namespace Releaseasy
         {
             env.WebRootPath = System.IO.Path.Combine(env.ContentRootPath, "webroot");
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || true)
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiddleware<ErrorHandlingMiddleware>();
             }
             else
             {

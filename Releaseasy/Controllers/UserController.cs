@@ -90,7 +90,7 @@ namespace Releaseasy.Controllers
         }
 
         [HttpPost("Login")]
-        public void Login([FromBody] UserLoginData loginData)
+        public object Login([FromBody] UserLoginData loginData)
         {
             User user = context.Users.SingleOrDefault(u => u.Username == loginData.Username);
 
@@ -99,7 +99,6 @@ namespace Releaseasy.Controllers
 
             if(user.Password != Convert.ToBase64String(hashingAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(loginData.Password))))
                 throw new ArgumentException("User or password are invalid", "loginData");
-
 
             Claim[] claims = new Claim[]
             {
@@ -118,7 +117,9 @@ namespace Releaseasy.Controllers
             HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
-                authProperties);   
+                authProperties);
+
+            return true;
         }
 
         public class UserLoginData

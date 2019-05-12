@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Web\src\App.tsx" />
+    <None Remove="Web\src\backend\User.ts" />
     <None Remove="Web\src\main.tsx" />
     <None Remove="Web\src\NavigationBar.tsx" />
     <None Remove="Web\src\pages\HomePage.tsx" />
@@ -15,6 +16,7 @@
     <None Remove="Web\src\pages\Page.tsx" />
     <None Remove="Web\src\pages\PageRouting.tsx" />
     <None Remove="Web\src\pages\RegisterPage.tsx" />
+    <None Remove="Web\webpack.config.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Web\src\App.tsx" />
+    <TypeScriptCompile Include="Web\src\backend\User.ts" />
     <TypeScriptCompile Include="Web\src\main.tsx" />
     <TypeScriptCompile Include="Web\src\NavigationBar.tsx" />
     <TypeScriptCompile Include="Web\src\pages\HomePage.tsx" />
@@ -37,6 +40,14 @@
   
   <ItemGroup>
     <WebItems Include="Web/dist/**/*.*" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Web\webpack.config.js" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Web\dist\" />
   </ItemGroup>
 
   <Target Name="CopyWeb" AfterTargets="Build">

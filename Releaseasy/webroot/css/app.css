@@ -18,6 +18,26 @@ body {
 .app {
     display: flex;
     flex-grow: 1;
+    flex-direction: column;
+
     background-image: url("../img/home-background.jpg");
     background-size: cover;
+}
+
+.app .home-page .big-button {
+    cursor: pointer;
+    background-color: #484848;
+}
+
+.app .home-page .big-button.light {
+    cursor: pointer;
+    background-color: #ddb17c;
+}
+
+.app .home-page .big-button:hover {
+    background-color: rgb(109, 109, 109);
+}
+
+.app .home-page .big-button.light:hover {
+    background-color: rgb(224, 199, 169);
 }

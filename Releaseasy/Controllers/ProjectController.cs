@@ -40,8 +40,7 @@ namespace Releaseasy.Controllers
         // POST: api/Project
         [HttpPost]
         public void Post([FromBody] Project value)
-        {
-            
+        {  
             try
             {
                 context.Add(value);
@@ -54,8 +53,7 @@ namespace Releaseasy.Controllers
             catch (Exception)
             {
                 throw;
-            }
-            
+            } 
         }
         [HttpPost("AddUser")]
         public void AddUser([FromBody] UserProjectPair inc )
