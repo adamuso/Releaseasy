@@ -16,6 +16,7 @@
     <None Remove="Web\src\pages\Page.tsx" />
     <None Remove="Web\src\pages\PageRouting.tsx" />
     <None Remove="Web\src\pages\RegisterPage.tsx" />
+    <None Remove="Web\src\pages\UserPage.tsx" />
     <None Remove="Web\webpack.config.js" />
   </ItemGroup>
 
@@ -36,6 +37,7 @@
     <TypeScriptCompile Include="Web\src\pages\Page.tsx" />
     <TypeScriptCompile Include="Web\src\pages\PageRouting.tsx" />
     <TypeScriptCompile Include="Web\src\pages\RegisterPage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\UserPage.tsx" />
   </ItemGroup>
   
   <ItemGroup>
