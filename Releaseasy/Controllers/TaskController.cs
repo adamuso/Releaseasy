@@ -14,6 +14,12 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        private readonly ReleaseasyContext context;
+
+        public TaskController(ReleaseasyContext context)
+        {
+            this.context = context;
+        }
         // GET: api/Task
         [HttpGet]
         public IEnumerable<string> Get()
@@ -25,7 +31,7 @@ namespace Releaseasy.Controllers
         [HttpGet("{id}")]
         public ActionResult<Task> Get(int id)
         {
-            using (var context = new ReleaseasyContext())
+            
                 return context.Tasks.Find(id);
         }
 
@@ -34,8 +40,7 @@ namespace Releaseasy.Controllers
         [HttpPost]
         public void Post([FromBody] Task value)
         {
-            using (var context = new ReleaseasyContext())
-            {
+           
                 try
                 {
                     context.Add(value);
@@ -49,13 +54,12 @@ namespace Releaseasy.Controllers
                 {
                     throw;
                 }
-            }
+            
         }
         [HttpPost("AddTag")]
         public void AddTag([FromBody] AddTagParameters inc)
         {
-            using (var context = new ReleaseasyContext())
-            {
+            
                 Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
                 Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
 
@@ -70,7 +74,7 @@ namespace Releaseasy.Controllers
                     task.TaskTags.Add(tasktag);
                     tag.Tasks.Add(tasktag);
                     context.SaveChanges();
-                }
+                
             }
 
 
@@ -81,8 +85,7 @@ namespace Releaseasy.Controllers
         {
             Task task;
 
-            using (var context = new ReleaseasyContext())
-            {
+          
                 task = context.Tasks.Find(id);
 
                 if (task != null)
@@ -91,15 +94,12 @@ namespace Releaseasy.Controllers
                         task.Description = value.Description;
                     if (value.Name != null)
                         task.Name = value.Name;
-                    //if (value.Group != null)
-                    //    task.Group = value.Group;
-                    //if (value.Status != null)
-                    //    task.Status = value.Status;
+                    
 
                 }
                 context.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
-            }
+            
 
         }
 
@@ -109,8 +109,7 @@ namespace Releaseasy.Controllers
         {
             Task task;
 
-            using (var context = new ReleaseasyContext())
-            {
+          
                 task = context.Tasks.Find(id);
 
                 if (task != null)
@@ -120,8 +119,32 @@ namespace Releaseasy.Controllers
                 }
 
 
-            }
+            
         }
+        [HttpPost("RemoveTag")]
+        public void RemoveTag([FromBody] AddTagParameters inc)
+        {
+            Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
+
+            if(tag !=null)
+            {
+                foreach(var connection in tag.Tasks)
+                {
+                    if(inc.TaskId == connection.TaskId)
+                    {
+                        Task taskToDeleteFromTag = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(tt => tt.TaskTags).Single();
+                        tag.Tasks.Remove(connection);
+                        taskToDeleteFromTag.TaskTags.Remove(connection);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Selected Tag is not a member of selected Task");
+                    }
+                }
+            }
+
+        }
+
         public class AddTagParameters
         {
             public int TagId { get; set; }

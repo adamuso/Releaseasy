@@ -13,6 +13,12 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
+        private readonly ReleaseasyContext context;
+
+        public TagController(ReleaseasyContext context)
+        {
+            this.context = context;
+        }
         // GET: api/Tag
         [HttpGet]
         public IEnumerable<string> Get()
@@ -24,7 +30,7 @@ namespace Releaseasy.Controllers
         [HttpGet("{id}")]
         public ActionResult<Tag> Get(int id)
         {
-            using (var context = new ReleaseasyContext())
+            
                 return context.Tags.Find(id);
         }
 
@@ -32,8 +38,7 @@ namespace Releaseasy.Controllers
         [HttpPost]
         public void Post([FromBody] Tag value)
         {
-            using (var context = new ReleaseasyContext())
-            {
+           
                 try
                 {
                     context.Add(value);
@@ -47,7 +52,7 @@ namespace Releaseasy.Controllers
                 {
                     throw;
                 }
-            }
+            
         }
 
         // PUT: api/Tag/5
@@ -57,9 +62,7 @@ namespace Releaseasy.Controllers
 
             Tag tag;
 
-            using (var context = new ReleaseasyContext())
-            {
-                tag = context.Tags.Find(id);
+           tag = context.Tags.Find(id);
 
                 if (tag != null)
                 {
@@ -69,7 +72,7 @@ namespace Releaseasy.Controllers
                 }
                 context.Entry(tag).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
-            }
+            
         }
 
         // DELETE: api/ApiWithActions/5
@@ -78,8 +81,6 @@ namespace Releaseasy.Controllers
         {
             Tag tag;
 
-            using (var context = new ReleaseasyContext())
-            {
                 tag = context.Tags.Find(id);
 
                 if (tag != null)
@@ -87,7 +88,7 @@ namespace Releaseasy.Controllers
                     context.Remove(tag);
                     context.SaveChanges();
                 }
-            }
+            
         }
     }
 }

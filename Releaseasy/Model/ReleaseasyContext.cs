@@ -44,10 +44,7 @@ namespace Releaseasy
             #endregion
 
             #region Task
-            //modelBuilder.Entity<Task>()
-            //   .HasOne(task => task.Creator)
-            //   .WithMany(tag => tag.CreatedTask);
-
+          
             modelBuilder.Entity<TaskTag>()
                 .HasKey("TaskId", "TagId");
 
