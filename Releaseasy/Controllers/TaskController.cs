@@ -59,24 +59,44 @@ namespace Releaseasy.Controllers
         [HttpPost("AddTag")]
         public void AddTag([FromBody] AddTagParameters inc)
         {
-            
-                Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
-                Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
 
-                if (tag != null && task != null)
+            Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
+            Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
+
+            if (tag != null && task != null)
+            {
+                var tasktag = new TaskTag
                 {
-                    var tasktag = new TaskTag
-                    {
-                        TagId = tag.Id,
-                        TaskId = task.Id
-                    };
+                    TagId = tag.Id,
+                    TaskId = task.Id
+                };
 
-                    task.TaskTags.Add(tasktag);
-                    tag.Tasks.Add(tasktag);
-                    context.SaveChanges();
-                
+                task.TaskTags.Add(tasktag);
+                tag.Tasks.Add(tasktag);
+                context.SaveChanges();
+
             }
+        }
+        [HttpPost("AddTeam")]
+        public void AddTeam([FromBody] AddTeamParameters inc)
+        {
 
+            Team team = context.Teams.Where(t => t.Id == inc.TeamId).Include(t => t.Tasks).Single();
+            Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTeams).Single();
+
+            if (team != null && task != null)
+            {
+                var taskteam = new TaskTeam
+                {
+                    TeamId = team.Id,
+                    TaskId = task.Id
+                };
+
+                task.TaskTeams.Add(taskteam);
+                team.Tasks.Add(taskteam);
+                context.SaveChanges();
+
+            }
 
         }
         // PUT: api/Task/5
@@ -144,10 +164,37 @@ namespace Releaseasy.Controllers
             }
 
         }
+        [HttpPost("RemoveTeam")]
+        public void RemoveTeam([FromBody] AddTeamParameters inc)
+        {
+            Team team = context.Teams.Where(t => t.Id == inc.TeamId).Include(t => t.Tasks).Single();
 
+            if (team != null)
+            {
+                foreach (var connection in team.Tasks)
+                {
+                    if (inc.TaskId == connection.TaskId)
+                    {
+                        Task taskToDeleteFromTeam = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(tt => tt.TaskTeams).Single();
+                        team.Tasks.Remove(connection);
+                        taskToDeleteFromTeam.TaskTeams.Remove(connection);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Selected Team is not a member of selected Task");
+                    }
+                }
+            }
+
+        }
         public class AddTagParameters
         {
             public int TagId { get; set; }
+            public int TaskId { get; set; }
+        }
+        public class AddTeamParameters
+        {
+            public int TeamId { get; set; }
             public int TaskId { get; set; }
         }
     }

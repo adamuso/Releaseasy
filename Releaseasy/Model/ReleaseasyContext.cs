@@ -19,6 +19,7 @@ namespace Releaseasy
         public DbSet<Project> Projects { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,7 +45,7 @@ namespace Releaseasy
             #endregion
 
             #region Task
-          
+          //TASK-TAG
             modelBuilder.Entity<TaskTag>()
                 .HasKey("TaskId", "TagId");
 
@@ -55,6 +56,19 @@ namespace Releaseasy
             modelBuilder.Entity<TaskTag>()
                 .HasOne(tt => tt.Tag)
                 .WithMany(tag => tag.Tasks);
+
+            //TASK-TEAM
+            modelBuilder.Entity<TaskTeam>()
+               .HasKey("TaskId", "TeamId");
+
+            modelBuilder.Entity<TaskTeam>()
+                .HasOne(tt => tt.Task)
+                .WithMany(task => task.TaskTeams);
+
+            modelBuilder.Entity<TaskTeam>()
+                .HasOne(tt => tt.Team)
+                .WithMany(tag => tag.Tasks);
+
             #endregion
         }
     }

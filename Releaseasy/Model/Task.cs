@@ -13,11 +13,12 @@ namespace Releaseasy.Model
         public string Description { get; set; }
         //[Required]
         //public TaskGroup Group { get; set; }
-      //  public TaskStatus Status { get; set; }
-      //  public virtual ICollection<User> AssignedUsers { get; set; }
-       // public virtual ICollection<Team> AssignedTeams { get; set; }
-     //   public virtual ICollection<Tag> Tags { get; set; }
+        //  public TaskStatus Status { get; set; }
+        //  public virtual ICollection<User> AssignedUsers { get; set; }
+        // public virtual ICollection<Team> AssignedTeams { get; set; }
+        //   public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<TaskTag> TaskTags { get; set; }
+        public virtual ICollection<TaskTeam> TaskTeams { get; set; }
         public Tag Creator { get; set; }
     }
 }
