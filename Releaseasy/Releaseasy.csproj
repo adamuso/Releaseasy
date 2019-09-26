@@ -8,13 +8,18 @@
 
   <ItemGroup>
     <None Remove="Web\src\App.tsx" />
+    <None Remove="Web\src\backend\Project.ts" />
     <None Remove="Web\src\backend\User.ts" />
+    <None Remove="Web\src\backend\Utility.ts" />
     <None Remove="Web\src\main.tsx" />
     <None Remove="Web\src\NavigationBar.tsx" />
+    <None Remove="Web\src\pages\CreateProjectPage.tsx" />
     <None Remove="Web\src\pages\HomePage.tsx" />
     <None Remove="Web\src\pages\LogInPage.tsx" />
     <None Remove="Web\src\pages\Page.tsx" />
     <None Remove="Web\src\pages\PageRouting.tsx" />
+    <None Remove="Web\src\pages\ProjectPage.tsx" />
+    <None Remove="Web\src\pages\ProjectsPage.tsx" />
     <None Remove="Web\src\pages\RegisterPage.tsx" />
     <None Remove="Web\src\pages\UserPage.tsx" />
     <None Remove="Web\webpack.config.js" />
@@ -29,10 +34,15 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Web\src\App.tsx" />
+    <TypeScriptCompile Include="Web\src\backend\Utility.ts" />
+    <TypeScriptCompile Include="Web\src\backend\Project.ts" />
     <TypeScriptCompile Include="Web\src\backend\User.ts" />
     <TypeScriptCompile Include="Web\src\main.tsx" />
     <TypeScriptCompile Include="Web\src\NavigationBar.tsx" />
     <TypeScriptCompile Include="Web\src\pages\HomePage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\CreateProjectPage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\ProjectPage.tsx" />
+    <TypeScriptCompile Include="Web\src\pages\ProjectsPage.tsx" />
     <TypeScriptCompile Include="Web\src\pages\LogInPage.tsx" />
     <TypeScriptCompile Include="Web\src\pages\Page.tsx" />
     <TypeScriptCompile Include="Web\src\pages\PageRouting.tsx" />

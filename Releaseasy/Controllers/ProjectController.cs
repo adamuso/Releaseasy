@@ -39,12 +39,16 @@ namespace Releaseasy.Controllers
 
         // POST: api/Project
         [HttpPost]
-        public void Post([FromBody] Project value)
+        public ActionResult<Project> Post([FromBody] Project value)
         {  
             try
             {
+                value.StartTime = DateTime.Now;
+
                 context.Add(value);
                 context.SaveChanges();
+
+                return value;
             }
             catch (ValidationException ex)
             {

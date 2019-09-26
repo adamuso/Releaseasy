@@ -3,6 +3,7 @@ import { Page } from "./Page";
 
 interface PageRoutingProps {
     url?: string | URL;
+    state?: object;
 }
 
 export class PageRouting extends React.Component<PageRoutingProps> {
@@ -26,6 +27,7 @@ export class PageRouting extends React.Component<PageRoutingProps> {
         }
 
         const params = {};
+        const state = typeof this.props.state === "object" ? this.props.state : {};
 
         for (const entry of url.searchParams.entries()) {
             params[entry[0]] = entry[1];   
@@ -41,8 +43,9 @@ export class PageRouting extends React.Component<PageRoutingProps> {
                 if ("type" in child) {
                     const props = child.props as RouteProps;
 
-                    if (this.match(url, props.route))
-                        return React.createElement(props.page, { params: { params } });
+                    if (this.match(url, props.route)) {
+                        return React.createElement(props.page, { params: { ...params, ...state } });
+                    }
                 }
             }
         }
@@ -50,7 +53,7 @@ export class PageRouting extends React.Component<PageRoutingProps> {
             const props = children.props as RouteProps;
 
             if (this.match(url, props.route))
-                return React.createElement(props.page, { params: { params } });
+                return React.createElement(props.page, { params: { ...params, ...state } });
         }
 
         return null;
