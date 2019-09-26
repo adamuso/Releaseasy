@@ -10,7 +10,7 @@ namespace Releaseasy.Model
         public string Description { get; set; }
         public User Creator { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         //public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<ProjectUser> Users { get; set; }
         //public virtual ICollection<Team> Teams { get; set; }

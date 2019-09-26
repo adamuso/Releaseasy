@@ -4,12 +4,16 @@ export interface PageProps<PR> {
     params? : Readonly<PR>
 }
 
-export class Page<P = {}, S = {}, PR = {}> extends React.Component<P & PageProps<PR>, S> {
+export class Page<S = {}, PR = {}> extends React.Component<PageProps<PR>, S> {
     params: Partial<Readonly<PR>>;
 
-    constructor(props: P & PageProps<PR>) {
+    constructor(props: PageProps<PR>) {
         super(props);
 
         this.params = props.params || {} as Readonly<PR>;
+    }
+
+    render(): React.ReactNode {
+        return null;
     }
 }

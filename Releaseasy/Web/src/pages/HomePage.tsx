@@ -8,7 +8,7 @@ interface HomePageState {
     password: string
 }
 
-export class HomePage extends Page<{}, HomePageState> {
+export class HomePage extends Page<HomePageState> {
     constructor(props: {}) {
         super(props);
 

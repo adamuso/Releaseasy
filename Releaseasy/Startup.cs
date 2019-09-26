@@ -80,8 +80,13 @@ namespace Releaseasy
                 RequestPath = new Microsoft.AspNetCore.Http.PathString("/res")
             });
             app.UseAuthentication();
-            //app.UseMvc();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller}/{action}");
+
+                routes.MapRoute("others", "{*url}", defaults: new { controller = "Home", action = "Index" });
+            });
+            //app.UseMvcWithDefaultRoute();
         }
     }
 }

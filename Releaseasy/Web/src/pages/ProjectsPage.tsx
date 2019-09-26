@@ -1,6 +1,6 @@
 ﻿import { Page } from "./Page";
 
-export class LogInPage extends Page<{}, { test: number }> {
+export class ProjectsPage extends Page<{}, {}> {
     constructor(props: {}) {
         super(props);
     }
