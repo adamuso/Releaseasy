@@ -31,7 +31,7 @@ namespace Releaseasy.Controllers
         [HttpGet("{id}")]
         public ActionResult<Task> Get(int id)
         {
-            
+
                 return context.Tasks.Find(id);
         }
 
@@ -40,7 +40,7 @@ namespace Releaseasy.Controllers
         [HttpPost]
         public void Post([FromBody] Task value)
         {
-           
+
                 try
                 {
                     context.Add(value);
@@ -54,7 +54,7 @@ namespace Releaseasy.Controllers
                 {
                     throw;
                 }
-            
+
         }
         [HttpPost("AddTag")]
         public void AddTag([FromBody] AddTagParameters inc)
@@ -105,7 +105,7 @@ namespace Releaseasy.Controllers
         {
             Task task;
 
-          
+
                 task = context.Tasks.Find(id);
 
                 if (task != null)
@@ -114,12 +114,12 @@ namespace Releaseasy.Controllers
                         task.Description = value.Description;
                     if (value.Name != null)
                         task.Name = value.Name;
-                    
+
 
                 }
                 context.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
-            
+
 
         }
 
@@ -129,7 +129,7 @@ namespace Releaseasy.Controllers
         {
             Task task;
 
-          
+
                 task = context.Tasks.Find(id);
 
                 if (task != null)
@@ -139,7 +139,7 @@ namespace Releaseasy.Controllers
                 }
 
 
-            
+
         }
         [HttpPost("RemoveTag")]
         public void RemoveTag([FromBody] AddTagParameters inc)

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WebItems Include="frontend/dist/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="frontend\dist\" />
+  </ItemGroup>
+
+  <Target Name="CopyWeb" AfterTargets="Build">
+    <Exec Command="npm run build" WorkingDirectory="frontend" />
+    <Message Text="$(WebItems)" Importance="High" />
+    <Copy SourceFiles="@(WebItems)" DestinationFiles="@(WebItems->'$(ProjectDir)\wwwroot\js\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+</Project>
