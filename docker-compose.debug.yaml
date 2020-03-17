@@ -1,0 +1,20 @@
+version: '2.0'
+services:
+  releaseasy:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        production: 1
+    depends_on:
+      - database
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+  database:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+        SA_PASSWORD: "ReleaseEasy2020"
+        ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"

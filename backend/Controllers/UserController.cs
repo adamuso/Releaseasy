@@ -27,9 +27,11 @@ namespace Releaseasy.Controllers
         }
 
         [HttpGet("InitializeDatabase")]
-        public void InitializeDatabase()
+        public ActionResult<bool> InitializeDatabase()
         {
             context.Database.EnsureCreated();
+
+            return true;
         }
 
         [HttpGet]
@@ -111,7 +113,7 @@ namespace Releaseasy.Controllers
 
             var authProperties = new AuthenticationProperties()
             {
-                   
+
             };
 
             HttpContext.SignInAsync(

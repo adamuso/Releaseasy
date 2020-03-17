@@ -12,7 +12,7 @@ namespace Releaseasy
 
         public ReleaseasyContext()
         {
-            
+
         }
 
         public DbSet<User> Users { get; set; }
@@ -25,7 +25,7 @@ namespace Releaseasy
         {
             base.OnModelCreating(modelBuilder);
 
-            #region Project 
+            #region Project
 
             modelBuilder.Entity<Project>()
                 .HasOne(project => project.Creator)
