@@ -37,7 +37,8 @@ namespace Releaseasy
                 //options.AddPolicy()
             });
 
-            services.AddRazorPages();
+            services.AddMvc();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +75,8 @@ namespace Releaseasy
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("default", "{controller}/{action}");
+                endpoints.MapControllerRoute("others", "{*url}", defaults: new { controller = "Home", action = "Index" });
             });
         }
     }
