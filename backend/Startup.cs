@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Releaseasy.backend;
+using Releaseasy.backend.Services;
 
 namespace Releaseasy
 {
@@ -42,8 +45,22 @@ namespace Releaseasy
                 //options.AddPolicy()
             });
 
+
             services.AddMvc();
             services.AddControllers();
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 20;
+                options.Password.RequiredUniqueChars = 2;
+                options.SignIn.RequireConfirmedEmail = true;
+
+            })
+              //  .AddEntityFrameworkStores<ReleaseasyContext>()
+                .AddDefaultTokenProviders();
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddSingleton<IEmailSender, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

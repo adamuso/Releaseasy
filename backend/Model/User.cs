@@ -20,6 +20,9 @@ namespace Releaseasy.Model
         [EmailAddress(ErrorMessage = "Specified email is invalid")]
         public string Email { get; set; }
 
+        public bool EmailConfirmation { get; set; }
+
+
         public Role Role { get; set; }
     }
 }
