@@ -1,0 +1,7 @@
+Aby zainicializować baze po wystartowaniu projektu odpowiedniego dla siebie (tak żeby connection stringi się zgadzały) przechodzimy na stronę: https://localhost:5001/api/user/InitializeDatabase
+
+Connection Stringi zmieniacie w następujący sposób: rozwijacie appsettings.json a na stępnie edytujecie plik ze swoimi iniciałami (dla mnie to appsettings.DevDM.json).
+
+Aby wystartować ze swoimi settingami musicie:
+a) Ustawić je w pliku wspomnianym wyżej.
+b) Wystartować projekt, zamiast IIS Express bądź Releaseasy wybrać swój. Dla mnie było to ReleaseasyDM
