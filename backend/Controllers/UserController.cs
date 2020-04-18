@@ -46,6 +46,14 @@ namespace Releaseasy.Controllers
             return context.Users.Find(id);
         }
 
+        [HttpGet("current")]
+        public ActionResult<User> GetCurrentUser()
+        {
+
+            return null;
+        }
+
+
         [HttpPost]
         public void Post([FromBody] User value)
         {
@@ -92,7 +100,7 @@ namespace Releaseasy.Controllers
         }
 
         [HttpPost("Login")]
-        public object Login([FromBody] UserLoginData loginData)
+        public async System.Threading.Tasks.Task<bool> LoginAsync([FromBody] UserLoginData loginData)
         {
             User user = context.Users.SingleOrDefault(u => u.Username == loginData.Username);
 
@@ -116,11 +124,10 @@ namespace Releaseasy.Controllers
 
             };
 
-            HttpContext.SignInAsync(
+            await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
-
             return true;
         }
 
