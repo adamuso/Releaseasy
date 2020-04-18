@@ -28314,10 +28314,30 @@ if ("development" === 'production') {
 },{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"NavigationBar.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28326,82 +28346,119 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-class NavigationBar extends React.Component {
-  render() {
-    const mainStyle = {
-      display: "flex",
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      height: "40px"
-    };
-    const titleStyle = {
-      fontFamily: "'Oswald', sans-serif",
-      fontSize: "20pt",
-      marginLeft: 10,
-      marginTop: 0,
-      color: "white"
-    };
-    const loginStyle = {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontFamily: "'Oswald', sans-serif",
-      fontSize: "20pt",
-      marginTop: -5,
-      marginRight: 40,
-      color: "white"
-    };
-    const registerStyle = {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontFamily: "'Oswald', sans-serif",
-      fontSize: "20pt",
-      marginTop: -5,
-      marginRight: 10,
-      color: "white"
-    };
-    return React.createElement("div", {
-      style: mainStyle
-    }, React.createElement(NavigationMenu, null), React.createElement("div", {
-      style: titleStyle
-    }, "RELEASEASY"), React.createElement("div", {
-      style: {
-        flexGrow: 1
-      }
-    }), React.createElement("div", {
-      style: loginStyle
-    }, "sign in"), React.createElement("div", {
-      style: registerStyle
-    }, "register"));
+var NavigationBar =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(NavigationBar, _React$Component);
+
+  function NavigationBar() {
+    _classCallCheck(this, NavigationBar);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(NavigationBar).apply(this, arguments));
   }
 
-}
+  _createClass(NavigationBar, [{
+    key: "render",
+    value: function render() {
+      var mainStyle = {
+        display: "flex",
+        backgroundColor: "rgba(0, 0, 0, 0.3)",
+        height: "80px"
+      };
+      var titleStyle = {
+        fontFamily: "'Oswald', sans-serif",
+        fontSize: "60pt",
+        marginTop: -20,
+        color: "white"
+      };
+      var helpStyle = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "'Oswald', sans-serif",
+        fontSize: "50pt",
+        marginTop: -5,
+        marginRight: 10,
+        color: "white"
+      };
+      return React.createElement("div", {
+        style: mainStyle
+      }, React.createElement(NavigationMenu, null), React.createElement("div", {
+        style: titleStyle
+      }, "RELEASEASY"), React.createElement("div", {
+        style: {
+          flexGrow: 1
+        }
+      }), React.createElement("div", {
+        style: helpStyle
+      }, "?"));
+    }
+  }]);
+
+  return NavigationBar;
+}(React.Component);
 
 exports.NavigationBar = NavigationBar;
 
-class NavigationMenu extends React.Component {
-  render() {
-    const buttons = ["Test1", "Test2", "Test3"];
-    const menuStyle = {
-      position: "fixed",
-      maxWidth: 0,
-      overflow: "hidden"
-    };
-    return React.createElement("div", null, React.createElement("div", {
-      style: menuStyle
-    }, React.createElement("ul", null, buttons.map(item => React.createElement("li", null, item)))));
+var NavigationMenu =
+/*#__PURE__*/
+function (_React$Component2) {
+  _inherits(NavigationMenu, _React$Component2);
+
+  function NavigationMenu() {
+    _classCallCheck(this, NavigationMenu);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(NavigationMenu).apply(this, arguments));
   }
 
-}
+  _createClass(NavigationMenu, [{
+    key: "render",
+    value: function render() {
+      var buttons = ["Test1", "Test2", "Test3"];
+      var menuStyle = {
+        position: "fixed",
+        maxWidth: 0,
+        overflow: "hidden"
+      };
+      return React.createElement("div", null, React.createElement("div", null, "Logo"), React.createElement("div", {
+        style: menuStyle
+      }, React.createElement("ul", null, buttons.map(function (item) {
+        return React.createElement("li", null, item);
+      }))));
+    }
+  }]);
+
+  return NavigationMenu;
+}(React.Component);
 },{"react":"../node_modules/react/index.js"}],"pages/Page.tsx":[function(require,module,exports) {
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28410,23 +28467,152 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-class Page extends React.Component {
-  constructor(props) {
-    super(props);
-    this.params = props.params || {};
+var Page =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Page, _React$Component);
+
+  function Page(props) {
+    var _this;
+
+    _classCallCheck(this, Page);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Page).call(this, props));
+    _this.params = props.params || {};
+    return _this;
   }
 
-  render() {
-    return null;
-  }
+  _createClass(Page, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
 
-}
+  return Page;
+}(React.Component);
 
 exports.Page = Page;
-},{"react":"../node_modules/react/index.js"}],"pages/HomePage.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"backend/User.ts":[function(require,module,exports) {
 "use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var User =
+/*#__PURE__*/
+function () {
+  function User() {
+    _classCallCheck(this, User);
+  }
+
+  _createClass(User, null, [{
+    key: "logIn",
+    value: function logIn(username, password) {
+      return __awaiter(this, void 0, void 0,
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var response, result;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return fetch("api/User/Login", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    username: username,
+                    password: password
+                  }),
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                });
+
+              case 2:
+                response = _context.sent;
+                _context.next = 5;
+                return response.json();
+
+              case 5:
+                result = _context.sent;
+                return _context.abrupt("return", result);
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+    }
+  }]);
+
+  return User;
+}();
+
+exports.User = User;
+},{}],"pages/HomePage.tsx":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -28463,7 +28649,9 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28472,99 +28660,239 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Page_1 = require("./Page");
+var Page_1 = require("./Page");
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const main_1 = require("../main");
+var User_1 = require("../backend/User");
 
-class HomePage extends Page_1.Page {
-  constructor(props) {
-    super(props);
-    this.animatedTextRef = React.createRef();
-    this.textAnimationTimeout = 0;
-    this.animatedTexts = ["deploy", "research", "create", "release", "make", "think"];
-    this.state = {
+var main_1 = require("../main");
+
+var HomePage =
+/*#__PURE__*/
+function (_Page_1$Page) {
+  _inherits(HomePage, _Page_1$Page);
+
+  function HomePage(props) {
+    var _this;
+
+    _classCallCheck(this, HomePage);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(HomePage).call(this, props));
+    _this.state = {
       username: "",
       password: ""
     };
+    return _this;
   }
 
-  render() {
-    return React.createElement("div", {
-      className: "home-page"
-    }, React.createElement("div", {
-      style: {
+  _createClass(HomePage, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var style = {
+        display: "flex",
+        flexDirection: "row",
+        fontFamily: "'Oswald', sans-serif",
+        color: "white",
+        flexGrow: 1
+      };
+      var boxStyle = {
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "rgba(0,0,0,0.85)",
+        margin: 60,
+        flex: 2,
+        borderRadius: 20,
+        padding: 10
+      };
+      var inputStyle = {
+        height: 60,
+        boxSizing: "border-box",
+        borderRadius: 10,
+        width: "100%",
+        padding: 10,
+        fontSize: 28
+      };
+      var buttonStyle = Object.assign(Object.assign({}, inputStyle), {
+        padding: 0,
+        flexGrow: 1,
         justifyContent: "center",
-        alignItems: "center"
-      }
-    }, React.createElement("div", {
-      className: "welcome-text"
-    }, React.createElement("div", null, "Let's"), React.createElement("div", {
-      className: "welcome-text-animated",
-      ref: this.animatedTextRef
-    })), React.createElement("div", {
-      className: "sign-in",
-      onClick: () => this.loginOnClick()
-    }, React.createElement("div", null, "sign in"))));
-  }
-
-  componentDidMount() {
-    let currentAnimatedText = 0;
-    let currentAnimatedTextLetter = 0;
-    let remove = false;
-
-    const animationFunc = () => {
-      if (remove) {
-        this.animatedTextRef.current.textContent = this.animatedTextRef.current.textContent.substring(0, this.animatedTextRef.current.textContent.length - 1);
-
-        if (this.animatedTextRef.current.textContent.length <= 0) {
-          remove = false;
-          currentAnimatedTextLetter = 0;
-          currentAnimatedText = (currentAnimatedText + 1) % this.animatedTexts.length;
+        alignItems: "center",
+        textAlign: "center",
+        color: "black",
+        fontSize: 40,
+        fontWeight: "bold"
+      });
+      var emptyBoxStyle = {
+        display: "flex",
+        flex: 1,
+        flexDirection: "row",
+        margin: 5
+      };
+      return React.createElement("div", {
+        className: "home-page",
+        style: style
+      }, React.createElement("div", {
+        style: Object.assign(Object.assign({}, boxStyle), {
+          marginRight: 30
+        })
+      }, React.createElement("div", {
+        style: {
+          textAlign: "center",
+          fontSize: 40,
+          marginBottom: 10
         }
+      }, "ZALOGUJ SI\u0118"), React.createElement("div", {
+        style: {
+          marginBottom: 10
+        }
+      }, React.createElement("div", {
+        style: {
+          fontSize: 28
+        }
+      }, "NAZWA U\u017BYTKOWNIKA LUB E-MAIL"), React.createElement("input", {
+        value: this.state.username,
+        onChange: function onChange(ev) {
+          return _this2.setState({
+            username: ev.target.value
+          });
+        },
+        style: inputStyle,
+        type: "text"
+      })), React.createElement("div", {
+        style: {
+          marginBottom: 10
+        }
+      }, React.createElement("div", {
+        style: {
+          fontSize: 28
+        }
+      }, "HAS\u0141O"), React.createElement("input", {
+        value: this.state.password,
+        onChange: function onChange(ev) {
+          return _this2.setState({
+            password: ev.target.value
+          });
+        },
+        style: inputStyle,
+        type: "password"
+      })), React.createElement("div", {
+        style: {
+          display: "flex",
+          marginBottom: 10,
+          flexDirection: "row"
+        }
+      }, React.createElement("div", {
+        className: "big-button light",
+        onClick: this.loginOnClick.bind(this),
+        style: Object.assign(Object.assign({}, buttonStyle), {
+          marginRight: 5
+        })
+      }, "ZALOGUJ"), React.createElement("div", {
+        className: "big-button",
+        style: Object.assign(Object.assign({}, buttonStyle), {
+          marginLeft: 5
+        })
+      }, "PRZYCISK")), React.createElement("div", null, "PRZYPOMNIJ HAS\u0141O")), React.createElement("div", {
+        style: Object.assign(Object.assign({}, boxStyle), {
+          marginLeft: 30
+        })
+      }, React.createElement("div", {
+        style: {
+          textAlign: "center",
+          fontSize: 40,
+          marginBottom: 10
+        }
+      }, "OSTATNIO DODANE PROJEKTY"), React.createElement("div", {
+        style: emptyBoxStyle
+      }, React.createElement("div", {
+        style: Object.assign(Object.assign({}, emptyBoxStyle), {
+          backgroundColor: "#484848"
+        })
+      }), React.createElement("div", {
+        style: Object.assign(Object.assign({}, emptyBoxStyle), {
+          backgroundColor: "#484848"
+        })
+      })), React.createElement("div", {
+        style: Object.assign(Object.assign({}, emptyBoxStyle), {
+          backgroundColor: "#484848"
+        })
+      }), React.createElement("div", {
+        style: emptyBoxStyle
+      }, React.createElement("div", {
+        style: Object.assign(Object.assign({}, emptyBoxStyle), {
+          backgroundColor: "#484848"
+        })
+      }), React.createElement("div", {
+        style: Object.assign(Object.assign({}, emptyBoxStyle), {
+          backgroundColor: "#484848"
+        })
+      }))));
+    }
+  }, {
+    key: "loginOnClick",
+    value: function loginOnClick() {
+      return __awaiter(this, void 0, void 0,
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var result;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return User_1.User.logIn(this.state.username, this.state.password);
 
-        this.textAnimationTimeout = setTimeout(animationFunc, 50);
-        return;
-      }
+              case 2:
+                result = _context.sent;
 
-      this.animatedTextRef.current.textContent = this.animatedTexts[currentAnimatedText][this.animatedTexts[currentAnimatedText].length - currentAnimatedTextLetter - 1] + this.animatedTextRef.current.textContent;
-      currentAnimatedTextLetter++;
+                if (result === true) {
+                  main_1.Application.reactApp.changePage("ProjectPage");
+                }
 
-      if (currentAnimatedTextLetter === this.animatedTexts[currentAnimatedText].length) {
-        this.textAnimationTimeout = setTimeout(animationFunc, 1000);
-        remove = true;
-        return;
-      }
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+    }
+  }]);
 
-      this.textAnimationTimeout = setTimeout(animationFunc, 100);
-    };
-
-    this.textAnimationTimeout = setTimeout(animationFunc, 100);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.textAnimationTimeout);
-  }
-
-  loginOnClick() {
-    return __awaiter(this, void 0, void 0, function* () {
-      main_1.Application.reactApp.changePage("Login");
-    });
-  }
-
-}
+  return HomePage;
+}(Page_1.Page);
 
 exports.HomePage = HomePage;
-},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../main":"main.tsx"}],"pages/PageRouting.tsx":[function(require,module,exports) {
+},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../backend/User":"backend/User.ts","../main":"main.tsx"}],"pages/PageRouting.tsx":[function(require,module,exports) {
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28573,86 +28901,170 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-class PageRouting extends React.Component {
-  constructor(props) {
-    super(props);
+var PageRouting =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(PageRouting, _React$Component);
+
+  function PageRouting(props) {
+    _classCallCheck(this, PageRouting);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(PageRouting).call(this, props));
   }
 
-  render() {
-    let url;
-    if (typeof this.props.url === "string") url = new URL(this.props.url);else if (this.props.url) url = this.props.url;else {
-      if (!document.location) throw "Document location is missing";
-      url = new URL(document.location.href);
-    }
-    const params = {};
-    const state = typeof this.props.state === "object" ? this.props.state : {};
+  _createClass(PageRouting, [{
+    key: "render",
+    value: function render() {
+      var url;
+      if (typeof this.props.url === "string") url = new URL(this.props.url);else if (this.props.url) url = this.props.url;else {
+        if (!document.location) throw "Document location is missing";
+        url = new URL(document.location.href);
+      }
+      var params = {};
+      var state = _typeof(this.props.state) === "object" ? this.props.state : {};
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-    for (const entry of url.searchParams.entries()) {
-      params[entry[0]] = entry[1];
-    }
-
-    const children = this.props.children;
-
-    if (children instanceof Array) {
-      for (const child of children) {
-        if (!child || typeof child !== "object") continue;
-
-        if ("type" in child) {
-          const props = child.props;
-
-          if (this.match(url, props.route)) {
-            return React.createElement(props.page, {
-              params: Object.assign(Object.assign({}, params), state)
-            });
+      try {
+        for (var _iterator = url.searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var entry = _step.value;
+          params[entry[0]] = entry[1];
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
           }
         }
       }
-    } else if (children && typeof children === "object" && "type" in children) {
-      const props = children.props;
-      if (this.match(url, props.route)) return React.createElement(props.page, {
-        params: Object.assign(Object.assign({}, params), state)
-      });
+
+      var children = this.props.children;
+
+      if (children instanceof Array) {
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var child = _step2.value;
+            if (!child || _typeof(child) !== "object") continue;
+
+            if ("type" in child) {
+              var props = child.props;
+
+              if (this.match(url, props.route)) {
+                return React.createElement(props.page, {
+                  params: Object.assign(Object.assign({}, params), state)
+                });
+              }
+            }
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      } else if (children && _typeof(children) === "object" && "type" in children) {
+        var _props = children.props;
+        if (this.match(url, _props.route)) return React.createElement(_props.page, {
+          params: Object.assign(Object.assign({}, params), state)
+        });
+      }
+
+      return null;
     }
+  }, {
+    key: "match",
+    value: function match(url, route) {
+      if (url.pathname.toLowerCase() === route.toLowerCase()) return true;
+      return false;
+    }
+  }]);
 
-    return null;
-  }
-
-  match(url, route) {
-    if (url.pathname.toLowerCase() === route.toLowerCase()) return true;
-    return false;
-  }
-
-}
+  return PageRouting;
+}(React.Component);
 
 exports.PageRouting = PageRouting;
 
-class Route extends React.Component {}
+var Route =
+/*#__PURE__*/
+function (_React$Component2) {
+  _inherits(Route, _React$Component2);
+
+  function Route() {
+    _classCallCheck(this, Route);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Route).apply(this, arguments));
+  }
+
+  return Route;
+}(React.Component);
 
 exports.Route = Route;
 },{"react":"../node_modules/react/index.js"}],"backend/Utility.ts":[function(require,module,exports) {
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-class Utility {
-  static checkResponse(response) {
-    if (!response.ok) {
-      throw {
-        message: "Response error",
-        response
-      };
-    }
+var Utility =
+/*#__PURE__*/
+function () {
+  function Utility() {
+    _classCallCheck(this, Utility);
   }
 
-}
+  _createClass(Utility, null, [{
+    key: "checkResponse",
+    value: function checkResponse(response) {
+      if (!response.ok) {
+        throw {
+          message: "Response error",
+          response: response
+        };
+      }
+    }
+  }]);
+
+  return Utility;
+}();
 
 exports.Utility = Utility;
 },{}],"backend/Project.ts":[function(require,module,exports) {
 "use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -28690,34 +29102,82 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Utility_1 = require("./Utility");
+var Utility_1 = require("./Utility");
 
-class Project {
-  constructor(id, name, description) {
+var Project =
+/*#__PURE__*/
+function () {
+  function Project(id, name, description) {
+    _classCallCheck(this, Project);
+
     this.id = id;
     this.name = name;
     this.description = description;
   }
 
-  static create(project) {
-    return __awaiter(this, void 0, void 0, function* () {
-      const response = yield fetch("api/Project", {
-        method: "POST",
-        body: JSON.stringify(project),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      Utility_1.Utility.checkResponse(response);
-      return yield response.json();
-    });
-  }
+  _createClass(Project, null, [{
+    key: "create",
+    value: function create(project) {
+      return __awaiter(this, void 0, void 0,
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return fetch("api/Project", {
+                  method: "POST",
+                  body: JSON.stringify(project),
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                });
 
-}
+              case 2:
+                response = _context.sent;
+                Utility_1.Utility.checkResponse(response);
+                _context.next = 6;
+                return response.json();
+
+              case 6:
+                return _context.abrupt("return", _context.sent);
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+    }
+  }]);
+
+  return Project;
+}();
 
 exports.Project = Project;
 },{"./Utility":"backend/Utility.ts"}],"pages/CreateProjectPage.tsx":[function(require,module,exports) {
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -28754,7 +29214,9 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28763,100 +29225,181 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Page_1 = require("./Page");
+var Page_1 = require("./Page");
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const Project_1 = require("../backend/Project");
+var Project_1 = require("../backend/Project");
 
-const main_1 = require("../main");
+var main_1 = require("../main");
 
-class CreateProjectPage extends Page_1.Page {
-  constructor(props) {
-    super(props);
-    this.state = {
+var CreateProjectPage =
+/*#__PURE__*/
+function (_Page_1$Page) {
+  _inherits(CreateProjectPage, _Page_1$Page);
+
+  function CreateProjectPage(props) {
+    var _this;
+
+    _classCallCheck(this, CreateProjectPage);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateProjectPage).call(this, props));
+    _this.state = {
       project: {
         name: "",
         description: ""
       },
       invalidName: false
     };
+    return _this;
   }
 
-  render() {
-    return React.createElement("div", null, React.createElement("div", {
-      style: {
-        visibility: this.state.invalidName ? "visible" : "collapse"
-      }
-    }, "Podano nieprawid\u0142ow\u0105 nazw\u0119 projektu"), React.createElement("input", {
-      type: "text",
-      value: this.state.project.name,
-      onChange: e => this.updateName(e.target.value)
-    }), React.createElement("textarea", {
-      value: this.state.project.description,
-      onChange: e => this.updateDescription(e.target.value)
-    }), React.createElement("button", {
-      onClick: () => this.validateAndSubmit()
-    }, "Create"), React.createElement("button", {
-      onClick: () => main_1.Application.reactApp.changePage(this.params.onCancelledRedirect)
-    }, "Cacnel"));
-  }
+  _createClass(CreateProjectPage, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
 
-  updateName(name) {
-    const project = Object.assign({}, this.state.project);
-    project.name = name;
-    this.setState({
-      project
-    });
-
-    if (!name || name.length < 3) {
-      this.setState({
-        invalidName: true
-      });
-      return false;
+      return React.createElement("div", null, React.createElement("div", {
+        style: {
+          visibility: this.state.invalidName ? "visible" : "collapse"
+        }
+      }, "Podano nieprawid\u0142ow\u0105 nazw\u0119 projektu"), React.createElement("input", {
+        type: "text",
+        value: this.state.project.name,
+        onChange: function onChange(e) {
+          return _this2.updateName(e.target.value);
+        }
+      }), React.createElement("textarea", {
+        value: this.state.project.description,
+        onChange: function onChange(e) {
+          return _this2.updateDescription(e.target.value);
+        }
+      }), React.createElement("button", {
+        onClick: function onClick() {
+          return _this2.validateAndSubmit();
+        }
+      }, "Create"), React.createElement("button", {
+        onClick: function onClick() {
+          return main_1.Application.reactApp.changePage(_this2.params.onCancelledRedirect);
+        }
+      }, "Cacnel"));
     }
+  }, {
+    key: "updateName",
+    value: function updateName(name) {
+      var project = Object.assign({}, this.state.project);
+      project.name = name;
+      this.setState({
+        project: project
+      });
 
-    this.setState({
-      invalidName: false
-    });
-    return true;
-  }
-
-  updateDescription(description) {
-    const project = Object.assign({}, this.state.project);
-    project.description = description;
-    this.setState({
-      project
-    });
-    return true;
-  }
-
-  validateAndSubmit() {
-    return __awaiter(this, void 0, void 0, function* () {
-      if (!this.updateName(this.state.project.name)) return;
-      if (!this.updateDescription(this.state.project.description)) return;
-      let result;
-
-      try {
-        result = yield Project_1.Project.create(this.state.project);
-      } catch (_a) {
-        return;
+      if (!name || name.length < 3) {
+        this.setState({
+          invalidName: true
+        });
+        return false;
       }
 
-      main_1.Application.reactApp.changePage(this.params.onCreatedRedirect, result);
-    });
-  }
+      this.setState({
+        invalidName: false
+      });
+      return true;
+    }
+  }, {
+    key: "updateDescription",
+    value: function updateDescription(description) {
+      var project = Object.assign({}, this.state.project);
+      project.description = description;
+      this.setState({
+        project: project
+      });
+      return true;
+    }
+  }, {
+    key: "validateAndSubmit",
+    value: function validateAndSubmit() {
+      return __awaiter(this, void 0, void 0,
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var result;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this.updateName(this.state.project.name)) {
+                  _context.next = 2;
+                  break;
+                }
 
-}
+                return _context.abrupt("return");
+
+              case 2:
+                if (this.updateDescription(this.state.project.description)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 4:
+                _context.prev = 4;
+                _context.next = 7;
+                return Project_1.Project.create(this.state.project);
+
+              case 7:
+                result = _context.sent;
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](4);
+                return _context.abrupt("return");
+
+              case 13:
+                main_1.Application.reactApp.changePage(this.params.onCreatedRedirect, result);
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[4, 10]]);
+      }));
+    }
+  }]);
+
+  return CreateProjectPage;
+}(Page_1.Page);
 
 exports.CreateProjectPage = CreateProjectPage;
 },{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../backend/Project":"backend/Project.ts","../main":"main.tsx"}],"pages/UserPage.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28865,34 +29408,76 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Page_1 = require("./Page");
+var Page_1 = require("./Page");
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const main_1 = require("../main");
+var main_1 = require("../main");
 
-const CreateProjectPage_1 = require("./CreateProjectPage");
+var CreateProjectPage_1 = require("./CreateProjectPage");
 
-class ProjectList extends React.Component {
-  render() {
-    return null;
+var ProjectList =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ProjectList, _React$Component);
+
+  function ProjectList() {
+    _classCallCheck(this, ProjectList);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ProjectList).apply(this, arguments));
   }
 
-}
+  _createClass(ProjectList, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
 
-class TaskList extends React.Component {
-  render() {
-    return null;
+  return ProjectList;
+}(React.Component);
+
+var TaskList =
+/*#__PURE__*/
+function (_React$Component2) {
+  _inherits(TaskList, _React$Component2);
+
+  function TaskList() {
+    _classCallCheck(this, TaskList);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(TaskList).apply(this, arguments));
   }
 
-}
+  _createClass(TaskList, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
 
-class Avatar extends React.Component {
-  render() {
-    return null;
+  return TaskList;
+}(React.Component);
+
+var Avatar =
+/*#__PURE__*/
+function (_React$Component3) {
+  _inherits(Avatar, _React$Component3);
+
+  function Avatar() {
+    _classCallCheck(this, Avatar);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Avatar).apply(this, arguments));
   }
 
-}
+  _createClass(Avatar, [{
+    key: "render",
+    value: function render() {
+      return null;
+    }
+  }]);
+
+  return Avatar;
+}(React.Component);
 
 function LeftPanelOption(props) {
   return React.createElement("div", null, props.title ? React.createElement("div", null, props.title) : null, React.createElement("div", {
@@ -28902,9 +29487,11 @@ function LeftPanelOption(props) {
 
 function LeftPanel(props) {
   return React.createElement("div", null, React.createElement("div", null, React.createElement(Avatar, null), React.createElement("div", null, React.createElement("div", null), React.createElement("div", null))), React.createElement(LeftPanelOption, {
-    text: "Utw\u00F3rz",
-    title: "Utw\u00F3rz nowy projekt",
-    onClick: () => props.onOptionExecuted("createProject")
+    text: "Utw\xF3rz",
+    title: "Utw\xF3rz nowy projekt",
+    onClick: function onClick() {
+      return props.onOptionExecuted("createProject");
+    }
   }));
 }
 
@@ -28912,47 +29499,100 @@ function RightPanel() {
   return React.createElement("div", null, React.createElement("div", null, "Moje projekty"), React.createElement(ProjectList, null), React.createElement("div", null, "Moje zadania"), React.createElement(TaskList, null));
 }
 
-class UserPage extends Page_1.Page {
-  constructor(props) {
-    super(props);
+var UserPage =
+/*#__PURE__*/
+function (_Page_1$Page) {
+  _inherits(UserPage, _Page_1$Page);
+
+  function UserPage(props) {
+    _classCallCheck(this, UserPage);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(UserPage).call(this, props));
   }
 
-  render() {
-    return React.createElement("div", null, React.createElement(LeftPanel, {
-      onOptionExecuted: () => main_1.Application.reactApp.change(CreateProjectPage_1.CreateProjectPage, "CreateProject", {
-        onCancelledRedirect: "Dashboard",
-        onCreatedRedirect: "Project"
-      })
-    }), React.createElement(RightPanel, null));
-  }
+  _createClass(UserPage, [{
+    key: "render",
+    value: function render() {
+      return React.createElement("div", null, React.createElement(LeftPanel, {
+        onOptionExecuted: function onOptionExecuted() {
+          return main_1.Application.reactApp.change(CreateProjectPage_1.CreateProjectPage, "CreateProject", {
+            onCancelledRedirect: "Dashboard",
+            onCreatedRedirect: "Project"
+          });
+        }
+      }), React.createElement(RightPanel, null));
+    }
+  }]);
 
-}
+  return UserPage;
+}(Page_1.Page);
 
 exports.UserPage = UserPage;
 },{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../main":"main.tsx","./CreateProjectPage":"pages/CreateProjectPage.tsx"}],"pages/ProjectsPage.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const Page_1 = require("./Page");
+var Page_1 = require("./Page");
 
-class ProjectsPage extends Page_1.Page {
-  constructor(props) {
-    super(props);
+var ProjectsPage =
+/*#__PURE__*/
+function (_Page_1$Page) {
+  _inherits(ProjectsPage, _Page_1$Page);
+
+  function ProjectsPage(props) {
+    _classCallCheck(this, ProjectsPage);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ProjectsPage).call(this, props));
   }
 
-}
+  return ProjectsPage;
+}(Page_1.Page);
 
 exports.ProjectsPage = ProjectsPage;
 },{"./Page":"pages/Page.tsx"}],"pages/ProjectPage.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -28961,268 +29601,59 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const Page_1 = require("./Page");
+var Page_1 = require("./Page");
 
-class ProjectPage extends Page_1.Page {
-  render() {
-    return React.createElement("div", null);
+var ProjectPage =
+/*#__PURE__*/
+function (_Page_1$Page) {
+  _inherits(ProjectPage, _Page_1$Page);
+
+  function ProjectPage() {
+    _classCallCheck(this, ProjectPage);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ProjectPage).apply(this, arguments));
   }
 
-}
+  _createClass(ProjectPage, [{
+    key: "render",
+    value: function render() {
+      return React.createElement("div", null);
+    }
+  }]);
+
+  return ProjectPage;
+}(Page_1.Page);
 
 exports.ProjectPage = ProjectPage;
-},{"react":"../node_modules/react/index.js","./Page":"pages/Page.tsx"}],"backend/User.ts":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Page":"pages/Page.tsx"}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-class User {
-  static logIn(username, password) {
-    return __awaiter(this, void 0, void 0, function* () {
-      const response = yield fetch("api/User/Login", {
-        method: "POST",
-        body: JSON.stringify({
-          username,
-          password
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const result = yield response.json();
-      return result;
-    });
-  }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-exports.User = User;
-},{}],"pages/LogInPage.tsx":[function(require,module,exports) {
-"use strict";
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const Page_1 = require("./Page");
-
-const React = require("react");
-
-const main_1 = require("../main");
-
-const User_1 = require("../backend/User");
-
-class LogInPage extends Page_1.Page {
-  constructor(props) {
-    super(props);
-    this.state = {
-      login: "",
-      password: "",
-      confirmPassword: ""
-    };
-  }
-
-  render() {
-    return React.createElement("div", {
-      className: "login-page"
-    }, React.createElement("div", {
-      className: "login-form"
-    }, React.createElement("input", {
-      placeholder: "login",
-      onChange: e => this.setState({
-        login: e.target.value
-      })
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "password",
-      onChange: e => this.setState({
-        password: e.target.value
-      })
-    }), React.createElement("input", {
-      type: "submit",
-      value: "log in",
-      onClick: () => this.onLogin()
-    }), React.createElement("div", null, "Forgot password"), React.createElement("div", {
-      onClick: () => main_1.Application.reactApp.changePage("Register")
-    }, "Register")));
-  }
-
-  onLogin() {
-    return __awaiter(this, void 0, void 0, function* () {
-      if (this.state.login.length === 0 || this.state.password.length === 0 || this.state.confirmPassword.length === 0) {
-        return;
-      }
-
-      if (this.state.password !== this.state.confirmPassword) {
-        alert("Password does not match");
-        return;
-      }
-
-      const result = yield User_1.User.logIn(this.state.login, this.state.password);
-
-      if (result) {
-        main_1.Application.reactApp.changePage("User");
-      }
-    });
-  }
-
-}
-
-exports.LogInPage = LogInPage;
-},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../main":"main.tsx","../backend/User":"backend/User.ts"}],"pages/RegisterPage.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const Page_1 = require("./Page");
-
-const React = require("react");
-
-class RegisterPage extends Page_1.Page {
-  constructor(props) {
-    super(props);
-    this.state = {
-      type: "employee"
-    };
-  }
-
-  render() {
-    return React.createElement("div", {
-      className: "register-page"
-    }, React.createElement("div", {
-      className: "register-form"
-    }, React.createElement("div", {
-      className: "type"
-    }, React.createElement("div", {
-      onClick: () => this.selectType("employee"),
-      className: this.state.type === "employee" ? "selected" : ""
-    }, "Employee"), React.createElement("div", {
-      onClick: () => this.selectType("company"),
-      className: this.state.type === "company" ? "selected" : ""
-    }, "Company")), this.state.type === "employee" ? React.createElement("div", {
-      className: "data"
-    }, React.createElement("input", {
-      placeholder: "name"
-    }), React.createElement("input", {
-      placeholder: "last name"
-    }), React.createElement("input", {
-      placeholder: "email"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "password"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "confirm password"
-    })) : React.createElement("div", {
-      className: "data"
-    }, React.createElement("input", {
-      placeholder: "name"
-    }), React.createElement("input", {
-      placeholder: "location"
-    }), React.createElement("input", {
-      placeholder: "email"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "password"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "confirm password"
-    })), React.createElement("div", null, "I agree to the Releaseasy Terms and Privacy."), React.createElement("input", {
-      type: "checkbox"
-    }), React.createElement("input", {
-      type: "submit",
-      value: "register"
-    })));
-  }
-
-  selectType(type) {
-    this.setState({
-      type
-    });
-  }
-
-  onRegister() {}
-
-}
-
-exports.RegisterPage = RegisterPage;
-},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js"}],"App.tsx":[function(require,module,exports) {
-"use strict";
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -29231,104 +29662,109 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const NavigationBar_1 = require("./NavigationBar");
+var NavigationBar_1 = require("./NavigationBar");
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const HomePage_1 = require("./pages/HomePage");
+var HomePage_1 = require("./pages/HomePage");
 
-const PageRouting_1 = require("./pages/PageRouting");
+var PageRouting_1 = require("./pages/PageRouting");
 
-const UserPage_1 = require("./pages/UserPage");
+var UserPage_1 = require("./pages/UserPage");
 
-const ProjectsPage_1 = require("./pages/ProjectsPage");
+var ProjectsPage_1 = require("./pages/ProjectsPage");
 
-const CreateProjectPage_1 = require("./pages/CreateProjectPage");
+var CreateProjectPage_1 = require("./pages/CreateProjectPage");
 
-const ProjectPage_1 = require("./pages/ProjectPage");
+var ProjectPage_1 = require("./pages/ProjectPage");
 
-const LogInPage_1 = require("./pages/LogInPage");
+var App =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(App, _React$Component);
 
-const RegisterPage_1 = require("./pages/RegisterPage");
+  function App(props) {
+    var _this;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+    _classCallCheck(this, App);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     if (document.location == null) throw new Error("The document does not provide a location");
-    this.state = {
+    _this.state = {
       url: new URL(document.location.href)
     };
+    return _this;
   }
 
-  changePage(url, state) {
-    history.pushState(state, "Test", url);
-    if (document.location == null) throw new Error("The document does not provide a location");
-    this.setState({
-      url: new URL(document.location.href)
-    });
-  }
-
-  change(page, url, state) {
-    history.pushState(state, "Test", url);
-    if (document.location == null) throw new Error("The document does not provide a location");
-    this.setState({
-      url: new URL(document.location.href)
-    });
-  }
-
-  render() {
-    return React.createElement("div", {
-      className: "app"
-    }, React.createElement(NavigationBar_1.NavigationBar, null), React.createElement("div", {
-      style: {
-        display: "flex",
-        flexGrow: 1
-      }
-    }, React.createElement(PageRouting_1.PageRouting, {
-      url: this.state.url,
-      state: history.state
-    }, React.createElement(PageRouting_1.Route, {
-      route: "/",
-      page: HomePage_1.HomePage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/Register",
-      page: RegisterPage_1.RegisterPage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/Login",
-      page: LogInPage_1.LogInPage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/Dashboard",
-      page: UserPage_1.UserPage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/Projects",
-      page: ProjectsPage_1.ProjectsPage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/CreateProject",
-      page: CreateProjectPage_1.CreateProjectPage
-    }), React.createElement(PageRouting_1.Route, {
-      route: "/Project",
-      page: ProjectPage_1.ProjectPage
-    }))));
-  }
-
-  componentDidMount() {
-    window.addEventListener("popstate", () => {
+  _createClass(App, [{
+    key: "changePage",
+    value: function changePage(url, state) {
+      history.pushState(state, "Test", url);
+      if (document.location == null) throw new Error("The document does not provide a location");
       this.setState({
         url: new URL(document.location.href)
       });
-    });
-  }
+    }
+  }, {
+    key: "change",
+    value: function change(page, url, state) {
+      history.pushState(state, "Test", url);
+      if (document.location == null) throw new Error("The document does not provide a location");
+      this.setState({
+        url: new URL(document.location.href)
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement("div", {
+        className: "app"
+      }, React.createElement(NavigationBar_1.NavigationBar, null), React.createElement("div", {
+        style: {
+          display: "flex",
+          flexGrow: 1
+        }
+      }, React.createElement(PageRouting_1.PageRouting, {
+        url: this.state.url,
+        state: history.state
+      }, React.createElement(PageRouting_1.Route, {
+        route: "/",
+        page: HomePage_1.HomePage
+      }), React.createElement(PageRouting_1.Route, {
+        route: "/Dashboard",
+        page: UserPage_1.UserPage
+      }), React.createElement(PageRouting_1.Route, {
+        route: "/Projects",
+        page: ProjectsPage_1.ProjectsPage
+      }), React.createElement(PageRouting_1.Route, {
+        route: "/CreateProject",
+        page: CreateProjectPage_1.CreateProjectPage
+      }), React.createElement(PageRouting_1.Route, {
+        route: "/Project",
+        page: ProjectPage_1.ProjectPage
+      }))));
+    }
+  }]);
 
-}
+  return App;
+}(React.Component);
 
 exports.App = App;
-},{"./NavigationBar":"NavigationBar.tsx","react":"../node_modules/react/index.js","./pages/HomePage":"pages/HomePage.tsx","./pages/PageRouting":"pages/PageRouting.tsx","./pages/UserPage":"pages/UserPage.tsx","./pages/ProjectsPage":"pages/ProjectsPage.tsx","./pages/CreateProjectPage":"pages/CreateProjectPage.tsx","./pages/ProjectPage":"pages/ProjectPage.tsx","./pages/LogInPage":"pages/LogInPage.tsx","./pages/RegisterPage":"pages/RegisterPage.tsx"}],"main.tsx":[function(require,module,exports) {
+},{"./NavigationBar":"NavigationBar.tsx","react":"../node_modules/react/index.js","./pages/HomePage":"pages/HomePage.tsx","./pages/PageRouting":"pages/PageRouting.tsx","./pages/UserPage":"pages/UserPage.tsx","./pages/ProjectsPage":"pages/ProjectsPage.tsx","./pages/CreateProjectPage":"pages/CreateProjectPage.tsx","./pages/ProjectPage":"pages/ProjectPage.tsx"}],"main.tsx":[function(require,module,exports) {
 "use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
   result["default"] = mod;
   return result;
 };
@@ -29337,23 +29773,33 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const ReactDOM = __importStar(require("react-dom"));
+var ReactDOM = __importStar(require("react-dom"));
 
-const React = __importStar(require("react"));
+var React = __importStar(require("react"));
 
-const App_1 = require("./App");
+var App_1 = require("./App");
 
-const appRef = React.createRef();
+var appRef = React.createRef();
 ReactDOM.render(React.createElement(App_1.App, {
   ref: appRef
 }), document.getElementById("app"));
 
-class Application {
-  static get reactApp() {
-    return appRef.current;
+var Application =
+/*#__PURE__*/
+function () {
+  function Application() {
+    _classCallCheck(this, Application);
   }
 
-}
+  _createClass(Application, null, [{
+    key: "reactApp",
+    get: function get() {
+      return appRef.current;
+    }
+  }]);
+
+  return Application;
+}();
 
 exports.Application = Application;
 },{"react-dom":"../node_modules/react-dom/index.js","react":"../node_modules/react/index.js","./App":"App.tsx"}],"../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -29384,7 +29830,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51545" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64781" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -29561,4 +30007,4 @@ function hmrAcceptRun(bundle, id) {
   }
 }
 },{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js","main.tsx"], null)
-//# sourceMappingURL=/bundle.js.map
+//# sourceMappingURL=/main.js.map

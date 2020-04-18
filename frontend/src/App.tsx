@@ -7,6 +7,8 @@ import { ProjectsPage } from "./pages/ProjectsPage";
 import { CreateProjectPage } from "./pages/CreateProjectPage";
 import { Page } from "./pages/Page";
 import { ProjectPage } from "./pages/ProjectPage";
+import { LogInPage } from "./pages/LogInPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 interface AppState {
     url: URL,
@@ -53,6 +55,8 @@ export class App extends React.Component<{}, AppState> {
             <div style={{ display: "flex", flexGrow: 1 }}>
                 <PageRouting url={this.state.url} state={history.state}>
                     <Route route="/" page={HomePage}/>
+                    <Route route="/Register" page={RegisterPage}/>
+                    <Route route="/Login" page={LogInPage}/>
                     <Route route="/Dashboard" page={UserPage} />
                     <Route route="/Projects" page={ProjectsPage} />
                     <Route route="/CreateProject" page={CreateProjectPage} />
@@ -60,5 +64,11 @@ export class App extends React.Component<{}, AppState> {
                 </PageRouting>
             </div>
         </div>;
+    }
+
+    componentDidMount() {
+        window.addEventListener("popstate", () => {
+            this.setState({ url: new URL(document.location.href) });
+        });
     }
 }

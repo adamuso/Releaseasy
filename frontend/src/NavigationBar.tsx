@@ -5,26 +5,39 @@ export class NavigationBar extends React.Component {
         const mainStyle: React.CSSProperties = {
             display: "flex",
             backgroundColor: "rgba(0, 0, 0, 0.3)",
-            height: "80px"
+            height: "40px"
         };
 
         const titleStyle: React.CSSProperties = {
             fontFamily: "'Oswald', sans-serif",
-            fontSize: "60pt",
-            marginTop: -20,
+            fontSize: "20pt",
+            marginLeft: 10,
+            marginTop: 0,
             color: "white"
         };
 
-        const helpStyle: React.CSSProperties = {
+        const loginStyle: React.CSSProperties = {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             fontFamily: "'Oswald', sans-serif",
-            fontSize: "50pt",
+            fontSize: "20pt",
+            marginTop: -5,
+            marginRight: 40,
+            color: "white"
+        };
+
+        const registerStyle: React.CSSProperties = {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: "20pt",
             marginTop: -5,
             marginRight: 10,
             color: "white"
         };
+
 
         return <div style={mainStyle}>
             <NavigationMenu />
@@ -32,8 +45,11 @@ export class NavigationBar extends React.Component {
                 RELEASEASY
             </div>
             <div style={{ flexGrow: 1 }}/>
-            <div style={helpStyle}>
-                ?
+            <div style={loginStyle}>
+                sign in
+            </div>
+            <div style={registerStyle}>
+                register
             </div>
         </div>;
     }
@@ -54,7 +70,6 @@ class NavigationMenu extends React.Component {
         };
 
         return <div>
-            <div>Logo</div>
             <div style={menuStyle}>
                 <ul>
                     {buttons.map((item) => <li>{item}</li>)}

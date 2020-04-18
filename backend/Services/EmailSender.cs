@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 using MailKit.Security;
 using MailKit;
 
-namespace Releaseasy.backend.Services
+namespace Releaseasy.Services
 {
     public interface IEmailSender
     {
         Task SendEmailAsync(string email, string subject, string message);
     }
-
-
 
     public class EmailSender : IEmailSender
     {
@@ -53,14 +51,14 @@ namespace Releaseasy.backend.Services
                     // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                 
+
                         // The third parameter is useSSL (true if the client should make an SSL-wrapped
                         // connection to the server; otherwise, false).
-                                            
-                    
+
+
                         await client.ConnectAsync(_emailSettings.MailServer, _emailSettings.MailPort, true);
 
-                
+
                     // Note: only needed if the SMTP server requires authentication
                   await client.AuthenticateAsync(_emailSettings.Sender, _emailSettings.Password);
 

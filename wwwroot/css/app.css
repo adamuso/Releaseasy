@@ -15,6 +15,7 @@ body {
     flex-grow: 1;
 }
 
+/* Application */
 .app {
     display: flex;
     flex-grow: 1;
@@ -22,22 +23,138 @@ body {
 
     background-image: url("../img/home-background.jpg");
     background-size: cover;
+
 }
 
-.app .home-page .big-button {
+/* Home page */
+.home-page {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center
+}
+
+.home-page .sign-in {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0,0,0,0.45);
+    padding: 10px 50px;
+    font-size: 30pt;
     cursor: pointer;
-    background-color: #484848;
 }
 
-.app .home-page .big-button.light {
+.home-page .sign-in:hover {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.home-page .welcome-text {
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 80pt;
+    text-shadow: 1px 1px 5px black
+}
+
+.home-page .welcome-text > .welcome-text-animated {
+    user-select: none;
+    margin-left: 100px;
+    width: 200px;
+}
+
+/* Login page */
+.login-page {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Oswald', sans-serif;
+    color: white;
+
+}
+
+.login-page > .login-form {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+
+    background-color: rgba(0,0,0,0.65);
+}
+
+.login-page > .login-form > input {
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+/* Login page */
+.register-page {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Oswald', sans-serif;
+    color: white;
+
+}
+
+.register-page > .register-form {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+
+    background-color: rgba(0,0,0,0.65);
+}
+
+.register-page > .register-form > .data {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+}
+
+
+.register-page > .register-form > .data > input {
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.register-page > .register-form > .type {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.register-page > .register-form > .type > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    background-color: #ddb17c;
+    user-select: none;
 }
 
-.app .home-page .big-button:hover {
-    background-color: rgb(109, 109, 109);
+.register-page > .register-form > .type > *:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.app .home-page .big-button.light:hover {
-    background-color: rgb(224, 199, 169);
+.register-page > .register-form > .type > *.selected {
+    background: rgba(255, 255, 255, 0.3);
 }

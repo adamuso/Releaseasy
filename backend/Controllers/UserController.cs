@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Releaseasy.backend.Services;
+using Releaseasy.Services;
 using Task = System.Threading.Tasks.Task;
 
 namespace Releaseasy.Controllers
@@ -87,7 +87,7 @@ namespace Releaseasy.Controllers
             return null;
         }
 
-  
+
 
       [HttpPost]
       [AllowAnonymous]
@@ -112,7 +112,7 @@ namespace Releaseasy.Controllers
 
             try
             {
-               
+
                 context.Add(value);
                 context.SaveChanges();
                 //   string token = await userManager.GenerateEmailConfirmationTokenAsync(value);
