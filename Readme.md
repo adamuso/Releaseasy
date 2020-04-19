@@ -5,10 +5,17 @@ An web application for project and team management.
 ## Building
 
 Required dependencies:
-* [Visual Studio 2017](https://visualstudio.microsoft.com/pl/downloads/?rr=https%3A%2F%2Fwww.google.pl%2F)
-* [.NET Core 2.2.106](https://dotnet.microsoft.com/download/dotnet-core/2.2#sdk-2.2.106) (this one is compatible with VS2017)
+* [Visual Studio 2019](https://visualstudio.microsoft.com/pl/downloads/?rr=https%3A%2F%2Fwww.google.pl%2F)
+* [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core)
 * MS SQL Database (can be local using [MS SQL Server](https://www.microsoft.com/pl-pl/sql-server/sql-server-editions-express) or remote if available) + [SMSS](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017) (very handy tool)
 * [Node.JS](https://nodejs.org/en/) for building the front-end
+
+## Development
+
+Migration tools for EntityFramework. Install after installing .NET Core using command below.
+```
+dotnet tool install --global dotnet-ef --version 3.0.0
+```
 
 ## Docker support
 
@@ -27,13 +34,13 @@ Projekt:
 - podział na "pomysły", "zadania do zrobienia", "zadania w trakcie", "oddane", "zadania przeznaczone do testów", "przetestowane", "gotowe do wydania".
 
 Zadanie:
-- nazwa, opis, rodzaj grupy, punktacja, czas trwania, 
+- nazwa, opis, rodzaj grupy, punktacja, czas trwania,
 - łączna pula punktów zadań nie noże przekraczaś możliwej do wykorzystania liczby punktów dziennej projektu
 - zadanie musi zawierać grupę zależną od grup wyznaczonych w projekcie
 - czas trwania zadania musi znajdować się z czasie trwania projektu
 - jeżeli zadanie nie ma ilości punktów i lub grupy, jest zawsze przydzielane do "to do"
 - możliwość ustawienia priorytetu dla zadania
-- 
+-
 
 Zespół:
 - nazwa, opis
