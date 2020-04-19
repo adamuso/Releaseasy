@@ -89,14 +89,20 @@ namespace Releaseasy.Controllers
 
 
 
-      [HttpPost]
+      [HttpPost("Register")]
       [AllowAnonymous]
-        public async void RegisterUser([FromBody] User value)
+        public async Task<bool> RegisterUser([FromBody] User value)
         {
-            if (!Regex.IsMatch(value.Username, @"(?=.*[a-zA-Z])^[a-zA-Z0-9_]{3,32}$"))
-                throw new ArgumentException("Specified username is invalid. The username must have " +
-                    "at least 3 characters and one letter. It can contain letters, numbers and undescore " +
-                    "character.", "value");
+            var emailValidator = new EmailAddressAttribute();
+
+            if (!emailValidator.IsValid(value.Username)) {
+                throw new ArgumentException("Specified username is invalid. The username must be an email address", "value");
+            }
+
+            // if (!Regex.IsMatch(value.Username, @"(?=.*[a-zA-Z])^[a-zA-Z0-9_]{3,32}$"))
+            //     throw new ArgumentException("Specified username is invalid. The username must have " +
+            //         "at least 3 characters and one letter. It can contain letters, numbers and undescore " +
+            //         "character.", "value");
 
             if (!Regex.IsMatch(value.Password, @"(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9_!@#$%^&*]{8,64}$"))
                 throw new ArgumentException("Specified password is invalid. The password must have " +
@@ -129,6 +135,8 @@ namespace Releaseasy.Controllers
             {
                 throw;
             }
+
+            return true;
         }
 
         // PUT api/values/5

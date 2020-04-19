@@ -12,4 +12,18 @@
 
         return result;
     }
+
+    static async register(type: "employee" | "company", name: string, lastName: string, location: string, username: string, password: string, email: string): Promise<boolean> {
+        const response = await fetch("api/User/Register", {
+            method: "POST",
+            body: JSON.stringify({ type, name, lastName, location, username, password, email }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const result = await response.json();
+
+        return result;
+    }
 }

@@ -1,0 +1,9 @@
+version: '2.0'
+services:
+  database:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+        SA_PASSWORD: "ReleaseEasy2020"
+        ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"

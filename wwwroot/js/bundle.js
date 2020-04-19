@@ -28395,24 +28395,48 @@ class NavigationMenu extends React.Component {
   }
 
 }
-},{"react":"../node_modules/react/index.js"}],"pages/Page.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/BindableComponent.ts":[function(require,module,exports) {
 "use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  result["default"] = mod;
-  return result;
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const React = __importStar(require("react"));
+const react_1 = require("react");
 
-class Page extends React.Component {
+class BindableComponent extends react_1.Component {
+  constructor() {
+    super(...arguments);
+
+    this.binder = (state, mode) => this.bind(state, mode);
+  }
+
+  bind(state, mode) {
+    return value => {
+      if (value !== undefined && mode !== "one-way") {
+        this.setState({
+          [state]: value
+        });
+        return value;
+      }
+
+      return this.state[state];
+    };
+  }
+
+}
+
+exports.BindableComponent = BindableComponent;
+},{"react":"../node_modules/react/index.js"}],"pages/Page.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const BindableComponent_1 = require("../components/BindableComponent");
+
+class Page extends BindableComponent_1.BindableComponent {
   constructor(props) {
     super(props);
     this.params = props.params || {};
@@ -28425,7 +28449,7 @@ class Page extends React.Component {
 }
 
 exports.Page = Page;
-},{"react":"../node_modules/react/index.js"}],"pages/HomePage.tsx":[function(require,module,exports) {
+},{"../components/BindableComponent":"components/BindableComponent.ts"}],"pages/HomePage.tsx":[function(require,module,exports) {
 "use strict";
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -29030,6 +29054,28 @@ class User {
     });
   }
 
+  static register(type, name, lastName, location, username, password, email) {
+    return __awaiter(this, void 0, void 0, function* () {
+      const response = yield fetch("api/User/Register", {
+        method: "POST",
+        body: JSON.stringify({
+          type,
+          name,
+          lastName,
+          location,
+          username,
+          password,
+          email
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const result = yield response.json();
+      return result;
+    });
+  }
+
 }
 
 exports.User = User;
@@ -29085,8 +29131,7 @@ class LogInPage extends Page_1.Page {
     super(props);
     this.state = {
       login: "",
-      password: "",
-      confirmPassword: ""
+      password: ""
     };
   }
 
@@ -29117,12 +29162,7 @@ class LogInPage extends Page_1.Page {
 
   onLogin() {
     return __awaiter(this, void 0, void 0, function* () {
-      if (this.state.login.length === 0 || this.state.password.length === 0 || this.state.confirmPassword.length === 0) {
-        return;
-      }
-
-      if (this.state.password !== this.state.confirmPassword) {
-        alert("Password does not match");
+      if (this.state.login.length === 0 || this.state.password.length === 0) {
         return;
       }
 
@@ -29137,8 +29177,73 @@ class LogInPage extends Page_1.Page {
 }
 
 exports.LogInPage = LogInPage;
-},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../main":"main.tsx","../backend/User":"backend/User.ts"}],"pages/RegisterPage.tsx":[function(require,module,exports) {
+},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../main":"main.tsx","../backend/User":"backend/User.ts"}],"components/TextInput.tsx":[function(require,module,exports) {
 "use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const react_1 = require("react");
+
+const React = __importStar(require("react"));
+
+class TextInput extends react_1.Component {
+  render() {
+    return React.createElement("input", {
+      type: this.props.password === true ? "password" : "text",
+      className: this.props.className,
+      placeholder: this.props.placeholder,
+      value: this.props.value(),
+      onChange: e => this.props.value(e.target.value)
+    });
+  }
+
+}
+
+exports.TextInput = TextInput;
+},{"react":"../node_modules/react/index.js"}],"pages/RegisterPage.tsx":[function(require,module,exports) {
+"use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -29148,15 +29253,28 @@ const Page_1 = require("./Page");
 
 const React = require("react");
 
+const TextInput_1 = require("../components/TextInput");
+
+const User_1 = require("../backend/User");
+
+const main_1 = require("../main");
+
 class RegisterPage extends Page_1.Page {
   constructor(props) {
     super(props);
     this.state = {
-      type: "employee"
+      type: "employee",
+      name: "",
+      lastName: "",
+      location: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
     };
   }
 
   render() {
+    const $ = this.binder;
     return React.createElement("div", {
       className: "register-page"
     }, React.createElement("div", {
@@ -29171,38 +29289,47 @@ class RegisterPage extends Page_1.Page {
       className: this.state.type === "company" ? "selected" : ""
     }, "Company")), this.state.type === "employee" ? React.createElement("div", {
       className: "data"
-    }, React.createElement("input", {
-      placeholder: "name"
-    }), React.createElement("input", {
-      placeholder: "last name"
-    }), React.createElement("input", {
-      placeholder: "email"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "password"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "confirm password"
+    }, React.createElement(TextInput_1.TextInput, {
+      placeholder: "name",
+      value: $("name")
+    }), React.createElement(TextInput_1.TextInput, {
+      placeholder: "last name",
+      value: $("lastName")
+    }), React.createElement(TextInput_1.TextInput, {
+      placeholder: "email",
+      value: $("email")
+    }), React.createElement(TextInput_1.TextInput, {
+      password: true,
+      placeholder: "password",
+      value: $("password")
+    }), React.createElement(TextInput_1.TextInput, {
+      password: true,
+      placeholder: "confirm password",
+      value: $("confirmPassword")
     })) : React.createElement("div", {
       className: "data"
-    }, React.createElement("input", {
-      placeholder: "name"
-    }), React.createElement("input", {
-      placeholder: "location"
-    }), React.createElement("input", {
-      placeholder: "email"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "password"
-    }), React.createElement("input", {
-      type: "password",
-      placeholder: "confirm password"
+    }, React.createElement(TextInput_1.TextInput, {
+      placeholder: "name",
+      value: $("name")
+    }), React.createElement(TextInput_1.TextInput, {
+      placeholder: "location",
+      value: $("location")
+    }), React.createElement(TextInput_1.TextInput, {
+      placeholder: "email",
+      value: $("email")
+    }), React.createElement(TextInput_1.TextInput, {
+      password: true,
+      placeholder: "password",
+      value: $("password")
+    }), React.createElement(TextInput_1.TextInput, {
+      password: true,
+      placeholder: "confirm password",
+      value: $("confirmPassword")
     })), React.createElement("div", null, "I agree to the Releaseasy Terms and Privacy."), React.createElement("input", {
       type: "checkbox"
-    }), React.createElement("input", {
-      type: "submit",
-      value: "register"
-    })));
+    }), React.createElement("button", {
+      onClick: () => this.onRegister()
+    }, "register")));
   }
 
   selectType(type) {
@@ -29211,12 +29338,20 @@ class RegisterPage extends Page_1.Page {
     });
   }
 
-  onRegister() {}
+  onRegister() {
+    return __awaiter(this, void 0, void 0, function* () {
+      const result = yield User_1.User.register(this.state.type, this.state.name, this.state.lastName, this.state.location, this.state.email, this.state.password, this.state.email);
+
+      if (result === true) {
+        main_1.Application.reactApp.changePage("Login");
+      }
+    });
+  }
 
 }
 
 exports.RegisterPage = RegisterPage;
-},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js"}],"App.tsx":[function(require,module,exports) {
+},{"./Page":"pages/Page.tsx","react":"../node_modules/react/index.js","../components/TextInput":"components/TextInput.tsx","../backend/User":"backend/User.ts","../main":"main.tsx"}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {

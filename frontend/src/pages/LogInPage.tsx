@@ -3,11 +3,10 @@ import React = require("react");
 import { Application } from "../main";
 import { User } from "../backend/User";
 
-export class LogInPage extends Page<{ login: string, password: string, confirmPassword: string }> {
+export class LogInPage extends Page<{ login: string, password: string }> {
     state = {
         login: "",
         password: "",
-        confirmPassword: ""
     }
 
     constructor(props: {}) {
@@ -27,12 +26,7 @@ export class LogInPage extends Page<{ login: string, password: string, confirmPa
     }
 
     async onLogin() {
-        if (this.state.login.length === 0 || this.state.password.length === 0 || this.state.confirmPassword.length === 0) {
-            return;
-        }
-
-        if (this.state.password !== this.state.confirmPassword) {
-            alert("Password does not match");
+        if (this.state.login.length === 0 || this.state.password.length === 0) {
             return;
         }
 

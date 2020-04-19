@@ -11,7 +11,8 @@ namespace Releaseasy.Model
         public int Id { get; set; }
         public virtual ICollection<Project> CreatedProjects { get; set; }
         public virtual ICollection<ProjectUser> Projects { get; set; }
-        [RegularExpression(UsernameRegex)]
+        [EmailAddress(ErrorMessage = "Specified username is invalid")]
+        // [RegularExpression(UsernameRegex)]
         public string Username { get; set; }
 
         [RegularExpression(PasswordRegex)]

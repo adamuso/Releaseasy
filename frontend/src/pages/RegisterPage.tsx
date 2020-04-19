@@ -1,9 +1,30 @@
 ﻿import { Page } from "./Page";
 import React = require("react");
+import { TextInput } from "../components/TextInput";
+import { User } from "../backend/User";
+import { Application } from "../main";
 
-export class RegisterPage extends Page<{ type: string | "employee" | "company" }> {
+type RegistrationType = "employee" | "company";
+
+interface RegisterPageState {
+    type: RegistrationType;
+    name: string;
+    lastName: string;
+    location: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export class RegisterPage extends Page<RegisterPageState> {
     state = {
-        type: "employee"
+        type: "employee" as RegistrationType,
+        name: "",
+        lastName: "",
+        location: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     };
 
     constructor(props: {}) {
@@ -11,6 +32,8 @@ export class RegisterPage extends Page<{ type: string | "employee" | "company" }
     }
 
     render() {
+        const $ = this.binder;
+
         return <div className="register-page">
             <div className="register-form">
                 <div className="type">
@@ -18,32 +41,44 @@ export class RegisterPage extends Page<{ type: string | "employee" | "company" }
                     <div onClick={() => this.selectType("company")} className={this.state.type === "company" ? "selected" : ""}>Company</div>
                 </div>
                 {this.state.type === "employee" ? <div className="data">
-                    <input placeholder="name"/>
-                    <input placeholder="last name"/>
-                    <input placeholder="email"/>
-                    <input type="password" placeholder="password"/>
-                    <input type="password" placeholder="confirm password"/>
+                    <TextInput placeholder="name" value={$("name")}/>
+                    <TextInput placeholder="last name" value={$("lastName")}/>
+                    <TextInput placeholder="email" value={$("email")}/>
+                    <TextInput password={true} placeholder="password" value={$("password")}/>
+                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
                 </div> : <div className="data">
-                    <input placeholder="name"/>
-                    <input placeholder="location"/>
-                    <input placeholder="email"/>
-                    <input type="password" placeholder="password"/>
-                    <input type="password" placeholder="confirm password"/>
+                    <TextInput placeholder="name" value={$("name")}/>
+                    <TextInput placeholder="location" value={$("location")}/>
+                    <TextInput placeholder="email" value={$("email")}/>
+                    <TextInput password={true} placeholder="password" value={$("password")}/>
+                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
                 </div>}
                 <div>I agree to the Releaseasy Terms and Privacy.</div>
                 <input type="checkbox"/>
-                <input type="submit" value="register"/>
+                <button onClick={() => this.onRegister()}>register</button>
             </div>
         </div>;
     }
 
-    selectType(type: "employee" | "company") {
+    selectType(type: RegistrationType) {
         this.setState({
             type
         });
     }
 
-    onRegister() {
+    async onRegister() {
+        const result = await User.register(
+            this.state.type,
+            this.state.name,
+            this.state.lastName,
+            this.state.location,
+            this.state.email,
+            this.state.password,
+            this.state.email
+        );
 
+        if (result === true) {
+            Application.reactApp.changePage("Login");
+        }
     }
 }
