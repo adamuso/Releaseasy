@@ -57,7 +57,7 @@ export class App extends React.Component<{}, AppState> {
                     <Route route="/" page={HomePage}/>
                     <Route route="/Register" page={RegisterPage}/>
                     <Route route="/Login" page={LogInPage}/>
-                    <Route route="/Dashboard" page={UserPage} />
+                    <Route route="/User" page={UserPage} />
                     <Route route="/Projects" page={ProjectsPage} />
                     <Route route="/CreateProject" page={CreateProjectPage} />
                     <Route route="/Project" page={ProjectPage} />

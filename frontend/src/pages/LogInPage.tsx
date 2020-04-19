@@ -18,9 +18,9 @@ export class LogInPage extends Page<{ login: string, password: string }> {
             <div className="login-form">
                 <input placeholder="login" onChange={(e) => this.setState({ login: e.target.value })}/>
                 <input type="password" placeholder="password" onChange={(e) => this.setState({ password: e.target.value })}/>
-                <input type="submit" value="log in" onClick={() => this.onLogin()}/>
+                <button onClick={() => this.onLogin()}>log in</button>
                 <div>Forgot password</div>
-                <div onClick={() => Application.reactApp.changePage("Register")}>Register</div>
+                <div className="register" onClick={() => Application.reactApp.changePage("Register")}>Register</div>
             </div>
         </div>;
     }
@@ -32,7 +32,7 @@ export class LogInPage extends Page<{ login: string, password: string }> {
 
         const result = await User.logIn(this.state.login, this.state.password);
 
-        if (result) {
+        if (result === true) {
             Application.reactApp.changePage("User");
         }
     }

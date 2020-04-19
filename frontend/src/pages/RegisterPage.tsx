@@ -53,8 +53,10 @@ export class RegisterPage extends Page<RegisterPageState> {
                     <TextInput password={true} placeholder="password" value={$("password")}/>
                     <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
                 </div>}
-                <div>I agree to the Releaseasy Terms and Privacy.</div>
-                <input type="checkbox"/>
+                <div className="terms">
+                    <input type="checkbox"/>
+                    <div>I agree to the Releaseasy Terms and Privacy.</div>
+                </div>
                 <button onClick={() => this.onRegister()}>register</button>
             </div>
         </div>;

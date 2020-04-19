@@ -44,8 +44,10 @@ body {
     flex-direction: column;
     background-color: rgba(0,0,0,0.45);
     padding: 10px 50px;
-    font-size: 30pt;
+    font-size: 20pt;
     cursor: pointer;
+    margin-bottom: 200px;
+    border-radius: 5px;
 }
 
 .home-page .sign-in:hover {
@@ -64,7 +66,7 @@ body {
 .home-page .welcome-text > .welcome-text-animated {
     user-select: none;
     margin-left: 100px;
-    width: 200px;
+    width: 235px;
 }
 
 /* Login page */
@@ -86,16 +88,61 @@ body {
     flex-direction: column;
 
     padding: 20px;
+    min-width: 500px;
 
     background-color: rgba(0,0,0,0.65);
+    border-radius: 5px;
 }
 
 .login-page > .login-form > input {
-    font-size: 40px;
-    margin-bottom: 50px;
+    font-size: 16pt;
+    margin-bottom: 25px;
+    height: 50px;
+
+    padding: 0px 5px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
 }
 
-/* Login page */
+.login-page > .login-form > button {
+    font-size: 16pt;
+    margin-bottom: 25px;
+    height: 40px;
+
+    justify-self: center;
+    align-self: center;
+
+    padding: 0px 40px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    user-select: none;
+
+    color: white;
+    background-color: #8f8f8f;
+}
+
+.login-page > .login-form > button:hover {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.login-page > .login-form > .register {
+    justify-self: flex-start;
+    align-self: start;
+
+    cursor: pointer;
+}
+
+.login-page > .login-form > .register:hover {
+    color: rgb(46, 130, 255);
+}
+
+/* Register page */
 .register-page {
     display: flex;
     flex-grow: 1;
@@ -115,6 +162,8 @@ body {
 
     padding: 20px;
 
+    min-width: 500px;
+
     background-color: rgba(0,0,0,0.65);
 }
 
@@ -122,13 +171,20 @@ body {
     display: flex;
     flex-direction: column;
 
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
 }
 
 
 .register-page > .register-form > .data > input {
-    font-size: 40px;
-    margin-bottom: 50px;
+    font-size: 16pt;
+    margin-bottom: 25px;
+    height: 50px;
+
+    padding: 0px 5px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
 }
 
 .register-page > .register-form > .type {
@@ -157,4 +213,179 @@ body {
 
 .register-page > .register-form > .type > *.selected {
     background: rgba(255, 255, 255, 0.3);
+}
+
+.register-page > .register-form > .terms  {
+    display: flex;
+
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.register-page > .register-form > .terms > input  {
+    padding-top: 2px;
+    margin-right: 10px;
+}
+
+.register-page > .register-form > button  {
+    font-size: 16pt;
+    height: 40px;
+
+    justify-self: center;
+    align-self: center;
+
+    padding: 0px 40px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    user-select: none;
+
+    color: white;
+    background-color: #8f8f8f;
+}
+
+.register-page > .register-form > button:hover  {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+/* User page */
+.user-page {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+
+    font-family: 'Oswald', sans-serif;
+    color: white;
+
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+}
+
+.user-page > .top-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-page > .top-info > .new-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    border-radius: 5px;
+
+    margin: 30px;
+    flex: 1 1 0;
+}
+
+.user-page > .top-info > .new-project:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.user-page > .top-info > .user {
+    display: flex;
+    flex-direction: row;
+
+    padding: 30px;
+    flex: 1 1 0;
+}
+
+.user-page > .top-info > .user > .user-info {
+    display: flex;
+    flex-direction: row;
+
+    flex: 1 1 0;
+}
+
+.user-page > .top-info > .user > .user-info > .more-info {
+    display: flex;
+    flex: 1 1 0;
+
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.user-page > .top-info > .user > .user-info > .user-image {
+    width: 100px;
+    height: 100px;
+
+    margin-left: 10px;
+    background-image: url("../img/empty_avatar.png");
+    background-size: contain;
+}
+
+.user-page > .projects {
+    display: flex;
+    flex-direction: row;
+
+    margin: 30px;
+
+    flex: 1 1 0;
+}
+
+.user-page > .projects > .last-added {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+
+    margin-right: 60px;
+
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.user-page > .projects > .user-projects {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+
+.user-page > .projects > .last-added > .title,
+.user-page > .projects > .user-projects > .title {
+    font-size: 25pt;
+    margin-bottom: 10px;
+}
+
+.user-page > .projects > .last-added > .list,
+.user-page > .projects > .user-projects > .list {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+}
+
+.user-page > .projects > .last-added > .list > *,
+.user-page > .projects > .user-projects > .list > * {
+    display: flex;
+
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.user-page > .projects > .last-added > .list > * > .title,
+.user-page > .projects > .user-projects > .list > * > .title {
+    flex: 1 1 0;
+}
+
+.user-page > .projects > .last-added > .more,
+.user-page > .projects > .user-projects > .more {
+    align-self: flex-end;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-page > .projects > .last-added > .more:hover,
+.user-page > .projects > .user-projects > .more:hover {
+    color: rgb(46, 130, 255);
 }

@@ -4,8 +4,9 @@ export class NavigationBar extends React.Component {
     render(): React.ReactNode {
         const mainStyle: React.CSSProperties = {
             display: "flex",
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-            height: "40px"
+            backgroundColor: "rgb(0, 0, 0)",
+            height: "40px",
+            boxShadow: "0 0 2px black"
         };
 
         const titleStyle: React.CSSProperties = {

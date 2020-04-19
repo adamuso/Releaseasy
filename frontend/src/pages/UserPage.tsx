@@ -64,9 +64,87 @@ export class UserPage extends Page {
     }
 
     render() {
-        return <div>
-            <LeftPanel onOptionExecuted={() => Application.reactApp.change(CreateProjectPage, "CreateProject", { onCancelledRedirect: "Dashboard", onCreatedRedirect: "Project" })} />
-            <RightPanel />
+        return <div className="user-page">
+            <div className="top-info">
+                <div className="new-project">Create new project</div>
+                <div className="user">
+                    <div className="user-info">
+                        <div>
+                            <div>John Smith</div>
+                            <div>Company name</div>
+                        </div>
+                        <div className="more-info">
+                            <div>More</div>
+                        </div>
+                        <div className="user-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="projects">
+                <div className="last-added">
+                    <div className="title">Last added projects</div>
+                    <div className="list">
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 1</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 2</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 3</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 4</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 5</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                    </div>
+                    <div className="more">More...</div>
+                </div>
+                <div className="user-projects">
+                    <div className="title">Your projects</div>
+                    <div className="list">
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 1</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 2</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 3</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 4</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                        <div>
+                            <div className="image"></div>
+                            <div className="title">Projekt 5</div>
+                            <div className="date">19.04.2020</div>
+                        </div>
+                    </div>
+                    <div className="more">More...</div>
+                </div>
+            </div>
         </div>;
     }
 
