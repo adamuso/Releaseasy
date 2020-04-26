@@ -62,7 +62,7 @@ namespace Releaseasy.Controllers
         [HttpPost("AddUser")]
         public void AddUser([FromBody] UserProjectPair inc )
         {               
-            User user = context.Users.Where(u => u.Id == inc.UserId).Include(u => u.Projects).Single();
+            User user = context.Users.Where(u => u.Id == inc.UserId.ToString()).Include(u => u.Projects).Single();
             Project project = context.Projects.Where(p => p.Id == inc.ProjectId).Include(u => u.Users).Single();
 
             if (user != null && project != null)
@@ -73,6 +73,7 @@ namespace Releaseasy.Controllers
                     ProjectId = project.Id
                 };
 
+
                 project.Users.Add(projectUser);
                 user.Projects.Add(projectUser);
                 context.SaveChanges();
@@ -82,7 +83,7 @@ namespace Releaseasy.Controllers
         [HttpPost("RemoveUser")]
         public void RemoveUser([FromBody] UserProjectPair inc)
         {
-            User user = context.Users.Where(u => u.Id == inc.UserId).Include(u => u.Projects).Single();
+            User user = context.Users.Where(u => u.Id == inc.UserId.ToString()).Include(u => u.Projects).Single();
 
             if (user != null)
             {

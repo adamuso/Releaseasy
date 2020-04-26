@@ -14,6 +14,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Releaseasy;
 using Releaseasy.Services;
+using Releaseasy.Model;
+
+
 
 namespace Releaseasy
 {
@@ -27,6 +30,7 @@ namespace Releaseasy
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
                 .AddEnvironmentVariables()
                 .Build();
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -49,18 +53,19 @@ namespace Releaseasy
             services.AddMvc();
             services.AddControllers();
 
-            // services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            // {
-            //     options.Password.RequiredLength = 20;
-            //     options.Password.RequiredUniqueChars = 2;
-            //     options.SignIn.RequireConfirmedEmail = true;
+            services.AddScoped<RoleManager<Role>>();
+            services.AddIdentity<User, Role>(options =>
+             {
+                  options.Password.RequiredLength = 8;
+                    //options.Password.RequiredUniqueChars = 2;
+                 options.SignIn.RequireConfirmedEmail = true;
 
-            // })
-            //   //  .AddEntityFrameworkStores<ReleaseasyContext>()
-            //     .AddDefaultTokenProviders();
+             })
+               .AddEntityFrameworkStores<ReleaseasyContext>()
+            .AddDefaultTokenProviders();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSender, EmailSender>();
-
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +105,7 @@ namespace Releaseasy
                 endpoints.MapControllerRoute("default", "{controller}/{action}");
                 endpoints.MapControllerRoute("others", "{*url}", defaults: new { controller = "Home", action = "Index" });
             });
+
         }
     }
 }

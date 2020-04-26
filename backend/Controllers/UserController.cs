@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Releaseasy.Services;
 using Task = System.Threading.Tasks.Task;
+using Microsoft.Extensions.Logging;
+using Releaseasy.backend.Model;
 
 namespace Releaseasy.Controllers
 {
@@ -26,26 +28,30 @@ namespace Releaseasy.Controllers
 
 
 
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
         private readonly ReleaseasyContext context;
         private readonly System.Security.Cryptography.SHA256 hashingAlgorithm;
+        private readonly ILogger<UserController> logger;
 
-       /* public UserController(ReleaseasyContext context)
-        {
-            this.context = context;
-            hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
-        }*/
+        /* public UserController(ReleaseasyContext context)
+         {
+             this.context = context;
+             hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
+         }*/
 
 
         private readonly IEmailSender _emailSender;
 
-        public UserController(IEmailSender emailSender, ReleaseasyContext context)
+        public UserController(IEmailSender emailSender, ReleaseasyContext context,ILogger<UserController> logger,UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _emailSender = emailSender;
             this.context = context;
             hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
+            this.logger = logger;
+            this.userManager = userManager; 
+            this.signInManager = signInManager;
         }
 
         [HttpGet("TestMail")]
@@ -87,58 +93,116 @@ namespace Releaseasy.Controllers
             return null;
         }
 
+    
+       
+                //View(result.Succeeded ? "ConfirmEmail" : "Error");
 
 
-      [HttpPost("Register")]
+        [HttpPost("Register")]
       [AllowAnonymous]
-        public async Task<bool> RegisterUser([FromBody] User value)
+        public async Task<bool> RegisterUser([FromBody] NewUserData value)
         {
-            var emailValidator = new EmailAddressAttribute();
 
-            if (!emailValidator.IsValid(value.Username)) {
-                throw new ArgumentException("Specified username is invalid. The username must be an email address", "value");
-            }
+           // var emailValidator = new EmailAddressAttribute();
+           
+          //  if (!emailValidator.IsValid(value.UserName)) {
+           //     throw new ArgumentException("Specified username is invalid. The username must be an email address", "value");
+          //  }
 
             // if (!Regex.IsMatch(value.Username, @"(?=.*[a-zA-Z])^[a-zA-Z0-9_]{3,32}$"))
             //     throw new ArgumentException("Specified username is invalid. The username must have " +
             //         "at least 3 characters and one letter. It can contain letters, numbers and undescore " +
             //         "character.", "value");
 
-            if (!Regex.IsMatch(value.Password, @"(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9_!@#$%^&*]{8,64}$"))
+           /* if (!Regex.IsMatch(value.Password, @"(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9_!@#$%^&*]{8,64}$"))
                 throw new ArgumentException("Specified password is invalid. The password must have " +
                     "at least 8 characters, one letter and one number. It can contain letters, numbers and undescore " +
-                    "character.", "value");
-
-            byte[] passwordBytes = Encoding.ASCII.GetBytes(value.Password);
-            byte[] passwordHashed = hashingAlgorithm.ComputeHash(passwordBytes);
-
-            value.Password = Convert.ToBase64String(passwordHashed);
-            value.EmailConfirmation = false;
+                    "character.", "value");*/
 
 
-            try
+
+            //byte[] passwordBytes = Encoding.ASCII.GetBytes(value.Password);
+            //byte[] passwordHashed = hashingAlgorithm.ComputeHash(passwordBytes);
+
+            //            value.Password = Convert.ToBase64String(passwordHashed);*/
+            // value.EmailConfirmation = false;
+
+
+            var user = new User
             {
+                UserName = value.Email,
+                Email = value.Email,
+               
+                
+                
 
-                context.Add(value);
-                context.SaveChanges();
-                //   string token = await userManager.GenerateEmailConfirmationTokenAsync(value);
+            };
+         
+           
 
-                string message = " Dziekujemy za rejestracje";
-              await Task.Run(() => _emailSender.SendEmailAsync(value.Email, "Account Activation" , message));
-
-            }
-            catch(ValidationException ex)
+            IdentityResult result = await userManager.CreateAsync(user, value.Password);
+            if (result.Succeeded)
             {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                try
+                {
 
+                    string ctoken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    string confirmationLink = Url.Action("ConfirmEmail", "user", new
+                    {
+                        userId = user.Id,
+                        token = ctoken
+                    }, Request.Scheme);
+
+                    // logger.Log(LogLevel.Warning, confirmationLink);
+
+                    string message = " Dziekujemy za rejestracje <br> <a href=\"" + confirmationLink+ "\" > "+ confirmationLink +"</a><br></div>";
+                    await Task.Run(() => _emailSender.SendEmailAsync(value.Email, "Account Activation", message));
+
+                    //context.Add(value);
+                    // context.SaveChanges();
+
+
+                }
+
+
+                catch (ValidationException ex)
+                {
+                    throw;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
             return true;
         }
+        [HttpGet("ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            
+            if (userId == null || token == null)
+            {
+                
+                return RedirectToAction("index", "home");
+            }
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+               
+                return RedirectToAction("index", "home");
+                ;
+            }
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                
+                return RedirectToAction("index", "home");
+            }
+            
+            return RedirectToAction("index", "home");
 
+        }
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User value)
@@ -154,7 +218,7 @@ namespace Releaseasy.Controllers
         [HttpPost("Login")]
         public async System.Threading.Tasks.Task<bool> LoginAsync([FromBody] UserLoginData loginData)
         {
-            User user = context.Users.SingleOrDefault(u => u.Username == loginData.Username);
+            User user = context.Users.SingleOrDefault(u => u.UserName == loginData.Username);
 
             if (user == null)
                 throw new ArgumentException("User or password are invalid", "loginData");
@@ -164,7 +228,7 @@ namespace Releaseasy.Controllers
 
             Claim[] claims = new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, "")
             };

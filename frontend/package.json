@@ -18,5 +18,7 @@
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   },
-  "browserslist": [ "last 1 Chrome versions"]
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
 }

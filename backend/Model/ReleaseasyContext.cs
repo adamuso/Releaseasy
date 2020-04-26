@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Releaseasy.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace Releaseasy
 {
-    public class ReleaseasyContext : DbContext
+    public class ReleaseasyContext : IdentityDbContext<User>
     {
         public ReleaseasyContext(DbContextOptions options):base(options)
         {
