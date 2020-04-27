@@ -7,7 +7,7 @@ namespace Releaseasy
 {
     public class ReleaseasyContext : IdentityDbContext<User>
     {
-        public ReleaseasyContext(DbContextOptions options):base(options)
+        public ReleaseasyContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -47,7 +47,7 @@ namespace Releaseasy
             #endregion
 
             #region Task
-          //TASK-TAG
+            //TASK-TAG
             modelBuilder.Entity<TaskTag>()
                 .HasKey("TaskId", "TagId");
 

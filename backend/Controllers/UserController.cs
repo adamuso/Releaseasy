@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Releaseasy.Services;
 using Task = System.Threading.Tasks.Task;
@@ -25,32 +24,22 @@ namespace Releaseasy.Controllers
     public class UserController : ControllerBase
     {
 
-
-
-
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
 
         private readonly ReleaseasyContext context;
         private readonly System.Security.Cryptography.SHA256 hashingAlgorithm;
+
         private readonly ILogger<UserController> logger;
+        private readonly IEmailSender emailSender;
 
-        /* public UserController(ReleaseasyContext context)
-         {
-             this.context = context;
-             hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
-         }*/
-
-
-        private readonly IEmailSender _emailSender;
-
-        public UserController(IEmailSender emailSender, ReleaseasyContext context,ILogger<UserController> logger,UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserController(IEmailSender emailSender, ReleaseasyContext context, ILogger<UserController> logger, UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            _emailSender = emailSender;
+            this.emailSender = emailSender;
             this.context = context;
             hashingAlgorithm = System.Security.Cryptography.SHA256.Create();
             this.logger = logger;
-            this.userManager = userManager; 
+            this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
@@ -60,7 +49,7 @@ namespace Releaseasy.Controllers
             var email = "andrzej.wyzgol@gmail.com";
             var subject = "Test Releaseasy";
             var message = "Test message";
-          await _emailSender.SendEmailAsync(email, subject, message);
+            await emailSender.SendEmailAsync(email, subject, message);
 
 
             return true;
@@ -93,85 +82,44 @@ namespace Releaseasy.Controllers
             return null;
         }
 
-    
-       
-                //View(result.Succeeded ? "ConfirmEmail" : "Error");
-
 
         [HttpPost("Register")]
-      [AllowAnonymous]
+        [AllowAnonymous]
         public async Task<bool> RegisterUser([FromBody] NewUserData value)
         {
-
-           // var emailValidator = new EmailAddressAttribute();
-           
-          //  if (!emailValidator.IsValid(value.UserName)) {
-           //     throw new ArgumentException("Specified username is invalid. The username must be an email address", "value");
-          //  }
-
-            // if (!Regex.IsMatch(value.Username, @"(?=.*[a-zA-Z])^[a-zA-Z0-9_]{3,32}$"))
-            //     throw new ArgumentException("Specified username is invalid. The username must have " +
-            //         "at least 3 characters and one letter. It can contain letters, numbers and undescore " +
-            //         "character.", "value");
-
-           /* if (!Regex.IsMatch(value.Password, @"(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9_!@#$%^&*]{8,64}$"))
-                throw new ArgumentException("Specified password is invalid. The password must have " +
-                    "at least 8 characters, one letter and one number. It can contain letters, numbers and undescore " +
-                    "character.", "value");*/
-
-
-
-            //byte[] passwordBytes = Encoding.ASCII.GetBytes(value.Password);
-            //byte[] passwordHashed = hashingAlgorithm.ComputeHash(passwordBytes);
-
-            //            value.Password = Convert.ToBase64String(passwordHashed);*/
-            // value.EmailConfirmation = false;
-
-
-            var user = new User
+            if (ModelState.IsValid)
             {
-                UserName = value.Email,
-                Email = value.Email,
-               
-                
-                
-
-            };
-         
-           
-
-            IdentityResult result = await userManager.CreateAsync(user, value.Password);
-            if (result.Succeeded)
-            {
-                try
+                var user = new User
                 {
+                    UserName = value.Email,
+                    Email = value.Email,
+                };
 
-                    string ctoken = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                    string confirmationLink = Url.Action("ConfirmEmail", "user", new
+                IdentityResult result = await userManager.CreateAsync(user, value.Password);
+                if (result.Succeeded)
+                {
+                    try
                     {
-                        userId = user.Id,
-                        token = ctoken
-                    }, Request.Scheme);
 
-                    // logger.Log(LogLevel.Warning, confirmationLink);
+                        string ctoken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        string confirmationLink = Url.Action("ConfirmEmail", "user", new
+                        {
+                            userId = user.Id,
+                            token = ctoken
+                        }, Request.Scheme);
 
-                    string message = " Dziekujemy za rejestracje <br> <a href=\"" + confirmationLink+ "\" > "+ confirmationLink +"</a><br></div>";
-                    await Task.Run(() => _emailSender.SendEmailAsync(value.Email, "Account Activation", message));
-
-                    //context.Add(value);
-                    // context.SaveChanges();
-
-
-                }
-
-
-                catch (ValidationException ex)
-                {
-                    throw;
-                }
-                catch (Exception)
-                {
-                    throw;
+                        string message = "Thank you for registering, before logging in please activate your account by clicking the link below <br> <a href=\""
+                            + confirmationLink + "\" > " + confirmationLink + "</a><br></div>";
+                        await Task.Run(() => emailSender.SendEmailAsync(value.Email, "Account Activation", message));
+                    }
+                    catch (ValidationException ex)
+                    {
+                        throw;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
                 }
             }
             return true;
@@ -180,26 +128,26 @@ namespace Releaseasy.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            
+
             if (userId == null || token == null)
             {
-                
+
                 return RedirectToAction("index", "home");
             }
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
-               
+
                 return RedirectToAction("index", "home");
                 ;
             }
             var result = await userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
-                
-                return RedirectToAction("index", "home");
+                await signInManager.SignInAsync(user, isPersistent: false);
+                return Redirect("/User");
             }
-            
+
             return RedirectToAction("index", "home");
 
         }
@@ -218,35 +166,25 @@ namespace Releaseasy.Controllers
         [HttpPost("Login")]
         public async System.Threading.Tasks.Task<bool> LoginAsync([FromBody] UserLoginData loginData)
         {
-            User user = context.Users.SingleOrDefault(u => u.UserName == loginData.Username);
-
-            if (user == null)
-                throw new ArgumentException("User or password are invalid", "loginData");
-
-            if(user.Password != Convert.ToBase64String(hashingAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(loginData.Password))))
-                throw new ArgumentException("User or password are invalid", "loginData");
-
-            Claim[] claims = new Claim[]
+            if (ModelState.IsValid)
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, "")
-            };
+                var result = await signInManager.PasswordSignInAsync(loginData.Username, loginData.Password, true, false);
+                if (result.Succeeded)
+                {
+                    return true;
 
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                }
 
-            var authProperties = new AuthenticationProperties()
-            {
-
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-            return true;
+            }
+            return false;
         }
 
+        [HttpPost("Logout")]
+        public async Task<IActionResult> LogutAsync()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("index", "home");
+        }
         public class UserLoginData
         {
             public string Username { get; set; }
