@@ -153,19 +153,19 @@ namespace Releaseasy.Controllers
         }
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody]string mail)
+        public async Task<IActionResult> ForgotPassword([FromBody]Mail mail)
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByEmailAsync(mail);
+                var user = await userManager.FindByEmailAsync(mail.EmailAddress);
                 if (user != null && await userManager.IsEmailConfirmedAsync(user))
                 {
                     var token = await userManager.GeneratePasswordResetTokenAsync(user);
                     var passwordResetLink = Url.Action("ResetPassword", "User",
-                        new { email = mail, token = token },Request.Scheme);
+                        new { email = mail.EmailAddress, token = token },Request.Scheme);
                     string message = "Restart your password, clicking link below <br> <a href=\""
                             + passwordResetLink + "\" > " + passwordResetLink + "</a><br></div>";
-                    await Task.Run(() => emailSender.SendEmailAsync(mail, "Reset Password", message));
+                    await Task.Run(() => emailSender.SendEmailAsync(mail.EmailAddress, "Reset Password", message));
                     return RedirectToAction("index", "home");
                 }
             }
@@ -209,6 +209,12 @@ namespace Releaseasy.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
+        }
+        public class Mail
+        {
+            [Required]
+            [EmailAddress]
+            public string EmailAddress { get; set; }
         }
         public class UserLoginData
         {
