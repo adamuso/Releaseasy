@@ -151,6 +151,27 @@ namespace Releaseasy.Controllers
             return RedirectToAction("index", "home");
 
         }
+        [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([FromBody]string mail)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(mail);
+                if (user != null && await userManager.IsEmailConfirmedAsync(user))
+                {
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResetLink = Url.Action("ResetPassword", "User",
+                        new { email = mail, token = token },Request.Scheme);
+                    string message = "Restart your password, clicking link below <br> <a href=\""
+                            + passwordResetLink + "\" > " + passwordResetLink + "</a><br></div>";
+                    await Task.Run(() => emailSender.SendEmailAsync(mail, "Reset Password", message));
+                    return RedirectToAction("index", "home");
+                }
+            }
+            return RedirectToAction("index", "home");
+        }
+
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User value)
@@ -159,8 +180,12 @@ namespace Releaseasy.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task DeleteAsync(string id)
         {
+            var user = await userManager.FindByIdAsync(id);
+
+            await userManager.DeleteAsync(user);
+
         }
 
         [HttpPost("Login")]
