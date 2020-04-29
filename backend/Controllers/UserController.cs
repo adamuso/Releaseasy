@@ -162,11 +162,32 @@ namespace Releaseasy.Controllers
                 {
                     var token = await userManager.GeneratePasswordResetTokenAsync(user);
                     var passwordResetLink = Url.Action("ResetPassword", "User",
-                        new { email = mail.EmailAddress, token = token },Request.Scheme);
+                        new { email = mail.EmailAddress, token = token }, Request.Scheme);
                     string message = "Restart your password, clicking link below <br> <a href=\""
                             + passwordResetLink + "\" > " + passwordResetLink + "</a><br></div>";
                     await Task.Run(() => emailSender.SendEmailAsync(mail.EmailAddress, "Reset Password", message));
                     return RedirectToAction("index", "home");
+                }
+            }
+            return RedirectToAction("index", "home");
+        }
+        [HttpPost("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordUser ResetUser)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(ResetUser.Email);
+
+                if (user != null)
+                {
+                    var result = await userManager.ResetPasswordAsync(user, ResetUser.Token, ResetUser.Password);
+                    if (result.Succeeded)
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: false);
+                        return Redirect("/User");
+                    }
                 }
             }
             return RedirectToAction("index", "home");
