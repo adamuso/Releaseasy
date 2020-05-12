@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Releaseasy.Model;
@@ -14,11 +15,14 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
+        private readonly Microsoft.AspNetCore.Identity.UserManager<User> userManager;
+
         private readonly ReleaseasyContext context;
 
-        public ProjectController(ReleaseasyContext context)
+        public ProjectController(ReleaseasyContext context, UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
 
@@ -27,20 +31,20 @@ namespace Releaseasy.Controllers
         public ActionResult<IEnumerable<Project>> Get()
         {
             return context.Projects.ToArray();
-         
+
         }
 
         // GET: api/Project/5
         [HttpGet("{id}")]
         public ActionResult<Project> Get(int id)
         {
-           return context.Projects.Find(id);
+            return context.Projects.Find(id);
         }
 
         // POST: api/Project
         [HttpPost]
         public ActionResult<Project> Post([FromBody] Project value)
-        {  
+        {
             try
             {
                 value.StartTime = DateTime.Now;
@@ -57,11 +61,11 @@ namespace Releaseasy.Controllers
             catch (Exception)
             {
                 throw;
-            } 
+            }
         }
         [HttpPost("AddUser")]
-        public void AddUser([FromBody] UserProjectPair inc )
-        {               
+        public void AddUser([FromBody] UserProjectPair inc)
+        {
             User user = context.Users.Where(u => u.Id == inc.UserId.ToString()).Include(u => u.Projects).Single();
             Project project = context.Projects.Where(p => p.Id == inc.ProjectId).Include(u => u.Users).Single();
 
@@ -79,6 +83,27 @@ namespace Releaseasy.Controllers
                 context.SaveChanges();
             }
         }
+
+
+        // { "projectId" : "2",
+        //   "task"' : {
+        //      "name" : "nazwa",
+        //      "descritpion" : "descriptionTaska"
+        //    }}
+        [HttpPost("AddTask")]
+        public void AddTask([FromBody] AddTaskHelper ath)
+        {
+            var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Single();
+        }
+
+        [HttpGet("temp")]
+        public void temp()
+        {
+            //var abc = HttpContext.Session;
+            var x = userManager.GetUserId(User);
+            var b = context.Users.Where(u => u.Id == x).Single();
+        }
+
 
         [HttpPost("RemoveUser")]
         public void RemoveUser([FromBody] UserProjectPair inc)
@@ -152,8 +177,15 @@ namespace Releaseasy.Controllers
 
         public class UserProjectPair
         {
-            public int UserId { get; set; }
+            public string UserId { get; set; }
             public int ProjectId { get; set; }
         }
+
+        public class AddTaskHelper 
+        {
+            public int ProjectId { get; set; }
+            public Model.Task Task { get; set; }
+        }
+
     }
 }

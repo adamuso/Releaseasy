@@ -77,28 +77,7 @@ namespace Releaseasy.Controllers
 
             }
         }
-        [HttpPost("AddTeam")]
-        public void AddTeam([FromBody] AddTeamParameters inc)
-        {
-
-            Team team = context.Teams.Where(t => t.Id == inc.TeamId).Include(t => t.Tasks).Single();
-            Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTeams).Single();
-
-            if (team != null && task != null)
-            {
-                var taskteam = new TaskTeam
-                {
-                    TeamId = team.Id,
-                    TaskId = task.Id
-                };
-
-                task.TaskTeams.Add(taskteam);
-                team.Tasks.Add(taskteam);
-                context.SaveChanges();
-
-            }
-
-        }
+       
         // PUT: api/Task/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Task value)
@@ -164,29 +143,7 @@ namespace Releaseasy.Controllers
             }
 
         }
-        [HttpPost("RemoveTeam")]
-        public void RemoveTeam([FromBody] AddTeamParameters inc)
-        {
-            Team team = context.Teams.Where(t => t.Id == inc.TeamId).Include(t => t.Tasks).Single();
-
-            if (team != null)
-            {
-                foreach (var connection in team.Tasks)
-                {
-                    if (inc.TaskId == connection.TaskId)
-                    {
-                        Task taskToDeleteFromTeam = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(tt => tt.TaskTeams).Single();
-                        team.Tasks.Remove(connection);
-                        taskToDeleteFromTeam.TaskTeams.Remove(connection);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Selected Team is not a member of selected Task");
-                    }
-                }
-            }
-
-        }
+       
         public class AddTagParameters
         {
             public int TagId { get; set; }

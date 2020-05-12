@@ -42,7 +42,8 @@ namespace Releaseasy
             {
                 //options.AddPolicy()
             });
-
+            
+            
 
             services.AddMvc();
             services.AddControllers();
@@ -101,6 +102,7 @@ namespace Releaseasy
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
