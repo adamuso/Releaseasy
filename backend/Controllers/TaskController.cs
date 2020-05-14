@@ -62,7 +62,6 @@ namespace Releaseasy.Controllers
         [HttpPost("AddTag")]
         public void AddTag([FromBody] AddTagParameters inc)
         {
-
             Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
             Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
 
@@ -77,7 +76,6 @@ namespace Releaseasy.Controllers
                 task.TaskTags.Add(tasktag);
                 tag.Tasks.Add(tasktag);
                 context.SaveChanges();
-
             }
         }
        

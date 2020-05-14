@@ -113,13 +113,45 @@ namespace Releaseasy.Controllers
         [HttpPost("AddTask")]
         public void AddTask([FromBody] AddTaskHelper ath)
         {
-            var user = ReturnLoggedUser();
+            /*var user = ReturnLoggedUser();
             if (user == null)
             {
                 throw new InvalidOperationException("You must be logged in to add Task!");
-            }
+            }*/
             var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Single();
+            var TaskToAdd = context.Tasks.Where(t => t.Id == ath.Task.Id).Single();
+
+            Project.Tasks.Add(TaskToAdd);
+            context.SaveChanges();
         }
+
+        [HttpPost("RemoveTask")]
+        public void RemoveTask([FromBody] TaskProjectPair tpp)
+        {
+            Project project = context.Projects.Where(p => p.Id == tpp.ProjectId).Include(t => t.Tasks).Single();
+
+
+            if (project != null)
+            {
+                foreach (var connection in project.Tasks)
+                {
+                    if (tpp.TaskId == connection.Id)
+                    {
+                        Model.Task taskToDeleteFromProject = context.Tasks.Where(tt => tt.Id == tpp.TaskId).Include(tt => tt.TaskTags).Single();
+                        project.Tasks.Remove(connection);
+                        taskToDeleteFromProject.TaskTags.Remove(connection);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Selected Project does not have that Task!");
+                    }
+
+                }
+            }
+
+
+        }
+
 
         [HttpPost("RemoveUser")]
         public void RemoveUser([FromBody] UserProjectPair inc)
@@ -201,6 +233,12 @@ namespace Releaseasy.Controllers
         {
             public int ProjectId { get; set; }
             public Model.Task Task { get; set; }
+        }
+
+        public class TaskProjectPair
+        {
+            public int ProjectId { get; set; }
+            public int TaskId { get; set; }
         }
 
     }
