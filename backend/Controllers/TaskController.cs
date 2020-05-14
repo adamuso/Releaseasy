@@ -40,20 +40,23 @@ namespace Releaseasy.Controllers
         [HttpPost]
         public void Post([FromBody] Task value)
         {
-
-                try
-                {
-                    context.Add(value);
-                    context.SaveChanges();
-                }
-                catch (ValidationException ex)
-                {
-                    throw;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+            if (value.Name.Length < 3)
+            {
+                throw new InvalidOperationException("Task name must be at least 3 characters long");
+            }
+            try
+            {
+                context.Add(value);
+                context.SaveChanges();
+            }
+            catch (ValidationException ex)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
         }
         [HttpPost("AddTag")]
@@ -85,19 +88,17 @@ namespace Releaseasy.Controllers
             Task task;
 
 
-                task = context.Tasks.Find(id);
+            task = context.Tasks.Find(id);
 
-                if (task != null)
-                {
-                    if (value.Description != null)
-                        task.Description = value.Description;
-                    if (value.Name != null)
-                        task.Name = value.Name;
-
-
-                }
-                context.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+            if (task != null)
+            {
+            if (value.Description != null)
+                task.Description = value.Description;
+            if (value.Name != null)
+                task.Name = value.Name;
+            }
+            context.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
 
 
         }
@@ -107,17 +108,13 @@ namespace Releaseasy.Controllers
         public void Delete(int id)
         {
             Task task;
+            task = context.Tasks.Find(id);
 
-
-                task = context.Tasks.Find(id);
-
-                if (task != null)
-                {
-                    context.Remove(task);
-                    context.SaveChanges();
-                }
-
-
+            if (task != null)
+            {
+                context.Remove(task);
+                context.SaveChanges();
+            }
 
         }
         [HttpPost("RemoveTag")]

@@ -25,6 +25,21 @@ namespace Releaseasy.Controllers
             this.userManager = userManager;
         }
 
+        private Model.User ReturnLoggedUser()
+        {
+            Model.User actualUser = null;
+            try
+            {
+                var userID = userManager.GetUserId(User);
+                actualUser = context.Users.Where(u => u.Id == userID).Single();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SOMEONE NOT LOGGED TRIED TO PERFORM AN ACTION: ");
+                Console.WriteLine(ex);
+            }
+            return actualUser;
+        }
 
         // GET: api/Project
         [HttpGet]
@@ -45,6 +60,10 @@ namespace Releaseasy.Controllers
         [HttpPost]
         public ActionResult<Project> Post([FromBody] Project value)
         {
+            if (value.Name.Length < 3)
+            {
+                throw new InvalidOperationException("Project name must be at least 3 characters long");
+            }
             try
             {
                 value.StartTime = DateTime.Now;
@@ -63,6 +82,7 @@ namespace Releaseasy.Controllers
                 throw;
             }
         }
+
         [HttpPost("AddUser")]
         public void AddUser([FromBody] UserProjectPair inc)
         {
@@ -93,17 +113,13 @@ namespace Releaseasy.Controllers
         [HttpPost("AddTask")]
         public void AddTask([FromBody] AddTaskHelper ath)
         {
+            var user = ReturnLoggedUser();
+            if (user == null)
+            {
+                throw new InvalidOperationException("You must be logged in to add Task!");
+            }
             var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Single();
         }
-
-        [HttpGet("temp")]
-        public void temp()
-        {
-            //var abc = HttpContext.Session;
-            var x = userManager.GetUserId(User);
-            var b = context.Users.Where(u => u.Id == x).Single();
-        }
-
 
         [HttpPost("RemoveUser")]
         public void RemoveUser([FromBody] UserProjectPair inc)

@@ -206,7 +206,6 @@ namespace Releaseasy.Controllers
             var user = await userManager.FindByIdAsync(id);
 
             await userManager.DeleteAsync(user);
-
         }
 
         [HttpPost("Login")]
