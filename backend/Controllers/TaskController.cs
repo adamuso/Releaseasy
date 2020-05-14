@@ -22,9 +22,9 @@ namespace Releaseasy.Controllers
         }
         // GET: api/Task
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<Task>>Get()
         {
-            return new string[] { "value1", "value2" };
+            return context.Tasks.ToArray();
         }
 
         // GET: api/Task/5
