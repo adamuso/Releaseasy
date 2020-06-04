@@ -174,17 +174,29 @@ body {
     padding: 20px 20px 0px 20px;
 }
 
-
-.register-page > .register-form > .data > input {
-    font-size: 16pt;
+.register-page > .register-form > .data .text-input {
     margin-bottom: 25px;
+}
+
+.register-page > .register-form > .data .text-input input {
+    font-size: 16pt;
     height: 50px;
+    width: 100%;
 
     padding: 0px 5px;
     outline: none;
     border: none;
 
     border-radius: 5px;
+}
+
+.register-page > .register-form > .data .text-input > .error {
+    display: none;
+    color: red;
+}
+
+.register-page > .register-form > .data .text-input > .error.visible {
+    display: block;
 }
 
 .register-page > .register-form > .type {

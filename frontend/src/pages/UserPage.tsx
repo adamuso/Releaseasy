@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Application } from "../main";
 import { CreateProjectPage } from "./CreateProjectPage";
+import { App } from "../App";
 
 class ProjectList extends React.Component {
     render() {
@@ -66,7 +67,7 @@ export class UserPage extends Page {
     render() {
         return <div className="user-page">
             <div className="top-info">
-                <div className="new-project">Create new project</div>
+                <div className="new-project" onClick={() => Application.reactApp.changePage("CreateProject")}>Create new project</div>
                 <div className="user">
                     <div className="user-info">
                         <div>

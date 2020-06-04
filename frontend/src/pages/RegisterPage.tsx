@@ -3,6 +3,7 @@ import React = require("react");
 import { TextInput } from "../components/TextInput";
 import { User } from "../backend/User";
 import { Application } from "../main";
+import { validateEmail } from "../utility/Validators";
 
 type RegistrationType = "employee" | "company";
 
@@ -14,6 +15,7 @@ interface RegisterPageState {
     email: string;
     password: string;
     confirmPassword: string;
+    error: string;
 }
 
 export class RegisterPage extends Page<RegisterPageState> {
@@ -25,6 +27,7 @@ export class RegisterPage extends Page<RegisterPageState> {
         email: "",
         password: "",
         confirmPassword: "",
+        error: ""
     };
 
     constructor(props: {}) {
@@ -33,6 +36,15 @@ export class RegisterPage extends Page<RegisterPageState> {
 
     render() {
         const $ = this.binder;
+        const emailValidator = (message: string) => {
+            return (email: string) => {
+                if (!validateEmail(email)) {
+                    return message;
+                }
+
+                return true;
+            };
+        }
 
         return <div className="register-page">
             <div className="register-form">
@@ -43,13 +55,13 @@ export class RegisterPage extends Page<RegisterPageState> {
                 {this.state.type === "employee" ? <div className="data">
                     <TextInput placeholder="name" value={$("name")}/>
                     <TextInput placeholder="last name" value={$("lastName")}/>
-                    <TextInput placeholder="email" value={$("email")}/>
+                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")}/>
                     <TextInput password={true} placeholder="password" value={$("password")}/>
                     <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
                 </div> : <div className="data">
-                    <TextInput placeholder="name" value={$("name")}/>
-                    <TextInput placeholder="location" value={$("location")}/>
-                    <TextInput placeholder="email" value={$("email")}/>
+                    <TextInput placeholder="company name" value={$("name")}/>
+                    <TextInput placeholder="company address" value={$("location")}/>
+                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")}/>
                     <TextInput password={true} placeholder="password" value={$("password")}/>
                     <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
                 </div>}
@@ -57,6 +69,7 @@ export class RegisterPage extends Page<RegisterPageState> {
                     <input type="checkbox"/>
                     <div>I agree to the Releaseasy Terms and Privacy.</div>
                 </div>
+                <div className={"error" + (this.state.error ? " visible" : "")}></div>
                 <button onClick={() => this.onRegister()}>register</button>
             </div>
         </div>;
@@ -80,7 +93,11 @@ export class RegisterPage extends Page<RegisterPageState> {
         );
 
         if (result === true) {
+            this.setState({ error: "" });
             Application.reactApp.changePage("Login");
+        }
+        else {
+            this.setState({ error: "There was an error while registering a new user or company." });
         }
     }
 }

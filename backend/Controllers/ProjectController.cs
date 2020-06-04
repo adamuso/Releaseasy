@@ -139,7 +139,7 @@ namespace Releaseasy.Controllers
                     {
                         Model.Task taskToDeleteFromProject = context.Tasks.Where(tt => tt.Id == tpp.TaskId).Include(tt => tt.TaskTags).Single();
                         project.Tasks.Remove(connection);
-                        taskToDeleteFromProject.TaskTags.Remove(connection);
+                        //taskToDeleteFromProject.TaskTags.Remove(connection);
                     }
                     else
                     {
@@ -181,9 +181,9 @@ namespace Releaseasy.Controllers
         public void Put(int id, [FromBody] Project value)
         {
             Project project;
-            
+
             project = context.Projects.Find(id);
-            
+
             if (project != null)
             {
                 if (value.Description != null)
@@ -213,12 +213,12 @@ namespace Releaseasy.Controllers
         public void Delete(int id)
         {
             Project project;
-            
+
             project = context.Projects.Find(id);
 
             if (project != null)
             {
-                context.Remove(project);  
+                context.Remove(project);
                 context.SaveChanges();
             }
         }
@@ -229,7 +229,7 @@ namespace Releaseasy.Controllers
             public int ProjectId { get; set; }
         }
 
-        public class AddTaskHelper 
+        public class AddTaskHelper
         {
             public int ProjectId { get; set; }
             public Model.Task Task { get; set; }
