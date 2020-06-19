@@ -1,9 +1,6 @@
-import { Component } from "react";
+import { useState, useCallback, useEffect } from "react";
 import * as React from "react";
-
-interface ValidationContext {
-
-}
+import { ValidationContext } from "../utility/ValidationContext";
 
 interface TextInputProps {
     className?: string;
@@ -12,61 +9,72 @@ interface TextInputProps {
     validator?: (value: string) => string | true;
     validationContext?: ValidationContext;
     value: (value?: string) => string;
+    multiline?: boolean;
 }
 
-export class TextInput extends Component<TextInputProps, { error?: string, localValue: string }> {
-    static getDerivedStateFromProps(nextProps: TextInputProps, prevState: { error?: string, localValue: string }){
-        const result: Partial<{ error?: string, localValue: string }> = {};
+export function TextInput(props: TextInputProps) {
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [localValue, setLocalValue] = useState(props.value());
 
-        if(nextProps.value() !== prevState.localValue){
-            result.localValue = nextProps.value();
-        }
-
-        return result;
-     }
-
-    constructor(props: TextInputProps, context: any) {
-        super(props, context);
-        this.state = {
-            localValue: props.value()
-        };
-    }
-
-    render() {
-        return <div className="text-input">
-            <div>
-                <input
-                    type={this.props.password === true ? "password" : "text"}
-                    className={this.props.className}
-                    placeholder={this.props.placeholder}
-                    value={this.state.localValue}
-                    onBlur={() => this.onChange()}
-                    onChange={(e) => this.onUpdateValue(e.target.value)}/>
-            </div>
-            <div className={"error" + (this.state.error ? " visible" : "")}>{this.state.error}</div>
-        </div>;
-    }
-
-    private onUpdateValue(value: string) {
-        this.setState({ localValue: value });
-    }
-
-    private onChange() {
-        if (this.props.validator) {
-            const validation = this.props.validator(this.state.localValue);
+    const onValidate = useCallback(() => {
+        if (props.validator) {
+            const validation = props.validator(localValue);
 
             if (typeof validation === "string") {
-                this.setState({ error: validation });
-                return;
+                setError(validation);
+                return false;
             }
             else if (validation !== true) {
-                this.setState({ error: undefined });
-                return;
+                setError("Unknown error");
+                return false;
             }
         }
 
-        this.setState({ error: undefined });
+        setError(undefined);
+        return true;
+    }, [props.validator, localValue]);
 
-        this.props.value(this.state.localValue);
+    useEffect(() => {
+        if (props.validationContext) {
+            const context = props.validationContext;
+            const hook = onValidate;
+            context.attach(hook);
+
+            return () => {
+                context.detach(hook)
+            }
+        }
+    }, [props.validationContext, onValidate]);
+
+    const onUpdateValue = (value: string) => {
+        setLocalValue(value);
+    };
+
+    const onChange = () => {
+        if (onValidate()) {
+            props.value(localValue);
+        }
     }
+
+    return <div className="text-input">
+        <div>
+            {
+                !props.multiline ?
+                <input
+                    type={props.password === true ? "password" : "text"}
+                    className={props.className}
+                    placeholder={props.placeholder}
+                    value={localValue}
+                    onBlur={() => onChange()}
+                    onChange={(e) => onUpdateValue(e.target.value)}/> :
+                <textarea
+                    className={props.className}
+                    placeholder={props.placeholder}
+                    value={localValue}
+                    onBlur={() => onChange()}
+                    onChange={(e) => onUpdateValue(e.target.value)}/>
+            }
+        </div>
+        <div className={"error" + (error ? " visible" : "")}>{error}</div>
+    </div>;
 }

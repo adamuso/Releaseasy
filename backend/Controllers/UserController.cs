@@ -15,6 +15,7 @@ using Releaseasy.Services;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.Extensions.Logging;
 using Releaseasy.backend.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Releaseasy.Controllers
 {
@@ -64,23 +65,46 @@ namespace Releaseasy.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<User>> Get()
         {
             return context.Users.ToArray();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<User> Get(int id)
         {
             return context.Users.Find(id);
         }
 
-        [HttpGet("current")]
-        public ActionResult<User> GetCurrentUser()
+        [HttpGet("Current")]
+        [Authorize]
+        public async Task<ActionResult<User>> GetCurrentUser()
         {
+            var user = await userManager.GetUserAsync(User);
 
-            return null;
+            return user;
         }
+
+        [HttpGet("CreatedProjects")]
+        [Authorize]
+        public async Task<ActionResult<ICollection<object>>> GetCreatedProjects()
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            user = context.Users.Where(u => u.Id == user.Id).Include(u => u.CreatedProjects).Single();
+
+            return Ok(user.CreatedProjects.Select(p => new
+            {
+                p.Description,
+                p.EndTime,
+                p.Id,
+                p.Name,
+                p.StartTime
+            }));
+        }
+
 
 
         [HttpPost("Register")]
@@ -121,9 +145,13 @@ namespace Releaseasy.Controllers
                         throw;
                     }
                 }
+                else {
+                    return false;
+                }
             }
             return true;
         }
+
         [HttpGet("ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -195,12 +223,14 @@ namespace Releaseasy.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
+        [Authorize]
         public void Put(int id, [FromBody] User value)
         {
             // Update an user
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task DeleteAsync(string id)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -209,6 +239,7 @@ namespace Releaseasy.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async System.Threading.Tasks.Task<bool> LoginAsync([FromBody] UserLoginData loginData)
         {
             if (ModelState.IsValid)
@@ -225,6 +256,7 @@ namespace Releaseasy.Controllers
         }
 
         [HttpPost("Logout")]
+        [Authorize]
         public async Task<IActionResult> LogutAsync()
         {
             await signInManager.SignOutAsync();

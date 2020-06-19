@@ -42,8 +42,8 @@ namespace Releaseasy
             {
                 //options.AddPolicy()
             });
-            
-            
+
+
 
             services.AddMvc();
             services.AddControllers();
@@ -69,7 +69,7 @@ namespace Releaseasy
             .AddDefaultTokenProviders();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSender, EmailSender>();
-
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

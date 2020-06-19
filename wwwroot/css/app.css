@@ -20,10 +20,77 @@ body {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    font-family: sans-serif;
 
     background-image: url("../img/home-background.jpg");
     background-size: cover;
 
+}
+
+/* Components */
+
+button {
+    font-size: 16pt;
+    height: 40px;
+
+    justify-self: center;
+    align-self: center;
+
+    padding: 0px 40px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    user-select: none;
+
+    color: white;
+    background-color: #8f8f8f;
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.text-input {
+    margin-bottom: 25px;
+}
+
+.text-input input {
+    font-size: 16pt;
+    height: 50px;
+    width: 100%;
+
+    padding: 0px 5px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.text-input textarea {
+    font-size: 12pt;
+    font-family: Arial;
+    height: 50px;
+    width: 100%;
+
+    padding: 3px 5px;
+    outline: none;
+    border: none;
+
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.text-input > .error {
+    display: none;
+    color: red;
+}
+
+.text-input > .error.visible {
+    display: block;
 }
 
 /* Home page */
@@ -172,31 +239,6 @@ body {
     flex-direction: column;
 
     padding: 20px 20px 0px 20px;
-}
-
-.register-page > .register-form > .data .text-input {
-    margin-bottom: 25px;
-}
-
-.register-page > .register-form > .data .text-input input {
-    font-size: 16pt;
-    height: 50px;
-    width: 100%;
-
-    padding: 0px 5px;
-    outline: none;
-    border: none;
-
-    border-radius: 5px;
-}
-
-.register-page > .register-form > .data .text-input > .error {
-    display: none;
-    color: red;
-}
-
-.register-page > .register-form > .data .text-input > .error.visible {
-    display: block;
 }
 
 .register-page > .register-form > .type {
@@ -400,4 +442,55 @@ body {
 .user-page > .projects > .last-added > .more:hover,
 .user-page > .projects > .user-projects > .more:hover {
     color: rgb(46, 130, 255);
+}
+
+/* Create project page */
+
+.create-project-page {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Oswald', sans-serif;
+    color: white;
+
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+}
+
+.create-project-page .title {
+    height: 30px;
+}
+
+.create-project-page .form {
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(0,0,0,0.65);
+
+    padding: 20px;
+    padding-top: 0px;
+
+    min-width: 500px;
+}
+
+.create-project-page .form textarea {
+    resize: none;
+    height: 200px;
+}
+
+.create-project-page .buttons {
+    display: flex;
+
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* Project page */
+.project-page {
+    position: relative;
+    width: 100%;
 }

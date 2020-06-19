@@ -2,63 +2,69 @@
 import * as React from "react";
 import { Project, ProjectCreationData } from "../backend/Project";
 import { Application } from "../main";
+import { TextInput } from "../components/TextInput";
+import { ValidationContext } from "../utility/ValidationContext";
 
-export class CreateProjectPage extends Page<{ project: ProjectCreationData, invalidName: boolean }, { onCancelledRedirect: string, onCreatedRedirect: string }> {
+export class CreateProjectPage extends Page<{ invalidName: boolean } & ProjectCreationData, { onCancelledRedirect: string, onCreatedRedirect: string }> {
+    private validationContext = new ValidationContext();
+
     constructor(props: any) {
         super(props);
 
-        this.state = { project: { name: "", description: "" }, invalidName: false };
+        this.state = { name: "", description: "", invalidName: false };
     }
 
     render() {
-        return <div>
-            <div style={{ visibility: this.state.invalidName ? "visible" : "collapse" }}>Podano nieprawidłową nazwę projektu</div>
-            <input type="text" value={this.state.project.name} onChange={(e) => this.updateName(e.target.value)} />
-            <textarea value={this.state.project.description} onChange = {(e) => this.updateDescription(e.target.value)} />
-            <button onClick={() => this.validateAndSubmit()}>Create</button>
-            <button onClick={() => Application.reactApp.changePage(this.params.onCancelledRedirect!)}>Cacnel</button>
+        const $ = this.binder;
+
+        const nameValidator = (message: string) => {
+            return (name: string) => {
+                if (!name || name.length < 3) {
+                    return message;
+                }
+
+                return true;
+            };
+        };
+
+        const cancelRedirect = this.params.onCancelledRedirect ?? "User";
+
+        return <div className="create-project-page">
+            <div className="form">
+                <div className="title">
+                    Create a new project
+                </div>
+                <TextInput placeholder="name" value={$("name")} validator={nameValidator("Specified name is invalid.")} validationContext={this.validationContext} />
+                <TextInput multiline placeholder="description" value={$("description")} validationContext={this.validationContext} />
+                <div className="buttons">
+                    <button onClick={() => this.validateAndSubmit()}>Create</button>
+                    <button onClick={() => Application.reactApp.changePage(cancelRedirect)}>Cancel</button>
+                </div>
+            </div>
         </div>;
     }
 
-    updateName(name: string) {
-        const project = { ...this.state.project };
-        project.name = name;
-
-        this.setState({ project });
-
-        if (!name || name.length < 3) {
-            this.setState({ invalidName: true });
-            return false;
-        }
-
-        this.setState({ invalidName: false });
-        return true;
-    }
-
     updateDescription(description: string) {
-        const project = { ...this.state.project };
-        project.description = description;
-
-        this.setState({ project });
+        this.setState({ description });
         return true;
     }
 
     async validateAndSubmit() {
-        if (!this.updateName(this.state.project.name))
+        if (!this.validationContext.validate()) {
             return;
-
-        if (!this.updateDescription(this.state.project.description))
-            return;
+        }
 
         let result: Project;
 
         try {
-             result = await Project.create(this.state.project);
+             result = await Project.create({ name: this.state.name, description: this.state.description });
         }
         catch {
             return;
         }
 
-        Application.reactApp.changePage<Project>(this.params.onCreatedRedirect!, result);
+        const createdRedirect = this.params.onCreatedRedirect ?? "User";
+
+        Application.reactApp.changePage<Project>(createdRedirect, result);
     }
 }

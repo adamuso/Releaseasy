@@ -1,6 +1,7 @@
 ﻿import { Page } from "./Page";
 import React = require("react");
 import { TextInput } from "../components/TextInput";
+import { ValidationContext } from "../utility/ValidationContext";
 import { User } from "../backend/User";
 import { Application } from "../main";
 import { validateEmail } from "../utility/Validators";
@@ -30,6 +31,8 @@ export class RegisterPage extends Page<RegisterPageState> {
         error: ""
     };
 
+    private validationContext = new ValidationContext();
+
     constructor(props: {}) {
         super(props);
     }
@@ -44,7 +47,37 @@ export class RegisterPage extends Page<RegisterPageState> {
 
                 return true;
             };
-        }
+        };
+
+        const nonEmptyValidator = (message: string) => {
+            return (text: string) => {
+                if (!text || text.length === 0) {
+                    return message;
+                }
+
+                return true;
+            };
+        };
+
+        const passwordValidator = (message: string) => {
+            return (password: string) => {
+                if (password.length < 8) {
+                    return message;
+                }
+
+                return true;
+            };
+        };
+
+        const confirmPasswordValidator = (message: string) => {
+            return (password: string) => {
+                if (password !== this.state.password) {
+                    return message;
+                }
+
+                return true;
+            };
+        };
 
         return <div className="register-page">
             <div className="register-form">
@@ -53,23 +86,23 @@ export class RegisterPage extends Page<RegisterPageState> {
                     <div onClick={() => this.selectType("company")} className={this.state.type === "company" ? "selected" : ""}>Company</div>
                 </div>
                 {this.state.type === "employee" ? <div className="data">
-                    <TextInput placeholder="name" value={$("name")}/>
-                    <TextInput placeholder="last name" value={$("lastName")}/>
-                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")}/>
-                    <TextInput password={true} placeholder="password" value={$("password")}/>
-                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
+                    <TextInput placeholder="name" value={$("name")} validator={nonEmptyValidator("Name cannot be empty")} validationContext={this.validationContext}/>
+                    <TextInput placeholder="last name" value={$("lastName")} validator={nonEmptyValidator("Last name cannot be empty")} validationContext={this.validationContext}/>
+                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")} validationContext={this.validationContext}/>
+                    <TextInput password={true} placeholder="password" value={$("password")} validator={passwordValidator("Password need to be at least 8 characters long")} validationContext={this.validationContext}/>
+                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")} validator={confirmPasswordValidator("Passwords are not the same")} validationContext={this.validationContext}/>
                 </div> : <div className="data">
-                    <TextInput placeholder="company name" value={$("name")}/>
-                    <TextInput placeholder="company address" value={$("location")}/>
-                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")}/>
-                    <TextInput password={true} placeholder="password" value={$("password")}/>
-                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")}/>
+                    <TextInput placeholder="company name" value={$("name")} validator={nonEmptyValidator("Name cannot be empty")} validationContext={this.validationContext}/>
+                    <TextInput placeholder="company address" value={$("location")} validator={nonEmptyValidator("Address cannot be empty")} validationContext={this.validationContext}/>
+                    <TextInput placeholder="email" value={$("email")} validator={emailValidator("Specified email is invalid")} validationContext={this.validationContext}/>
+                    <TextInput password={true} placeholder="password" value={$("password")} validator={passwordValidator("Password need to be at least 8 characters long")} validationContext={this.validationContext}/>
+                    <TextInput password={true} placeholder="confirm password" value={$("confirmPassword")} validator={confirmPasswordValidator("Passwords are not the same")} validationContext={this.validationContext}/>
                 </div>}
                 <div className="terms">
                     <input type="checkbox"/>
                     <div>I agree to the Releaseasy Terms and Privacy.</div>
                 </div>
-                <div className={"error" + (this.state.error ? " visible" : "")}></div>
+                <div className={"error" + (this.state.error ? " visible" : "")}>{this.state.error}</div>
                 <button onClick={() => this.onRegister()}>register</button>
             </div>
         </div>;
@@ -82,6 +115,10 @@ export class RegisterPage extends Page<RegisterPageState> {
     }
 
     async onRegister() {
+        if (!this.validationContext.validate()) {
+            return;
+        }
+
         const result = await User.register(
             this.state.type,
             this.state.name,

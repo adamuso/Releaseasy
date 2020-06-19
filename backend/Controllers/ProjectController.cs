@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,24 +26,9 @@ namespace Releaseasy.Controllers
             this.userManager = userManager;
         }
 
-        private Model.User ReturnLoggedUser()
-        {
-            Model.User actualUser = null;
-            try
-            {
-                var userID = userManager.GetUserId(User);
-                actualUser = context.Users.Where(u => u.Id == userID).Single();
-            }
-            catch (Exception ex)
-            {
-                Console.Write("SOMEONE NOT LOGGED TRIED TO PERFORM AN ACTION: ");
-                Console.WriteLine(ex);
-            }
-            return actualUser;
-        }
-
         // GET: api/Project
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<Project>> Get()
         {
             return context.Projects.ToArray();
@@ -51,6 +37,7 @@ namespace Releaseasy.Controllers
 
         // GET: api/Project/5
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Project> Get(int id)
         {
             return context.Projects.Find(id);
@@ -58,14 +45,18 @@ namespace Releaseasy.Controllers
 
         // POST: api/Project
         [HttpPost]
-        public ActionResult<Project> Post([FromBody] Project value)
+        [Authorize]
+        public async Task<ActionResult<Project>> Post([FromBody] Project value)
         {
+            var user = await userManager.GetUserAsync(User);
+
             if (value.Name.Length < 3)
             {
                 throw new InvalidOperationException("Project name must be at least 3 characters long");
             }
             try
             {
+                value.Creator = user;
                 value.StartTime = DateTime.Now;
 
                 context.Add(value);
