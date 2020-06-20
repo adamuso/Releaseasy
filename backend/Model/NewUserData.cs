@@ -8,6 +8,11 @@ namespace Releaseasy.backend.Model
     public class NewUserData
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        [RegularExpression("(employee|company)", ErrorMessage = "Type must be set to 'employee' or 'company'")]
+        public string Type { get; set; }
+        public string LastName { get; set; }
+        public string Location {get; set; }
         public virtual ICollection<Project> CreatedProjects { get; set; }
         public virtual ICollection<ProjectUser> Projects { get; set; }
         [EmailAddress(ErrorMessage = "Specified username is invalid")]

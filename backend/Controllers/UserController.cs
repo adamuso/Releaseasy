@@ -73,9 +73,22 @@ namespace Releaseasy.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<User> Get(int id)
+        public ActionResult<User> Get(string id)
         {
-            return context.Users.Find(id);
+            var user = context.Users.Find(id);
+
+            return Ok(new {
+                user.Name,
+                user.LastName,
+                user.Type,
+                user.Location,
+                user.Email,
+                user.EmailConfirmed,
+                user.Id,
+                user.PhoneNumber,
+                user.PhoneNumberConfirmed,
+                user.UserName
+            });
         }
 
         [HttpGet("Current")]
@@ -84,7 +97,18 @@ namespace Releaseasy.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            return user;
+            return Ok(new {
+                user.Name,
+                user.LastName,
+                user.Type,
+                user.Location,
+                user.Email,
+                user.EmailConfirmed,
+                user.Id,
+                user.PhoneNumber,
+                user.PhoneNumberConfirmed,
+                user.UserName
+            });
         }
 
         [HttpGet("CreatedProjects")]
@@ -115,6 +139,10 @@ namespace Releaseasy.Controllers
             {
                 var user = new User
                 {
+                    Name = value.Name,
+                    LastName = value.LastName,
+                    Location = value.Location,
+                    Type = value.Type,
                     UserName = value.Email,
                     Email = value.Email,
                 };

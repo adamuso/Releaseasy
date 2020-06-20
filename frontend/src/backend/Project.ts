@@ -21,6 +21,35 @@ export class Project implements ProjectCreationData {
         return await response.json();
     }
 
+    static async get(id: string) {
+        const response = await fetch("/api/Project/" + id);
+
+        const result = await response.json();
+
+        return result as {
+            id: string,
+            creator: string,
+            description: string,
+            endTime: string,
+            name: string,
+            startTime: string
+        };
+    }
+
+    static async getLastCreatedProjects() {
+        const response = await fetch("/api/Project/LastCreatedProjects");
+
+        const result = await response.json();
+
+        return result as {
+            id: string,
+            description: string,
+            endTime: string,
+            name: string,
+            startTime: string
+        }[];
+    }
+
     id: number;
     name: string;
     description: string;

@@ -40,7 +40,18 @@ namespace Releaseasy.Controllers
         [Authorize]
         public ActionResult<Project> Get(int id)
         {
-            return context.Projects.Find(id);
+            var project = context.Projects.Where(p => p.Id == id).Include(p => p.Creator).Single();
+
+             return Ok(new
+                {
+                    Creator = project.Creator.Id,
+                    project.Description,
+                    project.Name,
+                    project.Id,
+                    project.EndTime,
+                    project.StartTime
+                }
+            );
         }
 
         // POST: api/Project
@@ -62,7 +73,15 @@ namespace Releaseasy.Controllers
                 context.Add(value);
                 context.SaveChanges();
 
-                return value;
+                return Ok(new
+                    {
+                        value.Description,
+                        value.Name,
+                        value.Id,
+                        value.EndTime,
+                        value.StartTime
+                    }
+                );
             }
             catch (ValidationException ex)
             {
@@ -212,6 +231,22 @@ namespace Releaseasy.Controllers
                 context.Remove(project);
                 context.SaveChanges();
             }
+        }
+
+        [HttpGet("LastCreatedProjects")]
+        [Authorize]
+        public async Task<ActionResult<ICollection<object>>> GetLastCreatedProjects()
+        {
+            var projects = context.Projects.OrderByDescending(p => p.StartTime);
+
+            return Ok(projects.Select(p => new
+            {
+                p.Description,
+                p.EndTime,
+                p.Id,
+                p.Name,
+                p.StartTime
+            }));
         }
 
         public class UserProjectPair

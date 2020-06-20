@@ -3,6 +3,8 @@ import * as React from "react";
 import { Application } from "../main";
 import { CreateProjectPage } from "./CreateProjectPage";
 import { App } from "../App";
+import { User } from "../backend/User";
+import { Project } from "../backend/Project";
 
 class ProjectList extends React.Component {
     render() {
@@ -58,10 +60,25 @@ function RightPanel() {
 }
 
 
-export class UserPage extends Page {
-    constructor(props: {}) {
+export class UserPage extends Page<{ user?: any, createdProjects?: any[], lastCreatedProjects?: any[] }> {
+    constructor(props: any) {
         super(props);
 
+        this.state = {};
+    }
+
+    async componentDidMount() {
+        User.getCurrent().then(user => {
+            this.setState({ user });
+        });
+
+        User.getCreatedProjects().then(projects => {
+            this.setState({ createdProjects: projects });
+        });
+
+        Project.getLastCreatedProjects().then(projects => {
+            this.setState({ lastCreatedProjects: projects });
+        });
     }
 
     render() {
@@ -71,8 +88,13 @@ export class UserPage extends Page {
                 <div className="user">
                     <div className="user-info">
                         <div>
-                            <div>John Smith</div>
-                            <div>Company name</div>
+                            {
+                                this.state.user ?
+                                    <div>
+                                        <div>{this.state.user.name}</div>
+                                        <div>{this.state.user.type === "employee" ? this.state.user.lastName : this.state.user.location}</div>
+                                    </div> : null
+                            }
                         </div>
                         <div className="more-info">
                             <div>More</div>
@@ -86,62 +108,22 @@ export class UserPage extends Page {
                 <div className="last-added">
                     <div className="title">Last added projects</div>
                     <div className="list">
-                        <div>
+                        {this.state.lastCreatedProjects ? this.state.lastCreatedProjects.map(p => <div onClick={() => Application.reactApp.changePage(`Project?id=${p.id}`)}>
                             <div className="image"></div>
-                            <div className="title">Projekt 1</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 2</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 3</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 4</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 5</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
+                            <div className="title">{p.name}</div>
+                            <div className="date">{p.startTime}</div>
+                        </div>) : null}
                     </div>
                     <div className="more">More...</div>
                 </div>
                 <div className="user-projects">
                     <div className="title">Your projects</div>
                     <div className="list">
-                        <div>
+                        {this.state.createdProjects ? this.state.createdProjects.map(p => <div onClick={() => Application.reactApp.changePage(`Project?id=${p.id}`)}>
                             <div className="image"></div>
-                            <div className="title">Projekt 1</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 2</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 3</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 4</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
-                        <div>
-                            <div className="image"></div>
-                            <div className="title">Projekt 5</div>
-                            <div className="date">19.04.2020</div>
-                        </div>
+                            <div className="title">{p.name}</div>
+                            <div className="date">{p.startTime}</div>
+                        </div>) : null}
                     </div>
                     <div className="more">More...</div>
                 </div>
