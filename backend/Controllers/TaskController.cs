@@ -94,7 +94,10 @@ namespace Releaseasy.Controllers
                 task.Description = value.Description;
             if (value.Name != null)
                 task.Name = value.Name;
+            if (value.Status != null)
+                task.Status = value.Status;
             }
+
             context.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
 
