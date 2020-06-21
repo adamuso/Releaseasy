@@ -137,7 +137,7 @@ namespace Releaseasy.Controllers
                 {
                     if (tpp.TaskId == connection.Id)
                     {
-                        Model.Task taskToDeleteFromProject = context.Tasks.Where(tt => tt.Id == tpp.TaskId).Include(tt => tt.TaskTags).Single();
+                        Model.Task taskToDeleteFromProject = context.Tasks.Where(tt => tt.Id == tpp.TaskId).Include(tt => tt.Tags).Single();
                         project.Tasks.Remove(connection);
                         //taskToDeleteFromProject.TaskTags.Remove(connection);
                     }

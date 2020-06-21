@@ -52,7 +52,7 @@ namespace Releaseasy
 
             modelBuilder.Entity<TaskTag>()
                 .HasOne(tt => tt.Task)
-                .WithMany(task => task.TaskTags);
+                .WithMany(task => task.Tags);
 
             modelBuilder.Entity<TaskTag>()
                 .HasOne(tt => tt.Tag)

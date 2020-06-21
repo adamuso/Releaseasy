@@ -63,7 +63,7 @@ namespace Releaseasy.Controllers
         public void AddTag([FromBody] AddTagParameters inc)
         {
             Tag tag = context.Tags.Where(t => t.Id == inc.TagId).Include(t => t.Tasks).Single();
-            Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.TaskTags).Single();
+            Task task = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(t => t.Tags).Single();
 
             if (tag != null && task != null)
             {
@@ -73,7 +73,7 @@ namespace Releaseasy.Controllers
                     TaskId = task.Id
                 };
 
-                task.TaskTags.Add(tasktag);
+                task.Tags.Add(tasktag);
                 tag.Tasks.Add(tasktag);
                 context.SaveChanges();
             }
@@ -126,9 +126,9 @@ namespace Releaseasy.Controllers
                 {
                     if(inc.TaskId == connection.TaskId)
                     {
-                        Task taskToDeleteFromTag = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(tt => tt.TaskTags).Single();
+                        Task taskToDeleteFromTag = context.Tasks.Where(tt => tt.Id == inc.TaskId).Include(tt => tt.Tags).Single();
                         tag.Tasks.Remove(connection);
-                        taskToDeleteFromTag.TaskTags.Remove(connection);
+                        taskToDeleteFromTag.Tags.Remove(connection);
                     }
                     else
                     {
