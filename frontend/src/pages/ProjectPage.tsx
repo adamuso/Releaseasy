@@ -2,7 +2,6 @@
 import { Page } from "./Page";
 import Board from "react-trello";
 import Sidebar from "react-sidebar";
-import { createGlobalStyle } from "styled-components";
 import { Project } from "../backend/Project";
 import { User } from "../backend/User";
 
@@ -12,23 +11,20 @@ const data = {
             id: 'lane1',
             title: 'Backlog',
             cards: [
-                { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false },
-                { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }
-            ]
-        },
-        {
-            id: 'lane1',
-            title: 'Planned Tasks',
-            label: '2/2',
-            cards: [
-                { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false },
-                { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }
+                { id: 'Card1', title: 'Create front-end', description: 'Create front end for application', label: '' },
+                { id: 'Card2', title: 'Create back-end', description: 'Create back end for application', label: '' },
+                { id: 'Card3', title: 'Tests', description: 'Test the application', label: '5 mins' }
             ]
         },
         {
             id: 'lane2',
+            title: 'In progress',
+            cards: [
+            ]
+        },
+        {
+            id: 'lane3',
             title: 'Completed',
-            label: '0/0',
             cards: []
         }
     ]
@@ -58,20 +54,26 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
     }
 
     render() {
-        const sidebarContent = <div>
+        const sidebarContent = <div className="sidebar">
             {this.state.project ? <div>
-                <div>Project {this.state.project.name}</div>
-                <div>Description</div>
+                <div className="project-title">Project {this.state.project.name}</div>
                 <div>
-                    {this.state.project.description}
+                    <div className="project-description">Description</div>
+                    <div className="project-description-content">
+                        {this.state.project.description}
+                    </div>
                 </div>
                 <div>
-                    <div>Tags</div>
+                    <div className="project-tags">Tags</div>
+                    <div className="project-tags-content">
+                    </div>
                 </div>
                 <div>
-                    <div>Assigned</div>
+                    <div className="project-assigned">Assigned</div>
+                    <div className="project-assigned-content">
+                    </div>
                 </div>
-                <button>Assign to</button>
+                <button className="assign-to">Assign to</button>
                 {this.state.creator ? <div>
                     Created by {this.state.creator.name} {this.state.creator.lastName} {this.state.creator.location}
                 </div> : null}
@@ -86,12 +88,18 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
                 onSetOpen={(v) => this.onSetSidebarOpen(v)}
                 styles={{ sidebar: { background: "white" } }}
                 docked={this.state.sidebarOpen}>
-                <div>
-                    <button onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
+                <div className="board-container">
+                    <button className="expand-sidebar" onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
                         {this.state.sidebarOpen ? "<" : ">"}
                     </button>
-                    <div>
-                        <Board data={data} style={{ backgroundColor: "initial" }} editable={true} draggable={true} editLaneTitle={true} canAddLanes={true}/>
+                    <div className="board">
+                        <Board
+                            data={data}
+                            style={{ backgroundColor: "initial", height: "initial", flex: "1 1 0" }}
+                            editable={true}
+                            draggable={true}
+                            editLaneTitle={false}
+                            canAddLanes={false}/>
                     </div>
                 </div>
             </Sidebar>

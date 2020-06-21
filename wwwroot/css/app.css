@@ -425,6 +425,14 @@ button:hover {
     margin: 5px;
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s;
+
+    cursor: pointer;
+}
+
+.user-page > .projects > .last-added > .list > *:hover,
+.user-page > .projects > .user-projects > .list > *:hover {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .user-page > .projects > .last-added > .list > * > .title,
@@ -492,5 +500,111 @@ button:hover {
 /* Project page */
 .project-page {
     position: relative;
-    width: 100%;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+}
+
+.project-page .sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-page .sidebar > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-page .sidebar .project-title {
+    font-size: 26px;
+    text-align: center;
+    margin: 5px;
+}
+
+
+.project-page .sidebar .project-description {
+    font-size: 14px;
+    margin: 5px;
+}
+
+.project-page .sidebar .project-description-content {
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #aaaaaa;
+    min-height: 10px;
+}
+
+.project-page .sidebar .project-tags {
+    font-size: 14px;
+    margin: 5px;
+}
+
+.project-page .sidebar .project-tags-content {
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #aaaaaa;
+    min-height: 10px;
+}
+
+.project-page .sidebar .project-assigned {
+    font-size: 14px;
+    margin: 5px;
+}
+
+.project-page .sidebar .project-assigned-content {
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #aaaaaa;
+    min-height: 10px;
+}
+
+.project-page .sidebar .assign-to {
+    align-self: flex-end;
+
+    font-size: 12px;
+    margin: 5px;
+    padding: 5px;
+    height: 30px;
+}
+
+.project-page .board-container {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+}
+
+.project-page .board-container .expand-sidebar {
+    width: 40px;
+    height: 40px;
+
+    margin-top: 5px;
+
+    padding: 0;
+    border-top-left-radius: initial;
+    border-bottom-left-radius: initial;
+    border-left: none;
+
+    align-self: flex-start;
+
+    background-color: #efefef;
+    color: black;
+
+    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.15);
+}
+
+.project-page .board {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+}
+
+.project-page .board .smooth-dnd-draggable-wrapper section > div {
+    max-height: 80vh;
 }

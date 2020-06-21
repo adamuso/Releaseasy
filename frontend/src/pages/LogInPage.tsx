@@ -2,6 +2,7 @@
 import React = require("react");
 import { Application } from "../main";
 import { User } from "../backend/User";
+import { App } from "../App";
 
 export class LogInPage extends Page<{ login: string, password: string }> {
     state = {
@@ -34,6 +35,7 @@ export class LogInPage extends Page<{ login: string, password: string }> {
 
         if (result === true) {
             Application.reactApp.changePage("User");
+            Application.reactApp.setState({ userLogged: true });
         }
     }
 }

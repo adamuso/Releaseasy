@@ -27,6 +27,14 @@
         return result;
     }
 
+    static async logOut(): Promise<boolean> {
+        const response = await fetch("/api/User/Logout", {
+            method: "POST"
+        });
+
+        return true;
+    }
+
     static async get(id: string) {
         const response = await fetch("/api/User/" + id);
 

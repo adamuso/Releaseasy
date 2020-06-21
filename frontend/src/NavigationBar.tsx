@@ -1,6 +1,8 @@
 ﻿import * as React from "react";
+import { User } from "./backend/User";
+import { Application } from "./main";
 
-export class NavigationBar extends React.Component {
+export class NavigationBar extends React.Component<{ isLogged?: boolean }> {
     render(): React.ReactNode {
         const mainStyle: React.CSSProperties = {
             display: "flex",
@@ -25,7 +27,8 @@ export class NavigationBar extends React.Component {
             fontSize: "20pt",
             marginTop: -5,
             marginRight: 40,
-            color: "white"
+            color: "white",
+            cursor: "pointer"
         };
 
         const registerStyle: React.CSSProperties = {
@@ -36,7 +39,8 @@ export class NavigationBar extends React.Component {
             fontSize: "20pt",
             marginTop: -5,
             marginRight: 10,
-            color: "white"
+            color: "white",
+            cursor: "pointer"
         };
 
 
@@ -46,12 +50,25 @@ export class NavigationBar extends React.Component {
                 RELEASEASY
             </div>
             <div style={{ flexGrow: 1 }}/>
-            <div style={loginStyle}>
-                sign in
-            </div>
-            <div style={registerStyle}>
-                register
-            </div>
+            {!this.props.isLogged ? <div style={{ display: "flex" }}>
+                <div style={loginStyle} onClick={() =>{
+                    Application.reactApp.changePage("Login");
+                }}>
+                    sign in
+                </div>
+                <div style={registerStyle} onClick={() =>{
+                    Application.reactApp.changePage("Register");
+                }}>
+                    register
+                </div>
+            </div> : <div>
+                <div style={loginStyle} onClick={() => {
+                    User.logOut();
+                    Application.reactApp.changePage("/");
+                }}>
+                    log out
+                </div>
+            </div>}
         </div>;
     }
 }
