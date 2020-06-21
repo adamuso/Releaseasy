@@ -71,7 +71,15 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
                     <div className="project-description">Description</div>
                     <div className="project-description-content">
                         {/* {this.state.project.description} */}
-                        <EditableMarkdownDisplay value={() => this.state.project.description}/>
+                        <EditableMarkdownDisplay value={(value?: string) => {
+                            if (value === undefined) {
+                                return this.state.project.description;
+                            }
+
+                            Project.put(this.params.id!.toString(), { description: value });
+                            this.state.project.description = value;
+                            this.forceUpdate();
+                        }}/>
                     </div>
                 </div>
                 <div>

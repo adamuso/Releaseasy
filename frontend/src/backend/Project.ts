@@ -36,6 +36,20 @@ export class Project implements ProjectCreationData {
         };
     }
 
+    static async put(id: string, args: { description?: string }) {
+        const response = await fetch("api/Project/" + id, {
+            method: "PUT",
+            body: JSON.stringify(args),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        Utility.checkResponse(response);
+
+        await response.text();
+    }
+
     static async getLastCreatedProjects() {
         const response = await fetch("/api/Project/LastCreatedProjects");
 

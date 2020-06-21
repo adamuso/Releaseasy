@@ -59,7 +59,8 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
                 element: document.getElementById("markdown-editor"),
                 placeholder: "Description",
                 hideIcons: ["fullscreen", "side-by-side"],
-                status: false
+                status: false,
+                initialValue: localValue
             });
 
             mdeRef.current = mde;
@@ -71,7 +72,8 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
                 hideIcons: ["fullscreen", "side-by-side"],
                 status: false,
                 toolbar: false,
-                spellChecker: false
+                spellChecker: false,
+                initialValue: localValue
             });
 
             mde.togglePreview();
@@ -94,16 +96,16 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
         <div style={{ minHeight: "100px" }}>
             {isEditing ? <div className="editor-container">
                 <div className="editor-relative">
-                    <textarea id="markdown-editor" style={{ display: "none" }} className={props.className} value={localValue}/>
+                    <textarea id="markdown-editor" style={{ display: "none" }} className={props.className}/>
                 </div>
                 <div className="buttons">
                     <button onClick={() => setEditing(false)}>Cancel</button>
                     <button onClick={() => { setEditing(false); onUpdateValue(mdeRef.current!.value()); onChange(); }} className="green">Accept</button>
                 </div>
-            </div> : <div key="no-edit" onDoubleClick={() => setEditing(true)}>
+            </div> : <div key="no-edit" onDoubleClick={(e) => { setEditing(true); e.preventDefault(); }}>
                 <div className="editor-container">
                     <div className="editor-relative">
-                        <textarea id="markdown-editor" style={{ display: "none" }} className={props.className} value={localValue}/>
+                        <textarea id="markdown-editor" style={{ display: "none" }} className={props.className}/>
                     </div>
                 </div>
             </div>}

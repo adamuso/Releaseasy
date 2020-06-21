@@ -192,7 +192,7 @@ namespace Releaseasy.Controllers
         {
             Project project;
 
-            project = context.Projects.Find(id);
+            project = context.Projects.Where(p => p.Id == id).Single();
 
             if (project != null)
             {
