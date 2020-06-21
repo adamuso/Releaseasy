@@ -4,6 +4,7 @@ import Board from "react-trello";
 import Sidebar from "react-sidebar";
 import { Project } from "../backend/Project";
 import { User } from "../backend/User";
+import { EditableMarkdownDisplay } from "../components/EditableMarkdownDisplay";
 
 const data = {
     lanes: [
@@ -18,12 +19,21 @@ const data = {
         },
         {
             id: 'lane2',
-            title: 'In progress',
-            cards: [
-            ]
+            title: 'To do',
+            cards: []
         },
         {
             id: 'lane3',
+            title: 'In progress',
+            cards: []
+        },
+        {
+            id: 'lane4',
+            title: 'Tests',
+            cards: []
+        },
+        {
+            id: 'lane5',
             title: 'Completed',
             cards: []
         }
@@ -60,7 +70,8 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
                 <div>
                     <div className="project-description">Description</div>
                     <div className="project-description-content">
-                        {this.state.project.description}
+                        {/* {this.state.project.description} */}
+                        <EditableMarkdownDisplay value={() => this.state.project.description}/>
                     </div>
                 </div>
                 <div>

@@ -11,7 +11,7 @@ ReactDOM.render(
 
 export class Application
 {
-    static get reactApp() { 
+    static get reactApp() {
         return appRef.current!;
     }
 }

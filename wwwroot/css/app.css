@@ -511,6 +511,8 @@ button:hover {
 .project-page .sidebar {
     display: flex;
     flex-direction: column;
+    min-width: 500px;
+    max-width: 500px;
 }
 
 .project-page .sidebar > div {
@@ -534,7 +536,6 @@ button:hover {
     font-size: 16px;
     margin: 5px;
     padding: 5px;
-    border: 1px solid #aaaaaa;
     min-height: 10px;
 }
 
@@ -607,4 +608,44 @@ button:hover {
 
 .project-page .board .smooth-dnd-draggable-wrapper section > div {
     max-height: 80vh;
+}
+
+/* SimpleMDE */
+
+.editable-markdown-display .editor-container .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.editable-markdown-display .editor-container .buttons button {
+    font-size: 10px;
+    height: 20px;
+    padding: 2px 5px;
+    margin-right: 5px;
+}
+
+.editable-markdown-display .editor-container .buttons button.green {
+    background-color: #66bb6a;
+}
+
+
+.editable-markdown-display .editor-container .editor-relative {
+    position: relative;
+}
+
+.editable-markdown-display .editor-container .editor-toolbar {
+    position: absolute;
+    z-index: 1000;
+    bottom: -5px;
+    border: none;
+}
+
+.editable-markdown-display .editor-container .CodeMirror {
+    min-height: 0px;
+}
+
+.editable-markdown-display .editor-container .CodeMirror-scroll {
+    padding-bottom: 60px;
+    min-height: 0px;
 }

@@ -65,6 +65,7 @@ export class NavigationBar extends React.Component<{ isLogged?: boolean }> {
                 <div style={loginStyle} onClick={() => {
                     User.logOut();
                     Application.reactApp.changePage("/");
+                    Application.reactApp.setState({ userLogged: false });
                 }}>
                     log out
                 </div>
