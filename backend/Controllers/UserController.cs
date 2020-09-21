@@ -24,7 +24,6 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
 
@@ -52,7 +51,6 @@ namespace Releaseasy.Controllers
             var message = "Test message";
             await emailSender.SendEmailAsync(email, subject, message);
 
-
             return true;
         }
 
@@ -60,16 +58,13 @@ namespace Releaseasy.Controllers
         public ActionResult<bool> InitializeDatabase()
         {
             context.Database.EnsureCreated();
-
             return true;
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult<IEnumerable<User>> Get()
-        {
-            return context.Users.ToArray();
-        }
+            => context.Users.ToArray();
 
         [HttpGet("{id}")]
         [Authorize]
@@ -147,36 +142,26 @@ namespace Releaseasy.Controllers
                     Email = value.Email,
                 };
 
-                IdentityResult result = await userManager.CreateAsync(user, value.Password);
+                var result = await userManager.CreateAsync(user, value.Password);
+
                 if (result.Succeeded)
                 {
-                    try
+                    string ctoken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    string confirmationLink = Url.Action("ConfirmEmail", "user", new
                     {
+                        userId = user.Id,
+                        token = ctoken
+                    }, Request.Scheme);
 
-                        string ctoken = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                        string confirmationLink = Url.Action("ConfirmEmail", "user", new
-                        {
-                            userId = user.Id,
-                            token = ctoken
-                        }, Request.Scheme);
+                    string message = $"Thank you for registering, before logging in please activate your account by clicking the link below <br> <a href=\"{confirmationLink}\">{confirmationLink}</a><br></div>";
 
-                        string message = "Thank you for registering, before logging in please activate your account by clicking the link below <br> <a href=\""
-                            + confirmationLink + "\" > " + confirmationLink + "</a><br></div>";
-                        await Task.Run(() => emailSender.SendEmailAsync(value.Email, "Account Activation", message));
-                    }
-                    catch (ValidationException ex)
-                    {
-                        throw;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    await Task.Run(() => emailSender.SendEmailAsync(value.Email, "Account Activation", message));
                 }
                 else {
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -184,19 +169,13 @@ namespace Releaseasy.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-
             if (userId == null || token == null)
-            {
-
                 return RedirectToAction("index", "home");
-            }
+
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
-            {
-
                 return RedirectToAction("index", "home");
-                ;
-            }
+
             var result = await userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
@@ -205,11 +184,11 @@ namespace Releaseasy.Controllers
             }
 
             return RedirectToAction("index", "home");
-
         }
+
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody]Mail mail)
+        public async Task<IActionResult> ForgotPassword([FromBody] Mail mail)
         {
             if (ModelState.IsValid)
             {
@@ -218,20 +197,24 @@ namespace Releaseasy.Controllers
                 {
                     var token = await userManager.GeneratePasswordResetTokenAsync(user);
                     var passwordResetLink = Url.Action("ResetPassword", "User",
-                        new { email = mail.EmailAddress, token = token }, Request.Scheme);
-                    string message = "Restart your password, clicking link below <br> <a href=\""
-                            + passwordResetLink + "\" > " + passwordResetLink + "</a><br></div>";
+                        new
+                        {
+                            email = mail.EmailAddress,
+                            token
+                        }, Request.Scheme);
+
+                    string message = $"Restart your password, clicking link below <br> <a href=\"{passwordResetLink}\" >{passwordResetLink}</a><br></div>";
                     await Task.Run(() => emailSender.SendEmailAsync(mail.EmailAddress, "Reset Password", message));
                     return RedirectToAction("index", "home");
                 }
             }
             return RedirectToAction("index", "home");
         }
+
         [HttpPost("ResetPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordUser ResetUser)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordUser ResetUser)
         {
-
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(ResetUser.Email);
@@ -262,24 +245,15 @@ namespace Releaseasy.Controllers
         public async Task DeleteAsync(string id)
         {
             var user = await userManager.FindByIdAsync(id);
-
             await userManager.DeleteAsync(user);
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
-        public async System.Threading.Tasks.Task<bool> LoginAsync([FromBody] UserLoginData loginData)
+        public async Task<bool> LoginAsync([FromBody] UserLoginData loginData)
         {
             if (ModelState.IsValid)
-            {
-                var result = await signInManager.PasswordSignInAsync(loginData.Username, loginData.Password, true, false);
-                if (result.Succeeded)
-                {
-                    return true;
+                return (await signInManager.PasswordSignInAsync(loginData.Username, loginData.Password, true, false)).Succeeded;
 
-                }
-
-            }
             return false;
         }
 
@@ -290,12 +264,14 @@ namespace Releaseasy.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
+
         public class Mail
         {
             [Required]
             [EmailAddress]
             public string EmailAddress { get; set; }
         }
+
         public class UserLoginData
         {
             public string Username { get; set; }

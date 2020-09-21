@@ -2,14 +2,18 @@
 using Releaseasy.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-
 namespace Releaseasy
 {
     public class ReleaseasyContext : IdentityDbContext<User>
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+
         public ReleaseasyContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public ReleaseasyContext()
@@ -17,11 +21,7 @@ namespace Releaseasy
 
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,11 +53,16 @@ namespace Releaseasy
 
             modelBuilder.Entity<TaskTag>()
                 .HasOne(tt => tt.Task)
-                .WithMany(task => task.TaskTags);
+                .WithMany(task => task.Tags);
 
             modelBuilder.Entity<TaskTag>()
                 .HasOne(tt => tt.Tag)
                 .WithMany(tag => tag.Tasks);
+            #endregion
+
+            #region Tag
+            modelBuilder.Entity<Tag>()
+                .HasIndex(t => t.Name).IsUnique();
             #endregion
         }
     }

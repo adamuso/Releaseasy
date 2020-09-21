@@ -29,11 +29,7 @@ namespace Releaseasy
 
         private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
-
-            //if (ex is MyNotFoundException) code = HttpStatusCode.NotFound;
-            //else if (ex is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
-            //else if (ex is MyException) code = HttpStatusCode.BadRequest;
+            var code = HttpStatusCode.InternalServerError;
 
             var result = JsonConvert.SerializeObject(new { error = ex.ToString(), message = ex.Message });
             context.Response.ContentType = "application/json";
