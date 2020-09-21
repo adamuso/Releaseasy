@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using Releaseasy.Model;
 
 namespace Releaseasy.Controllers
@@ -15,8 +15,7 @@ namespace Releaseasy.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly Microsoft.AspNetCore.Identity.UserManager<User> userManager;
-
+        private readonly UserManager<User> userManager;
         private readonly ReleaseasyContext context;
 
         public ProjectController(ReleaseasyContext context, UserManager<User> userManager)
@@ -25,7 +24,7 @@ namespace Releaseasy.Controllers
             this.userManager = userManager;
         }
 
-        private Model.User ReturnLoggedUser()
+        private User ReturnLoggedUser()
         {
             Model.User actualUser = null;
             try
@@ -44,49 +43,32 @@ namespace Releaseasy.Controllers
         // GET: api/Project
         [HttpGet]
         public ActionResult<IEnumerable<Project>> Get()
-        {
-            return context.Projects.ToArray();
-
-        }
+            => context.Projects.ToArray();
 
         // GET: api/Project/5
         [HttpGet("{id}")]
         public ActionResult<Project> Get(int id)
-        {
-            return context.Projects.Find(id);
-        }
+            => context.Projects.Find(id);
 
         // POST: api/Project
         [HttpPost]
         public ActionResult<Project> Post([FromBody] Project value)
         {
-            if (value.Name.Length < 3)
-            {
+            if (value.Name?.Length < 3)
                 throw new InvalidOperationException("Project name must be at least 3 characters long");
-            }
-            try
-            {
-                value.StartTime = DateTime.Now;
 
-                context.Add(value);
-                context.SaveChanges();
+            value.StartTime = DateTime.Now;
 
-                return value;
-            }
-            catch (ValidationException ex)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            context.Add(value);
+            context.SaveChanges();
+
+            return value;
         }
 
         [HttpPost("AddUser")]
         public void AddUser([FromBody] UserProjectPair inc)
         {
-            User user = context.Users.Where(u => u.Id == inc.UserId.ToString()).Include(u => u.Projects).Single();
+            User user = context.Users.Where(u => u.Id == inc.UserId).Include(u => u.Projects).Single();
             Project project = context.Projects.Where(p => p.Id == inc.ProjectId).Include(u => u.Users).Single();
 
             if (user != null && project != null)
@@ -97,27 +79,15 @@ namespace Releaseasy.Controllers
                     ProjectId = project.Id
                 };
 
-
                 project.Users.Add(projectUser);
                 user.Projects.Add(projectUser);
                 context.SaveChanges();
             }
         }
 
-
-        // { "projectId" : "2",
-        //   "task"' : {
-        //      "name" : "nazwa",
-        //      "descritpion" : "descriptionTaska"
-        //    }}
         [HttpPost("AddTask")]
         public void AddTask([FromBody] AddTaskHelper ath)
         {
-            /*var user = ReturnLoggedUser();
-            if (user == null)
-            {
-                throw new InvalidOperationException("You must be logged in to add Task!");
-            }*/
             var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Single();
             var TaskToAdd = context.Tasks.Where(t => t.Id == ath.Task.Id).Single();
 
@@ -130,33 +100,22 @@ namespace Releaseasy.Controllers
         {
             Project project = context.Projects.Where(p => p.Id == tpp.ProjectId).Include(t => t.Tasks).Single();
 
-
             if (project != null)
             {
                 foreach (var connection in project.Tasks)
                 {
                     if (tpp.TaskId == connection.Id)
-                    {
-                        Model.Task taskToDeleteFromProject = context.Tasks.Where(tt => tt.Id == tpp.TaskId).Include(tt => tt.Tags).Single();
                         project.Tasks.Remove(connection);
-                        //taskToDeleteFromProject.TaskTags.Remove(connection);
-                    }
                     else
-                    {
-                        throw new InvalidOperationException("Selected Project does not have that Task!");
-                    }
-
+                        throw new InvalidOperationException("Selected Project doesn't have specified task!");
                 }
             }
-
-
         }
-
 
         [HttpPost("RemoveUser")]
         public void RemoveUser([FromBody] UserProjectPair inc)
         {
-            User user = context.Users.Where(u => u.Id == inc.UserId.ToString()).Include(u => u.Projects).Single();
+            User user = context.Users.Where(u => u.Id == inc.UserId).Include(u => u.Projects).Single();
 
             if (user != null)
             {
@@ -169,9 +128,7 @@ namespace Releaseasy.Controllers
                         projectToDeleteUserFrom.Users.Remove(connection);
                     }
                     else
-                    {
                         throw new InvalidOperationException("Selected user is not a member of selected project.");
-                    }
                 }
             }
         }
@@ -180,30 +137,23 @@ namespace Releaseasy.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Project value)
         {
-            Project project;
-
-            project = context.Projects.Find(id);
+            var project = context.Projects.Find(id);
 
             if (project != null)
             {
                 if (value.Description != null)
-                {
                     project.Description = value.Description;
-                }
-                if (value.Name != null)
-                {
-                    project.Name = value.Name;
-                }
-                if (value.StartTime != null)
-                {
-                    project.StartTime = value.StartTime;
-                }
-                if (value.EndTime != null)
-                {
-                    project.EndTime = value.EndTime;
-                }
 
-                context.Entry(project).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                if (value.Name != null)
+                    project.Name = value.Name;
+
+                if (value.StartTime != null)
+                    project.StartTime = value.StartTime;
+
+                if (value.EndTime != null)
+                    project.EndTime = value.EndTime;
+
+                context.Entry(project).State = EntityState.Modified;
                 context.SaveChanges();
             }
         }
@@ -212,9 +162,7 @@ namespace Releaseasy.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Project project;
-
-            project = context.Projects.Find(id);
+            var project = context.Projects.Find(id);
 
             if (project != null)
             {
@@ -240,6 +188,5 @@ namespace Releaseasy.Controllers
             public int ProjectId { get; set; }
             public int TaskId { get; set; }
         }
-
     }
 }

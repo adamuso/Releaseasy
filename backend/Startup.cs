@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Identity;
 using Releaseasy.Services;
 using Releaseasy.Model;
 
-
-
 namespace Releaseasy
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = new ConfigurationBuilder()
@@ -24,52 +24,40 @@ namespace Releaseasy
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
                 .AddEnvironmentVariables()
                 .Build();
-
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
             services.AddDbContext<ReleaseasyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ReleaseasyDatabase")));
 
-            services.AddAuthorization(options =>
-            {
-                //options.AddPolicy()
-            });
-            
-            
+            services.AddAuthorization();
 
             services.AddMvc();
             services.AddControllers();
 
             services.AddScoped<RoleManager<Role>>();
             services.AddIdentity<User, Role>(options =>
-             {
-                 options.Password.RequiredLength = 8;
-                 options.Password.RequiredUniqueChars = 3;
+                 {
+                     options.Password.RequiredLength = 8;
+                     options.Password.RequiredUniqueChars = 3;
+                     options.Password.RequireNonAlphanumeric = false;
+                     options.Password.RequireDigit = false;
+                     options.Password.RequireLowercase = false;
+                     options.Password.RequireUppercase = false;
+                     options.User.RequireUniqueEmail = true;
+                     options.SignIn.RequireConfirmedEmail = true;
+                 })
+                .AddEntityFrameworkStores<ReleaseasyContext>()
+                .AddDefaultTokenProviders();
 
-                 options.Password.RequireNonAlphanumeric = false;
-                 options.Password.RequireDigit = false;
-                 options.Password.RequireLowercase = false;
-                 options.Password.RequireUppercase = false;
-
-                 options.User.RequireUniqueEmail = true;
-
-                 options.SignIn.RequireConfirmedEmail = true;
-
-
-             })
-               .AddEntityFrameworkStores<ReleaseasyContext>()
-            .AddDefaultTokenProviders();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSender, EmailSender>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,7 +98,6 @@ namespace Releaseasy
                 endpoints.MapControllerRoute("default", "{controller}/{action}");
                 endpoints.MapControllerRoute("others", "{*url}", defaults: new { controller = "Home", action = "Index" });
             });
-
         }
     }
 }
