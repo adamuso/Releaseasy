@@ -50,9 +50,10 @@ namespace Releaseasy.Controllers
 
         // GET: api/Project/5
         [Authorize]
+        [HttpGet("{id}")]
         public ActionResult<Project> Get(int id)
         {
-            var project = context.Projects.Where(p => p.Id == id).Include(p => p.Creator).Single();
+            var project = context.Projects.Where(p => p.Id == id).Include(p => p.Creator).Include(p => p.Tasks).Single();
 
              return Ok(new
                 {
@@ -61,7 +62,16 @@ namespace Releaseasy.Controllers
                     project.Name,
                     project.Id,
                     project.EndTime,
-                    project.StartTime
+                    project.StartTime,
+                    Tasks = project.Tasks.Select(t => new {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Description = t.Description,
+                        StartTime = t.StartTime,
+                        EndTime = t.EndTime,
+                        Status = t.Status,
+                        Creator = t.Creator.Id
+                    }).ToArray()
                 }
             );
         }
@@ -77,7 +87,7 @@ namespace Releaseasy.Controllers
             {
                 throw new InvalidOperationException("Project name must be at least 3 characters long");
             }
-            
+
             try
             {
                 value.Creator = user;
@@ -129,8 +139,8 @@ namespace Releaseasy.Controllers
         [HttpPost("AddTask")]
         public void AddTask([FromBody] AddTaskHelper ath)
         {
-            var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Single();
-            var TaskToAdd = context.Tasks.Where(t => t.Id == ath.Task.Id).Single();
+            var Project = context.Projects.Where(p => p.Id == ath.ProjectId).Include(p => p.Tasks).Single();
+            var TaskToAdd = context.Tasks.Where(t => t.Id == ath.TaskId).Single();
 
             Project.Tasks.Add(TaskToAdd);
             context.SaveChanges();
@@ -141,16 +151,28 @@ namespace Releaseasy.Controllers
         {
             Project project = context.Projects.Where(p => p.Id == tpp.ProjectId).Include(t => t.Tasks).Single();
 
-            if (project != null)
+            if (project == null)
             {
-                foreach (var connection in project.Tasks)
+                throw new InvalidOperationException("Specified Project doesn't exist!");
+            }
+
+            Model.Task taskToRemove = null;
+
+            foreach (var connection in project.Tasks)
+            {
+                if (tpp.TaskId == connection.Id)
                 {
-                    if (tpp.TaskId == connection.Id)
-                        project.Tasks.Remove(connection);
-                    else
-                        throw new InvalidOperationException("Selected Project doesn't have specified task!");
+                    taskToRemove = connection;
                 }
             }
+
+            if (taskToRemove == null)
+            {
+                throw new InvalidOperationException("Selected Project doesn't have specified task!");
+            }
+
+            project.Tasks.Remove(taskToRemove);
+            context.SaveChanges();
         }
 
         [HttpPost("RemoveUser")]
@@ -239,7 +261,7 @@ namespace Releaseasy.Controllers
         public class AddTaskHelper
         {
             public int ProjectId { get; set; }
-            public Model.Task Task { get; set; }
+            public int TaskId { get; set; }
         }
 
         public class TaskProjectPair
