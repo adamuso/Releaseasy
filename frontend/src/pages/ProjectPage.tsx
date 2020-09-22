@@ -5,47 +5,45 @@ import Sidebar from "react-sidebar";
 import { Project } from "../backend/Project";
 import { User } from "../backend/User";
 import { EditableMarkdownDisplay } from "../components/EditableMarkdownDisplay";
+import { Task } from "../backend/Task";
 
 const data = {
     lanes: [
         {
-            id: 'lane1',
+            id: 'backlog',
             title: 'Backlog',
-            cards: [
-                { id: 'Card1', title: 'Create front-end', description: 'Create front end for application', label: '' },
-                { id: 'Card2', title: 'Create back-end', description: 'Create back end for application', label: '' },
-                { id: 'Card3', title: 'Tests', description: 'Test the application', label: '5 mins' }
-            ]
+            cards: []
         },
         {
-            id: 'lane2',
+            id: 'to-do',
             title: 'To do',
             cards: []
         },
         {
-            id: 'lane3',
+            id: 'in-progress',
             title: 'In progress',
             cards: []
         },
         {
-            id: 'lane4',
+            id: 'tests',
             title: 'Tests',
             cards: []
         },
         {
-            id: 'lane5',
+            id: 'completed',
             title: 'Completed',
             cards: []
         }
     ]
 }
 
-export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, creator?: any }, { id: number }> {
+export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: Project, creator?: any, lanesData: any }, { id: number }> {
     constructor(props) {
         super(props);
 
         this.state = {
-            sidebarOpen: false
+            sidebarOpen: false,
+            lanesData: JSON.parse(JSON.stringify(data))
         };
     }
 
@@ -56,6 +54,25 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
             User.get(project.creator).then(creator => {
                 this.setState({ creator });
             });
+
+            for (let i = 0; i < project.tasks.length; i++) {
+                const task = project.tasks[i];
+                const laneIndex = this.state.lanesData.lanes.findIndex(l => l.id === task.status);
+
+                if (laneIndex < 0) {
+                    continue;
+                }
+
+                const lane = this.state.lanesData.lanes[laneIndex];
+                lane.cards.push({
+                    id: "" + task.id,
+                    title: task.name,
+                    laneId: lane.id,
+                    description: task.description
+                });
+            }
+
+            this.forceUpdate();
         });
     }
 
@@ -72,13 +89,19 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
                     <div className="project-description-content">
                         {/* {this.state.project.description} */}
                         <EditableMarkdownDisplay value={(value?: string) => {
-                            if (value === undefined) {
+                            if (this.state.project) {
+                                if (value === undefined) {
+                                    return this.state.project.description;
+                                }
+
+                                Project.put(this.params.id!.toString(), { description: value });
+                                this.state.project.description = value;
+                                this.forceUpdate();
+
                                 return this.state.project.description;
                             }
 
-                            Project.put(this.params.id!.toString(), { description: value });
-                            this.state.project.description = value;
-                            this.forceUpdate();
+                            return "";
                         }}/>
                     </div>
                 </div>
@@ -113,12 +136,37 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: any, cre
                     </button>
                     <div className="board">
                         <Board
-                            data={data}
+                            data={this.state.lanesData}
                             style={{ backgroundColor: "initial", height: "initial", flex: "1 1 0" }}
                             editable={true}
                             draggable={true}
                             editLaneTitle={false}
-                            canAddLanes={false}/>
+                            canAddLanes={false}
+                            onCardAdd={async (card, lineId) => {
+                                console.log(card);
+
+                                const task = await Task.create({
+                                    name: card.title,
+                                    description: card.description,
+                                    startTime: new Date().toISOString(),
+                                    status: lineId
+                                });
+
+                                card.id = task.id;
+
+                                if (this.state.project) {
+                                    Project.addTask(this.state.project, task);
+                                }
+                            }}
+                            onCardMoveAcrossLanes={async (fromLaneId, toLaneId, cardId, index) => {
+                                Task.edit(parseInt(cardId), { status: toLaneId });
+                            }}
+                            onCardDelete={(cardId, lineId) => {
+                                if (this.state.project) {
+                                    Project.removeTask(this.state.project, parseInt(cardId));
+                                    //Task.delete(cardId);
+                                }
+                            }}/>
                     </div>
                 </div>
             </Sidebar>

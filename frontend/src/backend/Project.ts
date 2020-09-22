@@ -1,4 +1,5 @@
-﻿import { Utility } from "./Utility";
+﻿import { Task } from "./Task";
+import { Utility } from "./Utility";
 
 export interface ProjectCreationData {
     name: string,
@@ -27,12 +28,13 @@ export class Project implements ProjectCreationData {
         const result = await response.json();
 
         return result as {
-            id: string,
+            id: number,
             creator: string,
             description: string,
             endTime: string,
             name: string,
-            startTime: string
+            startTime: string,
+            tasks: Task[]
         };
     }
 
@@ -56,12 +58,47 @@ export class Project implements ProjectCreationData {
         const result = await response.json();
 
         return result as {
-            id: string,
+            id: number,
             description: string,
             endTime: string,
             name: string,
             startTime: string
         }[];
+    }
+
+    static async addTask(id: Project | number, task: Task | number) {
+        const response = await fetch("api/Project/AddTask", {
+            method: "POST",
+            body: JSON.stringify({
+                projectId: typeof id === "object" ? id.id : id,
+                taskId: typeof task === "object" ? task.id : task
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        Utility.checkResponse(response);
+
+        return true;
+    }
+
+
+    static async removeTask(id: Project | number, task: Task | number) {
+        const response = await fetch("api/Project/RemoveTask", {
+            method: "POST",
+            body: JSON.stringify({
+                projectId: typeof id === "object" ? id.id : id,
+                taskId: typeof task === "object" ? task.id : task
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        Utility.checkResponse(response);
+
+        return true;
     }
 
     id: number;

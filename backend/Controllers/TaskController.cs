@@ -45,7 +45,7 @@ namespace Releaseasy.Controllers
         /// </summary>
         /// <param name="value"></param>
         [HttpPost]
-        public void Post([FromBody] Task value)
+        public ActionResult<Task> Post([FromBody] Task value)
         {
             if (value.Name.Length < 3)
                 throw new InvalidOperationException("Task name must be at least 3 characters long");
@@ -60,6 +60,17 @@ namespace Releaseasy.Controllers
 
             context.Add(value);
             context.SaveChanges();
+
+            return Ok(new {
+                value.Id,
+                value.Name,
+                value.Description,
+                value.StartTime,
+                value.EndTime,
+                value.Status,
+                value.Tags,
+                Creator = value.Creator.Id
+            });
         }
 
         [HttpPost("AddTag")]
