@@ -5,6 +5,7 @@
     <StartupObject>Releaseasy.Program</StartupObject>
     <ApplicationIcon />
     <Win32Resource />
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
