@@ -58,11 +58,10 @@ export class TaskPage extends Page<{ sidebarOpen: boolean, project?: Project, cr
                 <div className="task-date">
                     <div className="task-date-title">Creation date</div>
                     <div className="task-date-value">{this.state.task ? new Date(Date.parse(this.state.task.startTime)).toLocaleString() : null}</div>
+                    <div className="task-date-title" style={{ marginTop: "10px"}}>Assigned</div>
+                    <div className="task-date-title">...</div>
                 </div>
             </div>
-            <div>Assigned</div>
-
-            {this.params.projectId} {this.params.id}
         </div>;
     }
 }

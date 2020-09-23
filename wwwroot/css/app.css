@@ -660,7 +660,7 @@ button:hover {
 .task-page .task-info .task-tags{
     margin-right: 10px;
     width: 200px;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 5px;
     border-radius: 4px;
 }
@@ -672,9 +672,11 @@ button:hover {
 .task-page .task-info .task-date{
     margin-right: 10px;
     width: 200px;
-    background-color: white;
-    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
     border-radius: 4px;
+    color: white;
+    font-weight: bold;
 }
 
 
