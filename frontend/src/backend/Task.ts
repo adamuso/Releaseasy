@@ -6,6 +6,7 @@ export interface TaskCreationData {
     startTime: string;
     endTime?: string;
     status: string;
+    creator?: string;
 }
 
 export class Task implements TaskCreationData {
@@ -24,7 +25,7 @@ export class Task implements TaskCreationData {
         return await response.json();
     }
 
-    static async edit(taskId: number, task: { status: string }) {
+    static async edit(taskId: number, task: { status?: string, description?: string }) {
         const response = await fetch("api/Task/" + taskId, {
             method: "PUT",
             body: JSON.stringify(task),
@@ -38,12 +39,20 @@ export class Task implements TaskCreationData {
         return true;
     }
 
-    static async get() {
-        const response = await fetch("/api/Task");
+    static async get(): Promise<Task[]>;
+    static async get(id: number): Promise<Task>;
+    static async get(id?: number) {
+        if (!id) {
+            const response = await fetch("/api/Task");
+            const result = await response.json();
 
+            return result as Task[];
+        }
+
+        const response = await fetch("/api/Task/" + id);
         const result = await response.json();
 
-        return result as Task[];
+        return result as Task;
     }
 
     static async delete(id: number) {
@@ -65,13 +74,15 @@ export class Task implements TaskCreationData {
     startTime: string;
     endTime?: string;
     status: string;
+    creator: string;
 
-    constructor(id: number, name: string, description: string, startTime: string, endTime: string | undefined, status: string) {
+    constructor(id: number, name: string, description: string, startTime: string, endTime: string | undefined, status: string, creator: string) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
+        this.creator = creator;
     }
 }

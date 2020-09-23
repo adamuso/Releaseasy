@@ -11,7 +11,7 @@ export class CreateProjectPage extends Page<{ invalidName: boolean } & ProjectCr
     constructor(props: any) {
         super(props);
 
-        this.state = { name: "", description: "", invalidName: false };
+        this.state = { name: "", description: "", invalidName: false, startTime: "" };
     }
 
     render() {
@@ -57,7 +57,7 @@ export class CreateProjectPage extends Page<{ invalidName: boolean } & ProjectCr
         let result: Project;
 
         try {
-             result = await Project.create({ name: this.state.name, description: this.state.description });
+             result = await Project.create({ name: this.state.name, description: this.state.description, startTime: new Date().toISOString() });
         }
         catch {
             return;

@@ -38,7 +38,21 @@ namespace Releaseasy.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<Task> Get(int id)
-            => context.Tasks.Where(a => a.Id == id).Include(x => x.Tags).Single();
+        {
+            var task = context.Tasks.Where(a => a.Id == id).Include(x => x.Tags).Include(x => x.Creator).Single();
+
+            return Ok(new
+                {
+                    Creator = task.Creator.Id,
+                    task.Description,
+                    task.Name,
+                    task.Id,
+                    task.EndTime,
+                    task.StartTime,
+                    task.Tags
+                }
+            );
+        }
 
         /// <summary>
         /// POST: api/Task

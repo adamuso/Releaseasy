@@ -10,6 +10,7 @@ import { ProjectPage } from "./pages/ProjectPage";
 import { LogInPage } from "./pages/LogInPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { User } from "./backend/User";
+import { TaskPage } from "./pages/TaskPage";
 
 interface AppState {
     url: URL,
@@ -63,6 +64,7 @@ export class App extends React.Component<{}, AppState> {
                     <Route route="/Projects" page={ProjectsPage} />
                     <Route route="/CreateProject" page={CreateProjectPage} />
                     <Route route="/Project" page={ProjectPage} />
+                    <Route route="/Task" page={TaskPage} />
                 </PageRouting>
             </div>
         </div>;

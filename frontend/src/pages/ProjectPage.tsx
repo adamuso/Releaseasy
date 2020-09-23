@@ -6,6 +6,7 @@ import { Project } from "../backend/Project";
 import { User } from "../backend/User";
 import { EditableMarkdownDisplay } from "../components/EditableMarkdownDisplay";
 import { Task } from "../backend/Task";
+import { Application } from "../main";
 
 const data = {
     lanes: [
@@ -37,13 +38,20 @@ const data = {
     ]
 }
 
-export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: Project, creator?: any, lanesData: any }, { id: number }> {
+export class ProjectPage extends Page<{
+    sidebarOpen: boolean,
+    project?: Project,
+    creator?: any,
+    lanesData: { lanes: any[] },
+    cardData: { [key: string]: { taskId: number }}
+}, { id: number }> {
     constructor(props) {
         super(props);
 
         this.state = {
             sidebarOpen: false,
-            lanesData: JSON.parse(JSON.stringify(data))
+            lanesData: JSON.parse(JSON.stringify(data)),
+            cardData: {}
         };
     }
 
@@ -70,6 +78,7 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: Project,
                     laneId: lane.id,
                     description: task.description
                 });
+                this.state.cardData[task.id.toString()] = { taskId: task.id };
             }
 
             this.forceUpdate();
@@ -142,9 +151,10 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: Project,
                             draggable={true}
                             editLaneTitle={false}
                             canAddLanes={false}
+                            onDataChange={(data) => {
+                                this.setState({ lanesData: data });
+                            }}
                             onCardAdd={async (card, lineId) => {
-                                console.log(card);
-
                                 const task = await Task.create({
                                     name: card.title,
                                     description: card.description,
@@ -152,20 +162,23 @@ export class ProjectPage extends Page<{ sidebarOpen: boolean, project?: Project,
                                     status: lineId
                                 });
 
-                                card.id = task.id;
+                                this.state.cardData[card.id] = { taskId: task.id };
 
                                 if (this.state.project) {
                                     Project.addTask(this.state.project, task);
                                 }
                             }}
                             onCardMoveAcrossLanes={async (fromLaneId, toLaneId, cardId, index) => {
-                                Task.edit(parseInt(cardId), { status: toLaneId });
+                                Task.edit(this.state.cardData[cardId].taskId, { status: toLaneId });
                             }}
                             onCardDelete={(cardId, lineId) => {
                                 if (this.state.project) {
-                                    Project.removeTask(this.state.project, parseInt(cardId));
+                                    Project.removeTask(this.state.project, this.state.cardData[cardId].taskId);
                                     //Task.delete(cardId);
                                 }
+                            }}
+                            onCardClick={(cardId, metadata, laneId) => {
+                                Application.reactApp.changePage(`Task?projectId=${this.state.project?.id}&id=${this.state.cardData[cardId].taskId}`);
                             }}/>
                     </div>
                 </div>

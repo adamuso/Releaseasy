@@ -3,7 +3,8 @@ import { Utility } from "./Utility";
 
 export interface ProjectCreationData {
     name: string,
-    description: string
+    description: string,
+    startTime: string
 }
 
 export class Project implements ProjectCreationData {
@@ -60,8 +61,8 @@ export class Project implements ProjectCreationData {
         return result as {
             id: number,
             description: string,
-            endTime: string,
             name: string,
+            endTime: string,
             startTime: string
         }[];
     }
@@ -104,10 +105,12 @@ export class Project implements ProjectCreationData {
     id: number;
     name: string;
     description: string;
+    startTime: string;
 
-    constructor(id: number, name: string, description: string) {
+    constructor(id: number, name: string, description: string, startTime: string) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.startTime = startTime;
     }
 }

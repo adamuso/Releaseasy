@@ -22,6 +22,15 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
     const [isEditing, setEditing] = useState(false);
     const [localValue, setLocalValue] = useState(props.value());
     const mdeRef = useRef<any>(undefined)
+    const value = props.value();
+
+    // useEffect(() => {
+    //     if (mdeRef.current) {
+    //         mdeRef.current.value(value);
+    //     }
+
+    //     setLocalValue(value);
+    // }, [localValue !== value])
 
     const onValidate = useCallback(() => {
         if (props.validator) {
@@ -86,11 +95,11 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
         setLocalValue(value);
     };
 
-    const onChange = () => {
+    useEffect(() => {
         if (onValidate()) {
             props.value(localValue);
         }
-    }
+    }, [localValue]);
 
     return <div className="editable-markdown-display">
         <div style={{ minHeight: "100px" }}>
@@ -100,12 +109,14 @@ export function EditableMarkdownDisplay(props: EditableMarkdownDisplayProps) {
                 </div>
                 <div className="buttons">
                     <button onClick={() => setEditing(false)}>Cancel</button>
-                    <button onClick={() => { setEditing(false); onUpdateValue(mdeRef.current!.value()); onChange(); }} className="green">Accept</button>
+                    <button onClick={() => { setEditing(false); onUpdateValue(mdeRef.current!.value()); }} className="green">Accept</button>
                 </div>
             </div> : <div key="no-edit" onDoubleClick={(e) => { setEditing(true); e.preventDefault(); }}>
                 <div className="editor-container">
                     <div className="editor-relative">
                         <textarea id="markdown-editor" style={{ display: "none" }} className={props.className}/>
+                    </div>
+                    <div className="buttons">
                     </div>
                 </div>
             </div>}

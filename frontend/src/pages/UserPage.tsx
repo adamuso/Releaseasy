@@ -111,7 +111,7 @@ export class UserPage extends Page<{ user?: any, createdProjects?: any[], lastCr
                         {this.state.lastCreatedProjects ? this.state.lastCreatedProjects.map(p => <div onClick={() => Application.reactApp.changePage(`Project?id=${p.id}`)}>
                             <div className="image"></div>
                             <div className="title">{p.name}</div>
-                            <div className="date">{p.startTime}</div>
+                            <div className="date">{new Date(Date.parse(p.startTime)).toLocaleString()}</div>
                         </div>) : null}
                     </div>
                     <div className="more">More...</div>
@@ -122,7 +122,7 @@ export class UserPage extends Page<{ user?: any, createdProjects?: any[], lastCr
                         {this.state.createdProjects ? this.state.createdProjects.map(p => <div onClick={() => Application.reactApp.changePage(`Project?id=${p.id}`)}>
                             <div className="image"></div>
                             <div className="title">{p.name}</div>
-                            <div className="date">{p.startTime}</div>
+                            <div className="date">{new Date(Date.parse(p.startTime)).toLocaleString()}</div>
                         </div>) : null}
                     </div>
                     <div className="more">More...</div>

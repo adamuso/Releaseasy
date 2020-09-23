@@ -55,7 +55,7 @@ namespace Releaseasy.Controllers
         {
             var project = context.Projects.Where(p => p.Id == id).Include(p => p.Creator).Include(p => p.Tasks).Single();
 
-             return Ok(new
+            return Ok(new
                 {
                     Creator = project.Creator.Id,
                     project.Description,
@@ -91,7 +91,7 @@ namespace Releaseasy.Controllers
             try
             {
                 value.Creator = user;
-                value.StartTime = DateTime.Now;
+                //value.StartTime = DateTime.Now;
 
                 context.Add(value);
                 context.SaveChanges();
@@ -212,7 +212,7 @@ namespace Releaseasy.Controllers
                 if (value.Name != null)
                     project.Name = value.Name;
 
-                if (value.StartTime != null)
+                if (value.StartTime != DateTime.MinValue)
                     project.StartTime = value.StartTime;
 
                 if (value.EndTime != null)
